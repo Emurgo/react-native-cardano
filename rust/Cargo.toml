@@ -1,0 +1,24 @@
+[package]
+name = "rust-native-cardano"
+version = "0.1.0"
+authors = ["vincent.hanquez@iohk.io"]
+license = "MIT"
+description = "Exporting to wasm the cardano wallet"
+keywords = [ "Cardano", "Wallet", "React Native" ]
+
+[build-dependencies]
+
+[dependencies]
+wallet-wasm = { git = "https://github.com/ypopovych/js-cardano-wasm.git" }
+cardano = { git = "https://github.com/ypopovych/js-cardano-wasm.git" }
+
+[target.'cfg(target_os="android")'.dependencies]
+jni = "0.10.2"
+
+[lib]
+crate-type = ["staticlib", "cdylib"]
+
+[profile.release]
+debug = false
+lto = true
+opt-level = 's'
