@@ -14,6 +14,10 @@ object Native {
     // Wallet
     external fun walletFromEnhancedEntropy(pkey: ByteArray): JSONObject
     external fun walletNewAccount(params: JSONObject): JSONObject
+    external fun walletGenerateAddresses(params: JSONObject): JSONArray
+    external fun walletCheckAddress(address: String): Boolean
+    external fun walletSpend(params: JSONObject, ilen: Int, olen: Int): JSONObject
+    external fun walletMove(params: JSONObject, ilen: Int): JSONObject
 
     // RandomAddressChecker
     external fun randomAddressCheckerNewChecker(pkey: JSONArray): JSONObject

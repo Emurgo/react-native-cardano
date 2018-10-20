@@ -17,7 +17,7 @@ use jni::objects::{JObject, JString};
 // This is just a pointer. We'll be returning it from our function.
 // We can't return one of the objects with lifetime information because the
 // lifetime checker won't let us.
-use jni::sys::{jbyteArray, jobject};
+use jni::sys::{jbyteArray, jobject, jboolean, jint};
 
 const MAX_OUTPUT_SIZE: usize = 4096;
 
@@ -101,6 +101,82 @@ pub extern fn Java_io_crossroad_rncardano_Native_walletNewAccount(
     let mut output = [0 as u8; MAX_OUTPUT_SIZE];
 
     let rsz = xwallet_account(input.as_ptr(), input.len(), output.as_mut_ptr()) as usize;
+
+    json_string_to_object(&env, &output[0..rsz])
+  })
+}
+
+#[allow(non_snake_case)]
+#[no_mangle]
+pub extern fn Java_io_crossroad_rncardano_Native_walletGenerateAddresses(
+  env: JNIEnv, _: JObject, params: JObject
+) -> jobject {
+  handle_exception(env, |env| {
+    let string = json_object_to_string(&env, params);
+    let input = string.as_bytes();
+    let mut output = [0 as u8; MAX_OUTPUT_SIZE];
+
+    let rsz = xwallet_addresses(input.as_ptr(), input.len(), output.as_mut_ptr()) as usize;
+
+    json_string_to_array(&env, &output[0..rsz])
+  })
+}
+
+#[allow(non_snake_case)]
+#[no_mangle]
+pub extern fn Java_io_crossroad_rncardano_Native_walletCheckAddress(
+  env: JNIEnv, _: JObject, address: JString
+) -> jboolean {
+  match panic::catch_unwind(|| {
+    let addr_str: String = env.get_string(address).expect("Couldn't get java string!").into();
+    let addr: &[u8] = addr_str.as_bytes();
+
+    let mut output = [0 as u8; MAX_OUTPUT_SIZE];
+
+    let rsz = xwallet_checkaddress(addr.as_ptr(), addr.len(), output.as_mut_ptr()) as usize;
+    let response = str::from_utf8(&output[0..rsz]).unwrap();
+
+    if response == "true" { 1 } else { 0 }
+  }) {
+    Ok(res) => res,
+    Err(err) => {
+      env.throw(format!("Error: {:?}", err)).unwrap();
+      0
+    }
+  }
+}
+
+#[allow(non_snake_case)]
+#[no_mangle]
+pub extern fn Java_io_crossroad_rncardano_Native_walletSpend(
+  env: JNIEnv, _: JObject, params: JObject, ilen: jint, olen: jint
+) -> jobject {
+  handle_exception(env, |env| {
+    let string = json_object_to_string(&env, params);
+    let input = string.as_bytes();
+
+    let OUTPUT_SIZE = ((ilen as usize) + (olen as usize) + 1) * 4096;
+    let mut output = Vec::with_capacity(OUTPUT_SIZE);
+
+    let rsz = xwallet_spend(input.as_ptr(), input.len(), output.as_mut_ptr()) as usize;
+
+    json_string_to_object(&env, &output[0..rsz])
+  })
+}
+
+#[allow(non_snake_case)]
+#[no_mangle]
+pub extern fn Java_io_crossroad_rncardano_Native_walletMove(
+  env: JNIEnv, _: JObject, params: JObject, ilen: jint
+) -> jobject {
+  handle_exception(env, |env| {
+    let string = json_object_to_string(&env, params);
+    let input = string.as_bytes();
+
+    let OUTPUT_SIZE = ((ilen as usize) + 1) * 4096;
+    let mut output = Vec::with_capacity(OUTPUT_SIZE);
+
+    let rsz = xwallet_spend(input.as_ptr(), input.len(), output.as_mut_ptr()) as usize;
 
     json_string_to_object(&env, &output[0..rsz])
   })
