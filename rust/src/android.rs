@@ -156,9 +156,7 @@ pub extern fn Java_io_crossroad_rncardano_Native_passwordProtect_decryptWithPass
 
   let ndata = env.convert_byte_array(data).unwrap();
 
-  if (ndata.len() <= TAG_SIZE + NONCE_SIZE + SALT_SIZE) {
-    return ptr::null_mut();
-  }
+  if ndata.len() <= TAG_SIZE + NONCE_SIZE + SALT_SIZE { return ptr::null_mut(); }
 
   let pwd_str: String = env.get_string(password).expect("Couldn't get java string!").into();
   let pwd: &[u8] = pwd_str.as_bytes();
