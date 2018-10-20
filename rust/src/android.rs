@@ -125,8 +125,8 @@ pub extern fn Java_io_crossroad_rncardano_Native_passwordProtectEncryptWithPassw
   let nsalt = env.convert_byte_array(salt).unwrap();
   let nnonce = env.convert_byte_array(nonce).unwrap();
 
-  if nsalt.len() != SALT_SIZE { return ptr::null_mut(); }
-  if nnonce.len() != NONCE_SIZE { return ptr::null_mut(); }
+  if nsalt.len() != SALT_SIZE { panic!("Wrong salt len {} should be {}", nsalt.len(), SALT_SIZE); }
+  if nnonce.len() != NONCE_SIZE { panic!("Wrong nonce len {} should be {}", nnonce.len(), NONCE_SIZE) }
   
   let ndata = env.convert_byte_array(data).unwrap();
 
@@ -142,7 +142,7 @@ pub extern fn Java_io_crossroad_rncardano_Native_passwordProtectEncryptWithPassw
     output.as_mut_ptr()
   ) as usize;
 
-  if rsz != result_size { return ptr::null_mut(); }
+  if rsz != result_size { panic!("Size mismatch {} should be {}", rsz, result_size) }
 
   env.byte_array_from_slice(&output).unwrap()
 }
@@ -156,7 +156,9 @@ pub extern fn Java_io_crossroad_rncardano_Native_passwordProtectDecryptWithPassw
 
   let ndata = env.convert_byte_array(data).unwrap();
 
-  if ndata.len() <= TAG_SIZE + NONCE_SIZE + SALT_SIZE { return ptr::null_mut(); }
+  if ndata.len() <= TAG_SIZE + NONCE_SIZE + SALT_SIZE { 
+    panic!("Wrong data len {} should be at least {}", ndata.len(), TAG_SIZE + NONCE_SIZE + SALT_SIZE + 1);
+  }
 
   let pwd_str: String = env.get_string(password).expect("Couldn't get java string!").into();
   let pwd: &[u8] = pwd_str.as_bytes();
@@ -170,7 +172,7 @@ pub extern fn Java_io_crossroad_rncardano_Native_passwordProtectDecryptWithPassw
     output.as_mut_ptr()
   ) as usize;
 
-  if rsz != result_size { return ptr::null_mut(); }
+  if rsz != result_size { panic!("Size mismatch {} should be {}", rsz, result_size) }
 
   env.byte_array_from_slice(&output).unwrap()
 }

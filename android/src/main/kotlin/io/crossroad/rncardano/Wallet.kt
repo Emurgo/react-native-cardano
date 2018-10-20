@@ -7,15 +7,23 @@ class Wallet(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule
     override fun getName() = "CardanoWallet"
 
     @ReactMethod
-    fun fromMasterKey(pkey: ReadableArray): ReadableMap {
-        return Convert.map(Native.walletFromEnhancedEntropy(Convert.bytes(pkey)))
+    fun fromMasterKey(pkey: ReadableArray, promise: Promise) {
+        try {
+            promise.resolve(Convert.map(Native.walletFromEnhancedEntropy(Convert.bytes(pkey))))
+        } catch (err: Throwable) {
+            promise.reject(err)
+        }
     }
 
     @ReactMethod
-    fun newAccount(wallet: ReadableMap, accountIndex: Int): ReadableMap {
-        val params = JSONObject()
-        params.put("wallet", Convert.json(wallet))
-        params.put("account", accountIndex)
-        return Convert.map(Native.walletNewAccount(params))
+    fun newAccount(wallet: ReadableMap, accountIndex: Int, promise: Promise) {
+        try {
+            val params = JSONObject()
+            params.put("wallet", Convert.json(wallet))
+            params.put("account", accountIndex)
+            promise.resolve(Convert.map(Native.walletNewAccount(params)))
+        } catch (err: Throwable) {
+            promise.reject(err)
+        }
     }
 }

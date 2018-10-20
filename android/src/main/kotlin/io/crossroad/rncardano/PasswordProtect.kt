@@ -7,20 +7,31 @@ class PasswordProtect(reactContext: ReactApplicationContext) : ReactContextBaseJ
 
     @ReactMethod
     fun encryptWithPassword(
-            password: String, salt: ReadableArray, nonce: ReadableArray, data: ReadableArray
-    ): ReadableArray? {
-        val encrypted = Native.passwordProtectEncryptWithPassword(
-                password,
-                Convert.bytes(salt),
-                Convert.bytes(nonce),
-                Convert.bytes(data)
-        )
-        return encrypted?.let { Convert.array(it) }
+            password: String, salt: ReadableArray, nonce: ReadableArray,
+            data: ReadableArray, promise: Promise
+    ) {
+        try {
+            val encrypted = Native.passwordProtectEncryptWithPassword(
+                    password,
+                    Convert.bytes(salt),
+                    Convert.bytes(nonce),
+                    Convert.bytes(data)
+            )
+            promise.resolve(Convert.array(encrypted))
+        } catch (err: Throwable) {
+            promise.reject(err)
+        }
     }
 
     @ReactMethod
-    fun decryptWithPassword(password: String, data: ReadableArray): ReadableArray? {
-        val decrypted = Native.passwordProtectDecryptWithPassword(password, Convert.bytes(data))
-        return decrypted?.let { Convert.array(it) }
+    fun decryptWithPassword(password: String, data: ReadableArray, promise: Promise) {
+        try {
+            val decrypted = Native.passwordProtectDecryptWithPassword(
+                    password, Convert.bytes(data)
+            )
+            promise.resolve(Convert.array(decrypted))
+        } catch (err: Throwable) {
+            promise.reject(err)
+        }
     }
 }

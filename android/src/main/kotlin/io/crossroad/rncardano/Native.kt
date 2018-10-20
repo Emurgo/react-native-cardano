@@ -22,6 +22,6 @@ object Native {
     // PasswordProtect
     external fun passwordProtectEncryptWithPassword(
             password: String, salt: ByteArray, nonce: ByteArray, data: ByteArray
-    ): ByteArray?
-    external fun passwordProtectDecryptWithPassword(password: String, data: ByteArray): ByteArray?
+    ): ByteArray
+    external fun passwordProtectDecryptWithPassword(password: String, data: ByteArray): ByteArray
 }
