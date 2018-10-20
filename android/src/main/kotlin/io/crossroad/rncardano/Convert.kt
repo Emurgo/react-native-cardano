@@ -11,7 +11,9 @@ object Convert {
 
     fun array(bytes: ByteArray): WritableArray {
         val array = Arguments.createArray()
-        bytes.forEach { array.pushInt(it.toInt()) }
+        for (byte in bytes) {
+            array.pushInt(byte.toInt())
+        }
         return array
     }
 
