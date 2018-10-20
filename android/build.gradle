@@ -1,7 +1,7 @@
 buildscript {
     ext {
         kotlin_version = '1.2.71'
-        gradle_version = '3.2.0'
+        gradle_version = '3.1.4'
     }
 
     repositories {
@@ -55,10 +55,14 @@ cargo {
 repositories {
     jcenter()
     google()
+    maven {
+        // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
+        url "$rootDir/../node_modules/react-native/android"
+    }
 }
 
 dependencies {
-    implementation 'com.facebook.react:react-native:+'
+    implementation 'com.facebook.react:react-native:0.57.+'
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }
 
