@@ -67,7 +67,9 @@ pub extern fn Java_io_crossroad_rncardano_Native_hdWalletFromEnhancedEntropy(
     let pwd: &[u8] = pwd_str.as_bytes();
     let mut output = [0 as u8; cardano::hdwallet::XPRV_SIZE];
 
-    wallet_from_enhanced_entropy(input.as_ptr(), input.len(), pwd.as_ptr(), pwd.len(), output.as_mut_ptr());
+    let res = wallet_from_enhanced_entropy(input.as_ptr(), input.len(), pwd.as_ptr(), pwd.len(), output.as_mut_ptr());
+
+    if res != 0 { panic!("Rust method error. Check entropy size.") }
 
     env.byte_array_from_slice(&output).unwrap()
   })
