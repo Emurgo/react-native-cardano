@@ -9,7 +9,7 @@ class PasswordProtect(reactContext: ReactApplicationContext) : ReactContextBaseJ
     fun encryptWithPassword(
             password: String, salt: ReadableArray, nonce: ReadableArray, data: ReadableArray
     ): ReadableArray? {
-        val encrypted = Native.passwordProtect_encryptWithPassword(
+        val encrypted = Native.passwordProtectEncryptWithPassword(
                 password,
                 Convert.bytes(salt),
                 Convert.bytes(nonce),
@@ -20,7 +20,7 @@ class PasswordProtect(reactContext: ReactApplicationContext) : ReactContextBaseJ
 
     @ReactMethod
     fun decryptWithPassword(password: String, data: ReadableArray): ReadableArray? {
-        val decrypted = Native.passwordProtect_decryptWithPassword(password, Convert.bytes(data))
+        val decrypted = Native.passwordProtectDecryptWithPassword(password, Convert.bytes(data))
         return decrypted?.let { Convert.array(it) }
     }
 }

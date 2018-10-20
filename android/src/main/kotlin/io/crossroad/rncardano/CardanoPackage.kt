@@ -8,8 +8,8 @@ import com.facebook.react.uimanager.ViewManager
 class CardanoPackage : ReactPackage {
     override fun createNativeModules(reactContext: ReactApplicationContext): List<NativeModule> {
         return listOf(
-                HdWalletModule(reactContext),
-                WalletModule(reactContext),
+                HdWallet(reactContext),
+                Wallet(reactContext),
                 PasswordProtect(reactContext),
                 RandomAddressChecker(reactContext)
         )

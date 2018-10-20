@@ -47,7 +47,7 @@ fn json_object_to_string(env: &JNIEnv, obj: JObject) -> String {
 
 #[allow(non_snake_case)]
 #[no_mangle]
-pub extern fn Java_io_crossroad_rncardano_Native_hdWallet_fromEnhancedEntropy(
+pub extern fn Java_io_crossroad_rncardano_Native_hdWalletFromEnhancedEntropy(
   env: JNIEnv, _: JObject, bytes: jbyteArray, password: JString
 ) -> jbyteArray {
   let input = env.convert_byte_array(bytes).unwrap();
@@ -62,7 +62,7 @@ pub extern fn Java_io_crossroad_rncardano_Native_hdWallet_fromEnhancedEntropy(
 
 #[allow(non_snake_case)]
 #[no_mangle]
-pub extern fn Java_io_crossroad_rncardano_Native_wallet_fromMasterKey(
+pub extern fn Java_io_crossroad_rncardano_Native_walletFromMasterKey(
   env: JNIEnv, _: JObject, bytes: jbyteArray
 ) -> jobject {
   let input = env.convert_byte_array(bytes).unwrap();
@@ -75,7 +75,7 @@ pub extern fn Java_io_crossroad_rncardano_Native_wallet_fromMasterKey(
 
 #[allow(non_snake_case)]
 #[no_mangle]
-pub extern fn Java_io_crossroad_rncardano_Native_wallet_newAccount(
+pub extern fn Java_io_crossroad_rncardano_Native_walletNewAccount(
   env: JNIEnv, _: JObject, params: JObject
 ) -> jobject {
   let string = json_object_to_string(&env, params);
@@ -89,7 +89,7 @@ pub extern fn Java_io_crossroad_rncardano_Native_wallet_newAccount(
 
 #[allow(non_snake_case)]
 #[no_mangle]
-pub extern fn Java_io_crossroad_rncardano_Native_randomAddressChecker_newChecker(
+pub extern fn Java_io_crossroad_rncardano_Native_randomAddressCheckerNewChecker(
   env: JNIEnv, _: JObject, pkey: JObject
 ) -> jobject {
   let string = json_object_to_string(&env, pkey);
@@ -103,7 +103,7 @@ pub extern fn Java_io_crossroad_rncardano_Native_randomAddressChecker_newChecker
 
 #[allow(non_snake_case)]
 #[no_mangle]
-pub extern fn Java_io_crossroad_rncardano_Native_randomAddressChecker_checkAddresses(
+pub extern fn Java_io_crossroad_rncardano_Native_randomAddressCheckerCheckAddresses(
   env: JNIEnv, _: JObject, params: JObject
 ) -> jobject {
   let string = json_object_to_string(&env, params);
@@ -117,7 +117,7 @@ pub extern fn Java_io_crossroad_rncardano_Native_randomAddressChecker_checkAddre
 
 #[allow(non_snake_case)]
 #[no_mangle]
-pub extern fn Java_io_crossroad_rncardano_Native_passwordProtect_encryptWithPassword(
+pub extern fn Java_io_crossroad_rncardano_Native_passwordProtectEncryptWithPassword(
   env: JNIEnv, _: JObject, password: JString, salt: jbyteArray, nonce: jbyteArray, data: jbyteArray
 ) -> jbyteArray {
   use self::password_encryption_parameter::*;
@@ -149,7 +149,7 @@ pub extern fn Java_io_crossroad_rncardano_Native_passwordProtect_encryptWithPass
 
 #[allow(non_snake_case)]
 #[no_mangle]
-pub extern fn Java_io_crossroad_rncardano_Native_passwordProtect_decryptWithPassword(
+pub extern fn Java_io_crossroad_rncardano_Native_passwordProtectDecryptWithPassword(
   env: JNIEnv, _: JObject, password: JString, data: jbyteArray
 ) -> jbyteArray {
   use self::password_encryption_parameter::*;

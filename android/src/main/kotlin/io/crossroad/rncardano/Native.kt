@@ -9,19 +9,19 @@ object Native {
     }
 
     // HDWallet
-    external fun hdWallet_fromEnhancedEntropy(bytes: ByteArray, password: String): ByteArray
+    external fun hdWalletFromEnhancedEntropy(bytes: ByteArray, password: String): ByteArray
 
     // Wallet
-    external fun wallet_fromEnhancedEntropy(pkey: ByteArray): JSONObject
-    external fun wallet_newAccount(params: JSONObject): JSONObject
+    external fun walletFromEnhancedEntropy(pkey: ByteArray): JSONObject
+    external fun walletNewAccount(params: JSONObject): JSONObject
 
     // RandomAddressChecker
-    external fun randomAddressChecker_newChecker(pkey: JSONArray): JSONObject
-    external fun randomAddressChecker_checkAddresses(params: JSONObject): JSONArray
+    external fun randomAddressCheckerNewChecker(pkey: JSONArray): JSONObject
+    external fun randomAddressCheckerCheckAddresses(params: JSONObject): JSONArray
 
     // PasswordProtect
-    external fun passwordProtect_encryptWithPassword(
+    external fun passwordProtectEncryptWithPassword(
             password: String, salt: ByteArray, nonce: ByteArray, data: ByteArray
     ): ByteArray?
-    external fun passwordProtect_decryptWithPassword(password: String, data: ByteArray): ByteArray?
+    external fun passwordProtectDecryptWithPassword(password: String, data: ByteArray): ByteArray?
 }

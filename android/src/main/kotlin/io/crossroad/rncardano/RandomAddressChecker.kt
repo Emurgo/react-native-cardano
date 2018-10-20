@@ -9,7 +9,7 @@ class RandomAddressChecker(reactContext: ReactApplicationContext) : ReactContext
     @ReactMethod
     fun newChecker(pkey: ReadableArray): ReadableMap {
         val param = Convert.json(pkey)
-        return Convert.map(Native.randomAddressChecker_newChecker(param))
+        return Convert.map(Native.randomAddressCheckerNewChecker(param))
     }
 
     @ReactMethod
@@ -17,6 +17,6 @@ class RandomAddressChecker(reactContext: ReactApplicationContext) : ReactContext
         val params = JSONObject()
         params.put("checker", Convert.json(checker))
         params.put("addresses", Convert.json(addresses))
-        return Convert.array(Native.randomAddressChecker_checkAddresses(params))
+        return Convert.array(Native.randomAddressCheckerCheckAddresses(params))
     }
 }

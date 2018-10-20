@@ -3,12 +3,12 @@ package io.crossroad.rncardano
 import com.facebook.react.bridge.*
 import org.json.JSONObject
 
-class WalletModule(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
+class Wallet(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
     override fun getName() = "CardanoWallet"
 
     @ReactMethod
     fun fromMasterKey(pkey: ReadableArray): ReadableMap {
-        return Convert.map(Native.wallet_fromEnhancedEntropy(Convert.bytes(pkey)))
+        return Convert.map(Native.walletFromEnhancedEntropy(Convert.bytes(pkey)))
     }
 
     @ReactMethod
@@ -16,6 +16,6 @@ class WalletModule(reactContext: ReactApplicationContext) : ReactContextBaseJava
         val params = JSONObject()
         params.put("wallet", Convert.json(wallet))
         params.put("account", accountIndex)
-        return Convert.map(Native.wallet_newAccount(params))
+        return Convert.map(Native.walletNewAccount(params))
     }
 }
