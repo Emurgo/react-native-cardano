@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		92C85975217CB381007703DA /* WalletBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 92C85971217CB381007703DA /* WalletBridge.m */; };
-		92C85976217CB381007703DA /* Wallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92C85973217CB381007703DA /* Wallet.swift */; };
+		92C85A18217CC1F9007703DA /* RNCWallet.m in Sources */ = {isa = PBXBuildFile; fileRef = 92C85A17217CC1F9007703DA /* RNCWallet.m */; };
+		92C85A1B217CC34B007703DA /* RNCHdWallet.m in Sources */ = {isa = PBXBuildFile; fileRef = 92C85A1A217CC34B007703DA /* RNCHdWallet.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,10 +25,11 @@
 
 /* Begin PBXFileReference section */
 		134814201AA4EA6300B7C361 /* libRNCardano.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRNCardano.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		92C85971217CB381007703DA /* WalletBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WalletBridge.m; sourceTree = "<group>"; };
-		92C85972217CB381007703DA /* RNCardano-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RNCardano-Bridging-Header.h"; sourceTree = "<group>"; };
-		92C85973217CB381007703DA /* Wallet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Wallet.swift; sourceTree = "<group>"; };
 		92C85974217CB381007703DA /* RNCardano.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = RNCardano.podspec; sourceTree = "<group>"; };
+		92C85A16217CC1F9007703DA /* RNCWallet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNCWallet.h; sourceTree = "<group>"; };
+		92C85A17217CC1F9007703DA /* RNCWallet.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNCWallet.m; sourceTree = "<group>"; };
+		92C85A19217CC34B007703DA /* RNCHdWallet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNCHdWallet.h; sourceTree = "<group>"; };
+		92C85A1A217CC34B007703DA /* RNCHdWallet.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNCHdWallet.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,10 +54,11 @@
 		58B511D21A9E6C8500147676 = {
 			isa = PBXGroup;
 			children = (
-				92C85972217CB381007703DA /* RNCardano-Bridging-Header.h */,
+				92C85A19217CC34B007703DA /* RNCHdWallet.h */,
+				92C85A1A217CC34B007703DA /* RNCHdWallet.m */,
+				92C85A16217CC1F9007703DA /* RNCWallet.h */,
+				92C85A17217CC1F9007703DA /* RNCWallet.m */,
 				92C85974217CB381007703DA /* RNCardano.podspec */,
-				92C85973217CB381007703DA /* Wallet.swift */,
-				92C85971217CB381007703DA /* WalletBridge.m */,
 				134814211AA4EA7D00B7C361 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -87,12 +89,12 @@
 		58B511D31A9E6C8500147676 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				CLASSPREFIX = RNC;
 				LastUpgradeCheck = 1000;
-				ORGANIZATIONNAME = Facebook;
+				ORGANIZATIONNAME = "Crossroad Labs s.r.o";
 				TargetAttributes = {
 					58B511DA1A9E6C8500147676 = {
 						CreatedOnToolsVersion = 6.1.1;
-						LastSwiftMigration = 1000;
 					};
 				};
 			};
@@ -118,8 +120,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				92C85976217CB381007703DA /* Wallet.swift in Sources */,
-				92C85975217CB381007703DA /* WalletBridge.m in Sources */,
+				92C85A1B217CC34B007703DA /* RNCHdWallet.m in Sources */,
+				92C85A18217CC1F9007703DA /* RNCWallet.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -219,7 +221,6 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_COMPILATION_MODE = wholemodule;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -227,7 +228,6 @@
 		58B511F01A9E6C8500147676 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../../../React/**",
@@ -241,16 +241,12 @@
 				);
 				PRODUCT_NAME = RNCardano;
 				SKIP_INSTALL = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "RNCardano-Bridging-Header.h";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
 		58B511F11A9E6C8500147676 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../../../React/**",
@@ -264,8 +260,6 @@
 				);
 				PRODUCT_NAME = RNCardano;
 				SKIP_INSTALL = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "RNCardano-Bridging-Header.h";
-				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};
