@@ -1,24 +1,23 @@
 
 Pod::Spec.new do |s|
+  package = JSON.parse(File.read(File.join(File.dirname(__FILE__), '../package.json')))
+
   s.name         = "RNCardano"
-  s.version      = "1.0.0"
-  s.summary      = "RNCardano"
-  s.description  = <<-DESC
-                  RNCardano
-                   DESC
-  s.homepage     = ""
-  s.license      = "MIT"
-  # s.license      = { :type => "MIT", :file => "FILE_LICENSE" }
-  s.author             = { "author" => "author@domain.cn" }
-  s.platform     = :ios, "7.0"
-  s.source       = { :git => "https://github.com/author/RNCardano.git", :tag => "master" }
-  s.source_files  = "RNCardano/**/*.{h,m,swift}"
+  s.version      = package['version']
+  s.summary      = package['description']
+
+  s.homepage     = "https://github.com/crossroadlabs/react-native-cardano"
+  s.license      = package['license']
+  s.author       = { "Crossroad Labs" => "info@crossroad.io" }
+  s.source       = { :git => "https://github.com/crossroadlabs/react-native-cardano.git", :tag => "master" }
+  s.source_files  = "./*.{h,m,swift}"
+
+  s.ios.deployment_target  = '10.0'
+
+  s.swift_version = '4.2'
   s.requires_arc = true
 
-
   s.dependency "React"
-  #s.dependency "others"
-
 end
 
   
