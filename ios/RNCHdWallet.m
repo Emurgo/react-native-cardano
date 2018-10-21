@@ -7,6 +7,8 @@
 //
 
 #import "RNCHdWallet.h"
+#import <rust_native_cardano.h>
+#import "RNCConvert.h"
 
 @implementation RNCHdWallet
 
@@ -17,8 +19,24 @@ RCT_EXPORT_MODULE(CardanoHdWallet)
     return dispatch_get_main_queue();
 }
 
-RCT_EXPORT_METHOD(fromEnhancedEntropy:(NSArray *)entropy withPassword:(NSString *)password resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
-    resolve(entropy);
+RCT_EXPORT_METHOD(fromEnhancedEntropy:(NSArray<NSNumber *> *)entropy withPassword:(NSString *)password resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+    
+    NSData* entropyBytes = [RNCConvert dataFromArray:entropy];
+    const char* cstr = [password cStringUsingEncoding:NSUTF8StringEncoding];
+    
+    NSMutableData* output = [NSMutableData dataWithLength:XPRV_SIZE];
+    
+    uintptr_t res = wallet_from_enhanced_entropy(
+        [entropyBytes bytes], [entropyBytes length],
+        (const unsigned char* )cstr, strlen(cstr),
+        [output mutableBytes]
+    );
+    
+    if (res == 0) {
+        resolve([RNCConvert arrayFromData:output]);
+    } else {
+        reject([NSString stringWithFormat:@"%u", (uint)res], @"Rust error", nil);
+    }
 }
 
 @end

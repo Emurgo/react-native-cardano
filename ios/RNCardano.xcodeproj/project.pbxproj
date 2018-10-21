@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		92C85A18217CC1F9007703DA /* RNCWallet.m in Sources */ = {isa = PBXBuildFile; fileRef = 92C85A17217CC1F9007703DA /* RNCWallet.m */; };
 		92C85A1B217CC34B007703DA /* RNCHdWallet.m in Sources */ = {isa = PBXBuildFile; fileRef = 92C85A1A217CC34B007703DA /* RNCHdWallet.m */; };
+		92C85A64217CD247007703DA /* RNCConvert.m in Sources */ = {isa = PBXBuildFile; fileRef = 92C85A63217CD247007703DA /* RNCConvert.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -30,6 +31,10 @@
 		92C85A17217CC1F9007703DA /* RNCWallet.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNCWallet.m; sourceTree = "<group>"; };
 		92C85A19217CC34B007703DA /* RNCHdWallet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNCHdWallet.h; sourceTree = "<group>"; };
 		92C85A1A217CC34B007703DA /* RNCHdWallet.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNCHdWallet.m; sourceTree = "<group>"; };
+		92C85A5F217CCA3F007703DA /* build-rust.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "build-rust.sh"; sourceTree = "<group>"; };
+		92C85A61217CCF36007703DA /* lib */ = {isa = PBXFileReference; lastKnownFileType = folder; path = lib; sourceTree = "<group>"; };
+		92C85A62217CD247007703DA /* RNCConvert.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNCConvert.h; sourceTree = "<group>"; };
+		92C85A63217CD247007703DA /* RNCConvert.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNCConvert.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,11 +59,15 @@
 		58B511D21A9E6C8500147676 = {
 			isa = PBXGroup;
 			children = (
+				92C85A62217CD247007703DA /* RNCConvert.h */,
+				92C85A63217CD247007703DA /* RNCConvert.m */,
 				92C85A19217CC34B007703DA /* RNCHdWallet.h */,
 				92C85A1A217CC34B007703DA /* RNCHdWallet.m */,
 				92C85A16217CC1F9007703DA /* RNCWallet.h */,
 				92C85A17217CC1F9007703DA /* RNCWallet.m */,
 				92C85974217CB381007703DA /* RNCardano.podspec */,
+				92C85A5F217CCA3F007703DA /* build-rust.sh */,
+				92C85A61217CCF36007703DA /* lib */,
 				134814211AA4EA7D00B7C361 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -70,6 +79,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 58B511EF1A9E6C8500147676 /* Build configuration list for PBXNativeTarget "RNCardano" */;
 			buildPhases = (
+				92C85A5E217CC9FE007703DA /* ShellScript */,
 				58B511D71A9E6C8500147676 /* Sources */,
 				58B511D81A9E6C8500147676 /* Frameworks */,
 				58B511D91A9E6C8500147676 /* CopyFiles */,
@@ -115,12 +125,33 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		92C85A5E217CC9FE007703DA /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "bash \"${SRCROOT}\"/build-rust.sh\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		58B511D71A9E6C8500147676 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				92C85A1B217CC34B007703DA /* RNCHdWallet.m in Sources */,
+				92C85A64217CD247007703DA /* RNCConvert.m in Sources */,
 				92C85A18217CC1F9007703DA /* RNCWallet.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -232,12 +263,17 @@
 					"$(inherited)",
 					"$(SRCROOT)/../../../React/**",
 					"$(SRCROOT)/../../react-native/React/**",
+					"$(SRCROOT)/lib",
 				);
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/lib",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
+					"-lrust_native_cardano",
 				);
 				PRODUCT_NAME = RNCardano;
 				SKIP_INSTALL = YES;
@@ -252,12 +288,17 @@
 					"$(inherited)",
 					"$(SRCROOT)/../../../React/**",
 					"$(SRCROOT)/../../react-native/React/**",
+					"$(SRCROOT)/lib",
 				);
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/lib",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
+					"-lrust_native_cardano",
 				);
 				PRODUCT_NAME = RNCardano;
 				SKIP_INSTALL = YES;
