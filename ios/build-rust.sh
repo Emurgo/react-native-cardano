@@ -11,13 +11,10 @@ source ~/.bashrc
 
 cd "${SRCROOT}"/../rust
 
-if [ "${CONFIGURATION}" = "Release" ]
-then
+env -i HOME="$HOME" LC_CTYPE="${LC_ALL:-${LC_CTYPE:-$LANG}}" \
+    PATH="$PATH" USER="$USER" \
     cargo lipo --release
-    cp -f "${SRCROOT}"/../rust/target/universal/release/*.a "${SRCROOT}"/lib/
-else
-    cargo lipo --verbose
-    cp -f "${SRCROOT}"/../rust/target/universal/debug/*.a "${SRCROOT}"/lib/
-fi
+
+cp -f "${SRCROOT}"/../rust/target/universal/release/*.a "${SRCROOT}"/lib/
 
 exit 0

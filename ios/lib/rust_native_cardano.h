@@ -14,14 +14,6 @@
 
 #define TAG_SIZE 16
 
-#define XPRV_SIZE 96
-
-#define XPUB_SIZE 64
-
-#define SEED_SIZE 32
-
-#define SIGNATURE_SIZE 64
-
 void *alloc(uintptr_t size);
 
 void blake2b_256(const unsigned char *msg_ptr, uintptr_t msg_sz, unsigned char *out);
