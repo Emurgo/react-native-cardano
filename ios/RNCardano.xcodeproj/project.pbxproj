@@ -10,7 +10,7 @@
 		92C85A18217CC1F9007703DA /* RNCWallet.m in Sources */ = {isa = PBXBuildFile; fileRef = 92C85A17217CC1F9007703DA /* RNCWallet.m */; };
 		92C85A1B217CC34B007703DA /* RNCHdWallet.m in Sources */ = {isa = PBXBuildFile; fileRef = 92C85A1A217CC34B007703DA /* RNCHdWallet.m */; };
 		92C85A64217CD247007703DA /* RNCConvert.m in Sources */ = {isa = PBXBuildFile; fileRef = 92C85A63217CD247007703DA /* RNCConvert.m */; };
-		92C85A76217CE242007703DA /* librust_native_cardano.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 92C85A75217CE242007703DA /* librust_native_cardano.a */; };
+		92C85A7B217CE54E007703DA /* librust_native_cardano.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 92C85A7A217CE54E007703DA /* librust_native_cardano.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -36,8 +36,8 @@
 		92C85A62217CD247007703DA /* RNCConvert.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNCConvert.h; sourceTree = "<group>"; };
 		92C85A63217CD247007703DA /* RNCConvert.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNCConvert.m; sourceTree = "<group>"; };
 		92C85A65217CDB91007703DA /* RNCNative.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNCNative.h; sourceTree = "<group>"; };
-		92C85A74217CE242007703DA /* rust_native_cardano.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rust_native_cardano.h; sourceTree = "<group>"; };
-		92C85A75217CE242007703DA /* librust_native_cardano.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = librust_native_cardano.a; sourceTree = "<group>"; };
+		92C85A7A217CE54E007703DA /* librust_native_cardano.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = librust_native_cardano.a; path = lib/librust_native_cardano.a; sourceTree = "<group>"; };
+		92C85A7C217CE5CD007703DA /* rust_native_cardano.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rust_native_cardano.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,7 +45,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				92C85A76217CE242007703DA /* librust_native_cardano.a in Frameworks */,
+				92C85A7B217CE54E007703DA /* librust_native_cardano.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,7 +63,7 @@
 		58B511D21A9E6C8500147676 = {
 			isa = PBXGroup;
 			children = (
-				92C85A73217CE242007703DA /* lib */,
+				92C85A7D217CE5D8007703DA /* rust */,
 				92C85A65217CDB91007703DA /* RNCNative.h */,
 				92C85A62217CD247007703DA /* RNCConvert.h */,
 				92C85A63217CD247007703DA /* RNCConvert.m */,
@@ -72,18 +72,26 @@
 				92C85A16217CC1F9007703DA /* RNCWallet.h */,
 				92C85A17217CC1F9007703DA /* RNCWallet.m */,
 				92C85974217CB381007703DA /* RNCardano.podspec */,
-				92C85A5F217CCA3F007703DA /* build-rust.sh */,
 				134814211AA4EA7D00B7C361 /* Products */,
+				92C85A79217CE54E007703DA /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
-		92C85A73217CE242007703DA /* lib */ = {
+		92C85A79217CE54E007703DA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				92C85A74217CE242007703DA /* rust_native_cardano.h */,
-				92C85A75217CE242007703DA /* librust_native_cardano.a */,
+				92C85A7A217CE54E007703DA /* librust_native_cardano.a */,
 			);
-			path = lib;
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		92C85A7D217CE5D8007703DA /* rust */ = {
+			isa = PBXGroup;
+			children = (
+				92C85A7C217CE5CD007703DA /* rust_native_cardano.h */,
+				92C85A5F217CCA3F007703DA /* build-rust.sh */,
+			);
+			path = rust;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -277,18 +285,15 @@
 					"$(inherited)",
 					"$(SRCROOT)/../../../React/**",
 					"$(SRCROOT)/../../react-native/React/**",
-					"$(SRCROOT)/lib",
 				);
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/lib",
 					"$(PROJECT_DIR)/lib",
 				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
-					"-lrust_native_cardano",
 				);
 				PRODUCT_NAME = RNCardano;
 				SKIP_INSTALL = YES;
@@ -303,18 +308,15 @@
 					"$(inherited)",
 					"$(SRCROOT)/../../../React/**",
 					"$(SRCROOT)/../../react-native/React/**",
-					"$(SRCROOT)/lib",
 				);
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/lib",
 					"$(PROJECT_DIR)/lib",
 				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
-					"-lrust_native_cardano",
 				);
 				PRODUCT_NAME = RNCardano;
 				SKIP_INSTALL = YES;

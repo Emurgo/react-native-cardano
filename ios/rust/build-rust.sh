@@ -17,4 +17,7 @@ env -i HOME="$HOME" LC_CTYPE="${LC_ALL:-${LC_CTYPE:-$LANG}}" \
 
 cp -f "${SRCROOT}"/../rust/target/universal/release/*.a "${SRCROOT}"/lib/
 
+# Wait, while Xcode will see library
+sleep 5
+
 exit 0
