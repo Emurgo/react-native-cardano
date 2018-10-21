@@ -9,23 +9,25 @@ object Native {
     }
 
     // HDWallet
-    external fun hdWalletFromEnhancedEntropy(bytes: ByteArray, password: String): ByteArray
+    external fun hdWalletFromEnhancedEntropy(bytes: ByteArray, password: String): ByteArrayResult
 
     // Wallet
-    external fun walletFromEnhancedEntropy(pkey: ByteArray): JSONObject
-    external fun walletNewAccount(params: JSONObject): JSONObject
-    external fun walletGenerateAddresses(params: JSONObject): JSONArray
-    external fun walletCheckAddress(address: String): Boolean
-    external fun walletSpend(params: JSONObject, ilen: Int, olen: Int): JSONObject
-    external fun walletMove(params: JSONObject, ilen: Int): JSONObject
+    external fun walletFromMasterKey(pkey: ByteArray): Result
+    external fun walletNewAccount(params: JSONObject): Result
+    external fun walletGenerateAddresses(params: JSONObject): Result
+    external fun walletCheckAddress(address: String): Result
+    external fun walletSpend(params: JSONObject, ilen: Int, olen: Int): Result
+    external fun walletMove(params: JSONObject, ilen: Int): Result
 
     // RandomAddressChecker
-    external fun randomAddressCheckerNewChecker(pkey: JSONArray): JSONObject
-    external fun randomAddressCheckerCheckAddresses(params: JSONObject): JSONArray
+    external fun randomAddressCheckerNewChecker(pkey: JSONArray): Result
+    external fun randomAddressCheckerCheckAddresses(params: JSONObject): Result
 
     // PasswordProtect
     external fun passwordProtectEncryptWithPassword(
             password: String, salt: ByteArray, nonce: ByteArray, data: ByteArray
-    ): ByteArray
-    external fun passwordProtectDecryptWithPassword(password: String, data: ByteArray): ByteArray
+    ): ByteArrayResult
+    external fun passwordProtectDecryptWithPassword(
+            password: String, data: ByteArray
+    ): ByteArrayResult
 }

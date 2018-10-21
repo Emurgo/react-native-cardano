@@ -19,9 +19,9 @@ RCT_EXPORT_MODULE(CardanoHdWallet)
     return dispatch_get_main_queue();
 }
 
-RCT_EXPORT_METHOD(fromEnhancedEntropy:(NSArray<NSNumber *> *)entropy withPassword:(NSString *)password resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+RCT_EXPORT_METHOD(fromEnhancedEntropy:(NSString *)entropy withPassword:(NSString *)password resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
     
-    NSData* entropyBytes = [RNCConvert dataFromArray:entropy];
+    NSData* entropyBytes = [RNCConvert dataFromHexString:entropy];
     const char* cstr = [password cStringUsingEncoding:NSUTF8StringEncoding];
     
     NSMutableData* output = [NSMutableData dataWithLength:XPRV_SIZE];
@@ -33,7 +33,7 @@ RCT_EXPORT_METHOD(fromEnhancedEntropy:(NSArray<NSNumber *> *)entropy withPasswor
     );
     
     if (res == 0) {
-        resolve([RNCConvert arrayFromData:output]);
+        resolve([RNCConvert hexStringFromData:output]);
     } else {
         reject([NSString stringWithFormat:@"%u", (uint)res], @"Rust error", nil);
     }

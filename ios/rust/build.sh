@@ -16,5 +16,6 @@ env -i HOME="$HOME" LC_CTYPE="${LC_ALL:-${LC_CTYPE:-$LANG}}" \
     cargo lipo --release
 
 cp -f "${SRCROOT}"/../rust/target/universal/release/*.a "${SRCROOT}"/rust/
+cp -f "${SRCROOT}"/../rust/include/*.h "${SRCROOT}"/rust/
 
 exit 0

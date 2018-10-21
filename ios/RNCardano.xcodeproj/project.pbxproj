@@ -10,6 +10,7 @@
 		92C85A18217CC1F9007703DA /* RNCWallet.m in Sources */ = {isa = PBXBuildFile; fileRef = 92C85A17217CC1F9007703DA /* RNCWallet.m */; };
 		92C85A1B217CC34B007703DA /* RNCHdWallet.m in Sources */ = {isa = PBXBuildFile; fileRef = 92C85A1A217CC34B007703DA /* RNCHdWallet.m */; };
 		92C85A64217CD247007703DA /* RNCConvert.m in Sources */ = {isa = PBXBuildFile; fileRef = 92C85A63217CD247007703DA /* RNCConvert.m */; };
+		92C85A8F217D0111007703DA /* NSData+FastHex.m in Sources */ = {isa = PBXBuildFile; fileRef = 92C85A8D217D0111007703DA /* NSData+FastHex.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -35,6 +36,8 @@
 		92C85A63217CD247007703DA /* RNCConvert.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNCConvert.m; sourceTree = "<group>"; };
 		92C85A65217CDB91007703DA /* RNCNative.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNCNative.h; sourceTree = "<group>"; };
 		92C85A8C217CF140007703DA /* rust */ = {isa = PBXFileReference; lastKnownFileType = folder; path = rust; sourceTree = "<group>"; };
+		92C85A8D217D0111007703DA /* NSData+FastHex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+FastHex.m"; sourceTree = "<group>"; };
+		92C85A8E217D0111007703DA /* NSData+FastHex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+FastHex.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,7 +62,8 @@
 		58B511D21A9E6C8500147676 = {
 			isa = PBXGroup;
 			children = (
-				92C85A8C217CF140007703DA /* rust */,
+				92C85A8E217D0111007703DA /* NSData+FastHex.h */,
+				92C85A8D217D0111007703DA /* NSData+FastHex.m */,
 				92C85A65217CDB91007703DA /* RNCNative.h */,
 				92C85A62217CD247007703DA /* RNCConvert.h */,
 				92C85A63217CD247007703DA /* RNCConvert.m */,
@@ -68,6 +72,7 @@
 				92C85A16217CC1F9007703DA /* RNCWallet.h */,
 				92C85A17217CC1F9007703DA /* RNCWallet.m */,
 				92C85974217CB381007703DA /* RNCardano.podspec */,
+				92C85A8C217CF140007703DA /* rust */,
 				134814211AA4EA7D00B7C361 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -150,6 +155,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				92C85A8F217D0111007703DA /* NSData+FastHex.m in Sources */,
 				92C85A1B217CC34B007703DA /* RNCHdWallet.m in Sources */,
 				92C85A64217CD247007703DA /* RNCConvert.m in Sources */,
 				92C85A18217CC1F9007703DA /* RNCWallet.m in Sources */,

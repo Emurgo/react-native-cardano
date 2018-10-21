@@ -19,9 +19,9 @@ RCT_EXPORT_MODULE(CardanoWallet)
     return dispatch_get_main_queue();
 }
 
-RCT_EXPORT_METHOD(fromMasterKey:(NSArray<NSNumber *>*)pkey resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+RCT_EXPORT_METHOD(fromMasterKey:(NSString *)pkey resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
     
-    NSData* pkeyBytes = [RNCConvert dataFromArray:pkey];
+    NSData* pkeyBytes = [RNCConvert dataFromHexString:pkey];
     NSMutableData* output = [NSMutableData dataWithLength:MAX_OUTPUT_SIZE];
     
     int32_t rsz = xwallet_from_master_key(

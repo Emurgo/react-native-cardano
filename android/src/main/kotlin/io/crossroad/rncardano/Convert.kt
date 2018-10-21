@@ -1,20 +1,17 @@
 package io.crossroad.rncardano
 
+import com.facebook.common.util.Hex
 import com.facebook.react.bridge.*
 import org.json.JSONArray
 import org.json.JSONObject
 
 object Convert {
-    fun bytes(array: ReadableArray): ByteArray {
-        return ByteArray(array.size()) { array.getInt(it).toByte() }
+    fun bytes(hexString: String): ByteArray {
+        return Hex.decodeHex(hexString)
     }
 
-    fun array(bytes: ByteArray): WritableArray {
-        val array = Arguments.createArray()
-        for (byte in bytes) {
-            array.pushInt(byte.toInt())
-        }
-        return array
+    fun string(bytes: ByteArray): String {
+        return Hex.encodeHex(bytes, false)
     }
 
     fun array(json: JSONArray): WritableArray {

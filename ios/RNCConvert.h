@@ -12,8 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface RNCConvert : NSObject
 
-+ (NSData *)dataFromArray:(NSArray<NSNumber *> *)array;
-+ (NSArray<NSNumber *> *)arrayFromData:(NSData *)data;
++ (NSData *)dataFromHexString:(NSString *)string;
++ (NSString *)hexStringFromData:(NSData *)data;
 
 + (NSDictionary *)dictionaryFromJsonData:(NSData *)data error:(NSError **)error;
 + (NSArray *)arrayFromJsonData:(NSData *)data error:(NSError **)error;
