@@ -40,8 +40,6 @@ RCT_EXPORT_METHOD(fromMasterKey:(NSArray<NSNumber *>*)pkey resolver:(RCTPromiseR
     } else {
         reject([NSString stringWithFormat:@"%i", rsz], @"Rust error", nil);
     }
-    
-    resolve(pkey);
 }
 
 @end
