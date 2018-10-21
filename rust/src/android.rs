@@ -18,7 +18,6 @@ use jni::objects::{JObject, JString};
 // lifetime checker won't let us.
 use jni::sys::{jbyteArray, jobject, jint};
 
-}
 fn json_string_to_object<'a>(env: &'a JNIEnv, data: &[u8]) -> JObject<'a> {
   let class = env.find_class("org/json/JSONObject").unwrap();
   let string = str::from_utf8(data).unwrap();

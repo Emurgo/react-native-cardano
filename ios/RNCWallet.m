@@ -24,21 +24,30 @@ RCT_EXPORT_METHOD(fromMasterKey:(NSString *)pkey resolver:(RCTPromiseResolveBloc
     NSData* pkeyBytes = [RNCConvert dataFromHexString:pkey];
     NSMutableData* output = [NSMutableData dataWithLength:MAX_OUTPUT_SIZE];
     
-    int32_t rsz = xwallet_from_master_key(
+    char* error = NULL;
+    int32_t rsz = xwallet_from_master_key_safe(
         [pkeyBytes bytes],
-        [output mutableBytes]
+        [output mutableBytes],
+        &error
     );
     
-    if (rsz > 0) {
-        NSError* error = nil;
-        NSDictionary* response = [RNCConvert dictionaryFromJsonData:[output subdataWithRange:NSMakeRange(0, rsz)] error:&error];
-        if (error == nil) {
-            resolve(response);
-        } else {
-            reject([NSString stringWithFormat:@"%i", rsz], @"JSON parsing error", error);
-        }
+    if (error != NULL) {
+        reject([NSString stringWithFormat:@"%i", rsz],
+               [NSString stringWithFormat:@"Rust error: %s", error],
+               nil);
+        dealloc_string(error);
     } else {
-        reject([NSString stringWithFormat:@"%i", rsz], @"Rust error", nil);
+        if (rsz > 0) {
+            NSError* error = nil;
+            NSDictionary* response = [RNCConvert dictionaryFromJsonData:[output subdataWithRange:NSMakeRange(0, rsz)] error:&error];
+            if (error == nil) {
+                resolve(response);
+            } else {
+                reject([NSString stringWithFormat:@"%i", rsz], @"JSON parsing error", error);
+            }
+        } else {
+            reject([NSString stringWithFormat:@"%i", rsz], @"Unknown rust error", nil);
+        }
     }
 }
 

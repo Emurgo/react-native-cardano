@@ -25,17 +25,26 @@ RCT_EXPORT_METHOD(fromEnhancedEntropy:(NSString *)entropy withPassword:(NSString
     const char* cstr = [password cStringUsingEncoding:NSUTF8StringEncoding];
     
     NSMutableData* output = [NSMutableData dataWithLength:XPRV_SIZE];
+    char* error = NULL;
     
-    uintptr_t res = wallet_from_enhanced_entropy(
+    uintptr_t res = wallet_from_enhanced_entropy_safe(
         [entropyBytes bytes], [entropyBytes length],
         (const unsigned char* )cstr, strlen(cstr),
-        [output mutableBytes]
+        [output mutableBytes], &error
     );
     
-    if (res == 0) {
-        resolve([RNCConvert hexStringFromData:output]);
+    if (error != NULL) {
+        reject([NSString stringWithFormat:@"%u", (uint)res],
+               [NSString stringWithFormat:@"Rust error: %s", error],
+               nil);
+        dealloc_string(error);
     } else {
-        reject([NSString stringWithFormat:@"%u", (uint)res], @"Rust error", nil);
+        if (res == 0) {
+            resolve([RNCConvert hexStringFromData:output]);
+        } else {
+            reject([NSString stringWithFormat:@"%u", (uint)res],
+                   @"Unknown rust error", nil);
+        }
     }
 }
 

@@ -19,8 +19,8 @@ uintptr_t wallet_from_enhanced_entropy_safe(const unsigned char *entropy_ptr,
                                             const unsigned char *password_ptr,
                                             uintptr_t password_size,
                                             unsigned char *out,
-                                            const char **error);
+                                            char **error);
 
 int32_t xwallet_from_master_key_safe(const unsigned char *input_ptr,
                                      unsigned char *output_ptr,
-                                     const char **error);
+                                     char **error);
