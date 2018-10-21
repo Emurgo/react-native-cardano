@@ -6,7 +6,7 @@
 //  Copyright © 2018 Crossroad Labs s.r.o. All rights reserved.
 //
 
-#import "rust_native_cardano.h"
+#import <rust_native_cardano.h>
 
 #define XPRV_SIZE 96
 

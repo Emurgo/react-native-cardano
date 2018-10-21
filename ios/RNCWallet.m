@@ -35,7 +35,7 @@ RCT_EXPORT_METHOD(fromMasterKey:(NSArray<NSNumber *>*)pkey resolver:(RCTPromiseR
         if (error == nil) {
             resolve(response);
         } else {
-            reject([NSString stringWithFormat:@"%i", rsz], @"JSON parsin error", error);
+            reject([NSString stringWithFormat:@"%i", rsz], @"JSON parsing error", error);
         }
     } else {
         reject([NSString stringWithFormat:@"%i", rsz], @"Rust error", nil);
