@@ -15,6 +15,11 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSData *)dataFromArray:(NSArray<NSNumber *> *)array;
 + (NSArray<NSNumber *> *)arrayFromData:(NSData *)data;
 
++ (NSDictionary *)dictionaryFromJsonData:(NSData *)data error:(NSError **)error;
++ (NSArray *)arrayFromJsonData:(NSData *)data error:(NSError **)error;
+
++ (NSString *)stringFromBytes:(const char*)bytes length:(NSUInteger)len;
+
 @end
 
 NS_ASSUME_NONNULL_END

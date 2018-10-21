@@ -36,4 +36,17 @@
     return array;
 }
 
++ (NSDictionary *)dictionaryFromJsonData:(NSData *)data error:(NSError **)error {
+    return [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:error];
+}
+
++ (NSArray *)arrayFromJsonData:(NSData *)data error:(NSError **)error {
+    return [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:error];
+}
+
++ (NSString *)stringFromBytes:(const char*)bytes length:(NSUInteger)len {
+    NSData* data = [[NSData alloc] initWithBytesNoCopy:(void*)bytes length:len];
+    return [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+}
+
 @end

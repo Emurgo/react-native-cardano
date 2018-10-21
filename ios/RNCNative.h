@@ -15,3 +15,5 @@
 #define SEED_SIZE 32
 
 #define SIGNATURE_SIZE 64
+
+#define MAX_OUTPUT_SIZE 4096

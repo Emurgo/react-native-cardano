@@ -15,7 +15,7 @@ env -i HOME="$HOME" LC_CTYPE="${LC_ALL:-${LC_CTYPE:-$LANG}}" \
     PATH="$PATH" USER="$USER" \
     cargo lipo --release
 
-cp -f "${SRCROOT}"/../rust/target/universal/release/*.a "${SRCROOT}"/lib/
+cp -f "${SRCROOT}"/../rust/target/universal/release/*.a "${SRCROOT}"/rust/
 
 # Wait, while Xcode will see library
 sleep 5

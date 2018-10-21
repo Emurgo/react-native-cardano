@@ -10,7 +10,7 @@
 		92C85A18217CC1F9007703DA /* RNCWallet.m in Sources */ = {isa = PBXBuildFile; fileRef = 92C85A17217CC1F9007703DA /* RNCWallet.m */; };
 		92C85A1B217CC34B007703DA /* RNCHdWallet.m in Sources */ = {isa = PBXBuildFile; fileRef = 92C85A1A217CC34B007703DA /* RNCHdWallet.m */; };
 		92C85A64217CD247007703DA /* RNCConvert.m in Sources */ = {isa = PBXBuildFile; fileRef = 92C85A63217CD247007703DA /* RNCConvert.m */; };
-		92C85A7B217CE54E007703DA /* librust_native_cardano.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 92C85A7A217CE54E007703DA /* librust_native_cardano.a */; };
+		92C85A7E217CE73D007703DA /* librust_native_cardano.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 92C85A7A217CE54E007703DA /* librust_native_cardano.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -32,11 +32,11 @@
 		92C85A17217CC1F9007703DA /* RNCWallet.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNCWallet.m; sourceTree = "<group>"; };
 		92C85A19217CC34B007703DA /* RNCHdWallet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNCHdWallet.h; sourceTree = "<group>"; };
 		92C85A1A217CC34B007703DA /* RNCHdWallet.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNCHdWallet.m; sourceTree = "<group>"; };
-		92C85A5F217CCA3F007703DA /* build-rust.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "build-rust.sh"; sourceTree = "<group>"; };
+		92C85A5F217CCA3F007703DA /* build.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = build.sh; sourceTree = "<group>"; };
 		92C85A62217CD247007703DA /* RNCConvert.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNCConvert.h; sourceTree = "<group>"; };
 		92C85A63217CD247007703DA /* RNCConvert.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNCConvert.m; sourceTree = "<group>"; };
 		92C85A65217CDB91007703DA /* RNCNative.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNCNative.h; sourceTree = "<group>"; };
-		92C85A7A217CE54E007703DA /* librust_native_cardano.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = librust_native_cardano.a; path = lib/librust_native_cardano.a; sourceTree = "<group>"; };
+		92C85A7A217CE54E007703DA /* librust_native_cardano.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = librust_native_cardano.a; path = rust/librust_native_cardano.a; sourceTree = "<group>"; };
 		92C85A7C217CE5CD007703DA /* rust_native_cardano.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rust_native_cardano.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -45,7 +45,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				92C85A7B217CE54E007703DA /* librust_native_cardano.a in Frameworks */,
+				92C85A7E217CE73D007703DA /* librust_native_cardano.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -89,7 +89,7 @@
 			isa = PBXGroup;
 			children = (
 				92C85A7C217CE5CD007703DA /* rust_native_cardano.h */,
-				92C85A5F217CCA3F007703DA /* build-rust.sh */,
+				92C85A5F217CCA3F007703DA /* build.sh */,
 			);
 			path = rust;
 			sourceTree = "<group>";
@@ -163,7 +163,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "bash \"${SRCROOT}\"/build-rust.sh\n";
+			shellScript = "bash \"${SRCROOT}\"/rust/build.sh\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -289,7 +289,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/lib",
+					"$(PROJECT_DIR)/rust",
 				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -312,7 +312,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/lib",
+					"$(PROJECT_DIR)/rust",
 				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
