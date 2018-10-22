@@ -9,7 +9,12 @@ object Native {
     }
 
     // HDWallet
-    external fun hdWalletFromEnhancedEntropy(bytes: ByteArray, password: String): Result<ByteArray>
+    external fun hdWalletFromEnhancedEntropy(entropy: ByteArray, password: String): Result<ByteArray>
+    external fun hdWalletFromSeed(seed: ByteArray): Result<ByteArray>
+    external fun hdWalletToPublic(pkey: ByteArray): Result<ByteArray>
+    external fun hdWalletDerivePrivate(pkey: ByteArray, index: Int): Result<ByteArray>
+    external fun hdWalletDerivePublic(pubKey: ByteArray, index: Int): Result<ByteArray>
+    external fun hdWalletSign(pkey: ByteArray, data: ByteArray): Result<ByteArray>
 
     // Wallet
     external fun walletFromMasterKey(pkey: ByteArray): Result<JSONObject>

@@ -57,10 +57,10 @@ fn return_result<'a>(env: &'a JNIEnv, res: Result<JObject<'a>, String>) -> jobje
 #[allow(non_snake_case)]
 #[no_mangle]
 pub extern fn Java_io_crossroad_rncardano_Native_hdWalletFromEnhancedEntropy(
-  env: JNIEnv, _: JObject, bytes: jbyteArray, password: JString
+  env: JNIEnv, _: JObject, entropy: jbyteArray, password: JString
 ) -> jobject {
   return_result(&env, handle_exception(|| {
-      let input = env.convert_byte_array(bytes).unwrap();
+      let input = env.convert_byte_array(entropy).unwrap();
       let pwd_str: String = env.get_string(password).expect("Couldn't get java string!").into();
       let pwd: &[u8] = pwd_str.as_bytes();
       let mut output = [0 as u8; XPRV_SIZE];
@@ -68,6 +68,121 @@ pub extern fn Java_io_crossroad_rncardano_Native_hdWalletFromEnhancedEntropy(
       let res = wallet_from_enhanced_entropy(input.as_ptr(), input.len(), pwd.as_ptr(), pwd.len(), output.as_mut_ptr());
 
       if res != 0 { panic!("Rust method error. Check entropy size.") }
+
+      JObject::from(env.byte_array_from_slice(&output).unwrap())
+    })
+  )
+}
+
+
+#[allow(non_snake_case)]
+#[no_mangle]
+pub extern fn Java_io_crossroad_rncardano_Native_hdWalletFromSeed(
+  env: JNIEnv, _: JObject, seed: jbyteArray
+) -> jobject {
+  return_result(&env, handle_exception(|| {
+      let input = env.convert_byte_array(seed).unwrap();
+
+      if input.len() != SEED_SIZE {
+        panic!("Wrong seed len {} should be {}", input.len(), SEED_SIZE);
+      }
+
+      let mut output = [0 as u8; XPRV_SIZE];
+
+      wallet_from_seed(input.as_ptr(), output.as_mut_ptr());
+
+      JObject::from(env.byte_array_from_slice(&output).unwrap())
+    })
+  )
+}
+
+#[allow(non_snake_case)]
+#[no_mangle]
+pub extern fn Java_io_crossroad_rncardano_Native_hdWalletToPublic(
+  env: JNIEnv, _: JObject, pkey: jbyteArray
+) -> jobject {
+  return_result(&env, handle_exception(|| {
+      let input = env.convert_byte_array(pkey).unwrap();
+
+      if input.len() != XPRV_SIZE {
+        panic!("Wrong XPrv len {} should be {}", input.len(), XPRV_SIZE);
+      }
+
+      let mut output = [0 as u8; XPUB_SIZE];
+
+      wallet_to_public(input.as_ptr(), output.as_mut_ptr());
+
+      JObject::from(env.byte_array_from_slice(&output).unwrap())
+    })
+  )
+}
+
+#[allow(non_snake_case)]
+#[no_mangle]
+pub extern fn Java_io_crossroad_rncardano_Native_hdWalletDerivePrivate(
+  env: JNIEnv, _: JObject, pkey: jbyteArray, index: jint
+) -> jobject {
+  return_result(&env, handle_exception(|| {
+      let input = env.convert_byte_array(pkey).unwrap();
+
+      if input.len() != XPRV_SIZE {
+        panic!("Wrong XPrv len {} should be {}", input.len(), XPRV_SIZE);
+      }
+
+      let mut output = [0 as u8; XPRV_SIZE];
+
+      wallet_derive_private(input.as_ptr(), index as u32, output.as_mut_ptr());
+
+      JObject::from(env.byte_array_from_slice(&output).unwrap())
+    })
+  )
+}
+
+#[allow(non_snake_case)]
+#[no_mangle]
+pub extern fn Java_io_crossroad_rncardano_Native_hdWalletDerivePublic(
+  env: JNIEnv, _: JObject, pubKey: jbyteArray, index: jint
+) -> jobject {
+  return_result(&env, handle_exception(|| {
+      let input = env.convert_byte_array(pubKey).unwrap();
+
+      if input.len() != XPUB_SIZE {
+        panic!("Wrong XPub len {} should be {}", input.len(), XPUB_SIZE);
+      }
+
+      if (index as u32) >= 0x80000000 {
+        panic!("Cannot do public derivation with hard index");
+      }
+
+      let mut output = [0 as u8; XPUB_SIZE];
+
+      let res = wallet_derive_public(input.as_ptr(), index as u32, output.as_mut_ptr());
+
+      if !res {
+        panic!("Can't derive public key");
+      }
+
+      JObject::from(env.byte_array_from_slice(&output).unwrap())
+    })
+  )
+}
+
+#[allow(non_snake_case)]
+#[no_mangle]
+pub extern fn Java_io_crossroad_rncardano_Native_hdWalletSign(
+  env: JNIEnv, _: JObject, pkey: jbyteArray, data: jbyteArray
+) -> jobject {
+  return_result(&env, handle_exception(|| {
+      let xprv = env.convert_byte_array(pkey).unwrap();
+
+      if xprv.len() != XPRV_SIZE {
+        panic!("Wrong XPrv len {} should be {}", xprv.len(), XPRV_SIZE);
+      }
+
+      let input = env.convert_byte_array(data).unwrap();
+      let mut output = [0 as u8; SIGNATURE_SIZE];
+
+      wallet_sign(xprv.as_ptr(), input.as_ptr(), input.len(), output.as_mut_ptr());
 
       JObject::from(env.byte_array_from_slice(&output).unwrap())
     })

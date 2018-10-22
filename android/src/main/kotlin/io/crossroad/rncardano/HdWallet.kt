@@ -14,4 +14,39 @@ class HdWallet(reactContext: ReactApplicationContext) : ReactContextBaseJavaModu
                 .map { Convert.string(it) }
                 .pour(promise)
     }
+
+    @ReactMethod
+    fun fromSeed(seed: String, promise: Promise) {
+        Native.hdWalletFromSeed(Convert.bytes(seed))
+                .map { Convert.string(it) }
+                .pour(promise)
+    }
+
+    @ReactMethod
+    fun toPublic(xprv: String, promise: Promise) {
+        Native.hdWalletToPublic(Convert.bytes(xprv))
+                .map { Convert.string(it) }
+                .pour(promise)
+    }
+
+    @ReactMethod
+    fun derivePrivate(xprv: String, index: Int, promise: Promise) {
+        Native.hdWalletDerivePrivate(Convert.bytes(xprv), index)
+                .map { Convert.string(it) }
+                .pour(promise)
+    }
+
+    @ReactMethod
+    fun derivePublic(xpub: String, index: Int, promise: Promise) {
+        Native.hdWalletDerivePublic(Convert.bytes(xpub), index)
+                .map { Convert.string(it) }
+                .pour(promise)
+    }
+
+    @ReactMethod
+    fun sign(xprv: String, data: String, promise: Promise) {
+        Native.hdWalletSign(Convert.bytes(xprv), Convert.bytes(data))
+                .map { Convert.string(it) }
+                .pour(promise)
+    }
 }
