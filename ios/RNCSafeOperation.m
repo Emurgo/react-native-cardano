@@ -40,7 +40,7 @@
 - (id)callAllStack:(NSError **)error {
     if (self.parent != nil) {
         id res = [self.parent callAllStack:error];
-        if (error == nil) {
+        if (*error == nil) {
             res = self.callback(res, error);
         }
         return res;
