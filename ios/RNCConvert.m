@@ -16,7 +16,7 @@
 }
 
 + (NSString *)hexStringFromData:(NSData *)data {
-    return [data hexStringRepresentationUppercase:NO];
+    return [data hexStringRepresentationUppercase:YES];
 }
 
 + (NSDictionary *)dictionaryFromJsonData:(NSData *)data error:(NSError **)error {
@@ -30,6 +30,14 @@
 + (NSString *)stringFromBytes:(const char*)bytes length:(NSUInteger)len {
     NSData* data = [[NSData alloc] initWithBytesNoCopy:(void*)bytes length:len];
     return [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+}
+
++ (NSData *)jsonDataFromDictionary:(NSDictionary *)dictionary error:(NSError **)error {
+    return [NSJSONSerialization dataWithJSONObject:dictionary options:kNilOptions error:error];
+}
+
++ (NSData *)jsonDataFromArray:(NSArray *)array error:(NSError **)error {
+    return [NSJSONSerialization dataWithJSONObject:array options:kNilOptions error:error];
 }
 
 @end

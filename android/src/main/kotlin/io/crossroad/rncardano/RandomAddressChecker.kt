@@ -8,8 +8,8 @@ class RandomAddressChecker(reactContext: ReactApplicationContext) : ReactContext
     override fun getName() = "CardanoRandomAddressChecker"
 
     @ReactMethod
-    fun newChecker(pkey: ReadableArray, promise: Promise) {
-        Native.randomAddressCheckerNewChecker(Convert.json(pkey))
+    fun newChecker(pkey: String, promise: Promise) {
+        Native.randomAddressCheckerNewChecker('"'+pkey + '"')
                 .map { Convert.map(it as JSONObject) }
                 .finish(promise)
     }

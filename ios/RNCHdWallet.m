@@ -8,7 +8,8 @@
 
 #import "RNCHdWallet.h"
 #import "RNCConvert.h"
-#import "RNCNative.h"
+#import <rust_native_cardano.h>
+#import "RNCSafeOperation.h"
 
 @implementation RNCHdWallet
 
@@ -25,27 +26,24 @@ RCT_EXPORT_METHOD(fromEnhancedEntropy:(NSString *)entropy withPassword:(NSString
     const char* cstr = [password cStringUsingEncoding:NSUTF8StringEncoding];
     
     NSMutableData* output = [NSMutableData dataWithLength:XPRV_SIZE];
-    char* error = NULL;
     
-    uintptr_t res = wallet_from_enhanced_entropy_safe(
-        [entropyBytes bytes], [entropyBytes length],
-        (const unsigned char* )cstr, strlen(cstr),
-        [output mutableBytes], &error
-    );
+    RNCSafeOperation *operation = [RNCCSafeOperation new:^id (id param, char ** error) {
+        uintptr_t res = wallet_from_enhanced_entropy_safe([entropyBytes bytes], [entropyBytes length],
+                                                          (const unsigned char* )cstr, strlen(cstr),
+                                                          [output mutableBytes], error);
+        return [NSNumber numberWithUnsignedLong:res];
+    }];
     
-    if (error != NULL) {
-        reject([NSString stringWithFormat:@"%u", (uint)res],
-               [NSString stringWithFormat:@"Rust error: %s", error],
-               nil);
-        dealloc_string(error);
-    } else {
-        if (res == 0) {
-            resolve([RNCConvert hexStringFromData:output]);
+    operation = [operation andThen:[RNCSafeOperation new:^id(id res, NSError ** error) {
+        if ([res unsignedIntegerValue] == 0) {
+            return [RNCConvert hexStringFromData:output];
         } else {
-            reject([NSString stringWithFormat:@"%u", (uint)res],
-                   @"Unknown rust error", nil);
+            *error = [NSError rustError:@"Unknown rust error"];
+            return nil;
         }
-    }
+    }]];
+    
+    [operation execAndResolve:resolve orReject:reject];
 }
 
 @end

@@ -20,7 +20,7 @@ object Native {
     external fun walletMove(params: JSONObject, ilen: Int): Result
 
     // RandomAddressChecker
-    external fun randomAddressCheckerNewChecker(pkey: JSONArray): Result
+    external fun randomAddressCheckerNewChecker(pkey: String): Result
     external fun randomAddressCheckerCheckAddresses(params: JSONObject): Result
 
     // PasswordProtect

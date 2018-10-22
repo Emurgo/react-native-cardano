@@ -44,4 +44,23 @@ pub extern "C" fn xwallet_from_master_key_safe(
   handle_error(error, -1, || {
     xwallet_from_master_key(input_ptr, output_ptr)
   })
-} 
+}
+
+#[no_mangle]
+pub extern "C" fn xwallet_account_safe(
+  input_ptr: *const c_uchar, input_sz: usize,
+  output_ptr: *mut c_uchar, error: *mut*mut c_char
+) -> i32 {
+  handle_error(error, -1, || {
+    xwallet_account(input_ptr, input_sz, output_ptr)
+  })
+}
+
+#[no_mangle]
+pub extern "C" fn xwallet_addresses_safe(
+  input_ptr: *const c_uchar, input_sz: usize,
+  output_ptr: *mut c_uchar, error: *mut*mut c_char) -> i32 {
+  handle_error(error, -1, || {
+    xwallet_addresses(input_ptr, input_sz, output_ptr)
+  })
+}

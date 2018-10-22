@@ -49,7 +49,7 @@ cargo {
     profile = 'release'
     module = '../rust'
     //libname = 'rust-native-cardano'
-    targets = ['arm', 'arm64', 'x86', 'x86_64', 'default']
+    targets = ['arm', 'arm64', 'x86', 'x86_64']
 }
 
 repositories {
