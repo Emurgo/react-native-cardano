@@ -47,6 +47,48 @@ pub extern "C" fn wallet_from_enhanced_entropy_safe(
 }
 
 #[no_mangle]
+pub extern "C" fn wallet_from_seed_safe(seed_ptr: *const c_uchar, out: *mut c_uchar, error: *mut*mut c_char) {
+  handle_error(error, (), || {
+    wallet_from_seed(seed_ptr, out)
+  })
+}
+
+#[no_mangle]
+pub extern "C" fn wallet_to_public_safe(xprv_ptr: *const c_uchar, out: *mut c_uchar, error: *mut*mut c_char) {
+  handle_error(error, (), || {
+    wallet_to_public(xprv_ptr, out)
+  })
+}
+
+#[no_mangle]
+pub extern "C" fn wallet_derive_private_safe(
+  xprv_ptr: *const c_uchar, index: u32, out: *mut c_uchar, error: *mut*mut c_char
+) {
+  handle_error(error, (), || {
+    wallet_derive_private(xprv_ptr, index, out)
+  })
+}
+
+#[no_mangle]
+pub extern "C" fn wallet_derive_public_safe(
+  xpub_ptr: *const c_uchar, index: u32, out: *mut c_uchar, error: *mut*mut c_char
+) -> bool {
+  handle_error(error, false, || {
+    wallet_derive_public(xpub_ptr, index, out)
+  })
+}
+
+#[no_mangle]
+pub extern "C" fn wallet_sign_safe(
+  xprv_ptr: *const c_uchar, msg_ptr: *const c_uchar,
+  msg_sz: usize, out: *mut c_uchar, error: *mut*mut c_char
+) {
+  handle_error(error, (), || {
+    wallet_sign(xprv_ptr, msg_ptr, msg_sz, out)
+  })
+}
+
+#[no_mangle]
 pub extern "C" fn xwallet_from_master_key_safe(
   input_ptr: *const c_uchar, output_ptr: *mut c_uchar, error: *mut*mut c_char
 ) -> i32 {
