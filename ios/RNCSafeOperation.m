@@ -9,48 +9,11 @@
 #import "RNCSafeOperation.h"
 #import <rust_native_cardano.h>
 
-@interface RNCSafeOperation (/* Private */)
+@implementation RNCBaseSafeOperation
 
-@property (strong, nullable) RNCSafeOperation* parent;
-@property (copy) id (^callback)(_Nullable id param, NSError** error);
-
-- (id)callAllStack:(NSError **)error;
-
-@end
-
-@implementation RNCSafeOperation
-
-+ (RNCSafeOperation *)new:(id (^)(_Nullable id param, NSError** error))cb {
-    return [[RNCSafeOperation alloc] initWithCallback: cb];
-}
-
-- (RNCSafeOperation *)initWithCallback:(id(^)(_Nullable id param, NSError** error))cb {
-    if (self = [super init]) {
-        self.parent = nil;
-        self.callback = cb;
-    }
-    return self;
-}
-
-- (RNCSafeOperation *)andThen:(RNCSafeOperation *)next {
-    next.parent = self;
-    return next;
-}
-
-- (id)callAllStack:(NSError **)error {
-    if (self.parent != nil) {
-        id res = [self.parent callAllStack:error];
-        if (*error == nil) {
-            res = self.callback(res, error);
-        }
-        return res;
-    }
-    return self.callback(nil, error);
-}
-
-- (void)execAndResolve:(RCTPromiseResolveBlock)resolve orReject:(RCTPromiseRejectBlock)reject {
+- (void)exec:(id)param andResolve:(RCTPromiseResolveBlock)resolve orReject:(RCTPromiseRejectBlock)reject {
     NSError* error = nil;
-    id result = [self callAllStack: &error];
+    id result = [self exec:param error:&error];
     if (error != nil) {
         reject(@"-1",
                @"Error occured",
@@ -60,16 +23,46 @@
     }
 }
 
+- (id)exec:(id)param error:(NSError **)error {
+    NSAssert(true, @"Reload");
+    return nil;
+}
+
+@end
+
+@interface RNCSafeOperation<In, Out> (/* Private */)
+
+@property (copy) Out (^callback)(In param, NSError** error);
+
+@end
+
+@implementation RNCSafeOperation
+
++ (RNCBaseSafeOperation *)new:(_Nullable id (^)(_Nullable id param, NSError** error))cb {
+    return [[RNCSafeOperation alloc] initWithCallback: cb];
+}
+
+- (RNCSafeOperation *)initWithCallback:(_Nullable id(^)(_Nullable id param, NSError** error))cb {
+    if (self = [super init]) {
+        self.callback = cb;
+    }
+    return self;
+}
+
+- (id)exec:(id)param error:(NSError **)error {
+    return self.callback(param, error);
+}
+
 @end
 
 @implementation RNCCSafeOperation
 
-+ (RNCCSafeOperation *)new:(id(^)(_Nullable id param, char** error))cb {
++ (RNCBaseSafeOperation *)new:(_Nullable id(^)(_Nullable id param, char** error))cb {
     return [[RNCCSafeOperation alloc] initWithCallback:cb];
 }
 
-- (RNCCSafeOperation *)initWithCallback:(id(^)(_Nullable id param, char** error))cb {
-    return [super initWithCallback:^id(_Nullable id param, NSError **error) {
+- (RNCCSafeOperation *)initWithCallback:(_Nullable id(^)(_Nullable id param, char** error))cb {
+    return [super initWithCallback:^_Nullable id(_Nullable id param, NSError **error) {
         char* cError = NULL;
         id result = cb(param, &cError);
         if (cError != NULL) {
@@ -78,6 +71,37 @@
         }
         return result;
     }];
+}
+
+@end
+
+@interface RNCSafeOperationCombined (/* Private */)
+
+@property (strong) RNCSafeOperation* op1;
+@property (strong) RNCSafeOperation* op2;
+
+@end
+
+@implementation RNCSafeOperationCombined
+
++ (RNCBaseSafeOperation* )combine:(RNCSafeOperation *)op1 with:(RNCSafeOperation *)op2 {
+    return [[self alloc] init:op1 and: op2];
+}
+
+- (RNCSafeOperationCombined* )init:(RNCSafeOperation *)op1 and:(RNCSafeOperation *)op2 {
+    if (self = [super init]) {
+        self.op1 = op1;
+        self.op2 = op2;
+    }
+    return self;
+}
+
+- (id)exec:(id)param error:(NSError **)error {
+    id result = [self.op1 exec:param error:error];
+    if (*error == nil) {
+        result = [self.op2 exec:result error:error];
+    }
+    return result;
 }
 
 @end

@@ -22,28 +22,30 @@ RCT_EXPORT_MODULE(CardanoHdWallet)
 
 RCT_EXPORT_METHOD(fromEnhancedEntropy:(NSString *)entropy withPassword:(NSString *)password resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
     
-    NSData* entropyBytes = [RNCConvert dataFromHexString:entropy];
-    const char* cstr = [password cStringUsingEncoding:NSUTF8StringEncoding];
-    
-    NSMutableData* output = [NSMutableData dataWithLength:XPRV_SIZE];
-    
-    RNCSafeOperation *operation = [RNCCSafeOperation new:^id (id param, char ** error) {
-        uintptr_t res = wallet_from_enhanced_entropy_safe([entropyBytes bytes], [entropyBytes length],
+    RNCBaseSafeOperation<NSDictionary*, NSDictionary*> *op1 = [RNCCSafeOperation new:^NSDictionary*(NSDictionary* params, char ** error) {
+        NSData* entropy = params[@"entropy"];
+        const char* cstr = [params[@"password"] cStringUsingEncoding:NSUTF8StringEncoding];
+        NSMutableData* output = [NSMutableData dataWithLength:XPRV_SIZE];
+        uintptr_t res = wallet_from_enhanced_entropy_safe([entropy bytes], [entropy length],
                                                           (const unsigned char* )cstr, strlen(cstr),
                                                           [output mutableBytes], error);
-        return [NSNumber numberWithUnsignedLong:res];
+        return @{@"res": [NSNumber numberWithUnsignedLong:res], @"output": output};
     }];
     
-    operation = [operation andThen:[RNCSafeOperation new:^id(id res, NSError ** error) {
-        if ([res unsignedIntegerValue] == 0) {
-            return [RNCConvert hexStringFromData:output];
+    RNCBaseSafeOperation<NSDictionary*, NSString*> *op2 = [RNCSafeOperation new:^NSString*(NSDictionary* res, NSError ** error) {
+        if ([res[@"res"] unsignedIntegerValue] == 0) {
+            return [RNCConvert hexStringFromData:res[@"output"]];
         } else {
             *error = [NSError rustError:@"Unknown rust error"];
             return nil;
         }
-    }]];
+    }];
     
-    [operation execAndResolve:resolve orReject:reject];
+    NSMutableDictionary* params = [NSMutableDictionary new];
+    [params setObject:[RNCConvert dataFromHexString:entropy] forKey:@"entropy"];
+    [params setObject:password forKey:@"password"];
+    
+    [[RNCSafeOperationCombined combine:op1 with:op2] exec:params andResolve:resolve orReject:reject];
 }
 
 @end

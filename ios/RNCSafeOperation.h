@@ -17,23 +17,37 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface RNCSafeOperation : NSObject
+@interface RNCBaseSafeOperation<In, Out> : NSObject
 
-+ (RNCSafeOperation *)new:(id(^)(_Nullable id param, NSError** error))cb;
+- (Out)exec:(In)param error:(NSError **)error;
 
-- (RNCSafeOperation *)initWithCallback:(id(^)(_Nullable id param, NSError** error))cb;
-
-- (RNCSafeOperation *)andThen:(RNCSafeOperation *)next;
-
-- (void)execAndResolve:(RCTPromiseResolveBlock)resolve orReject:(RCTPromiseRejectBlock)reject;
+- (void)exec:(In)param andResolve:(RCTPromiseResolveBlock)resolve orReject:(RCTPromiseRejectBlock)reject;
 
 @end
 
-@interface RNCCSafeOperation : RNCSafeOperation
+@interface RNCSafeOperation<In, Out> : RNCBaseSafeOperation<In, Out>
 
-+ (RNCCSafeOperation *)new:(id(^)(_Nullable id param, char** error))cb;
++ (RNCBaseSafeOperation<In, Out> *)new:(Out(^)(In param, NSError** error))cb;
 
-- (RNCCSafeOperation *)initWithCallback:(id(^)(_Nullable id param, char** error))cb;
+- (RNCSafeOperation<In, Out> *)initWithCallback:(Out(^)(In param, NSError** error))cb;
+
+@end
+
+@interface RNCCSafeOperation<In, Out> : RNCSafeOperation<In, Out>
+
++ (RNCBaseSafeOperation *)new:(Out(^)(In param, char** error))cb;
+
+- (RNCCSafeOperation *)initWithCallback:(Out(^)(In param, char** error))cb;
+
+@end
+
+@interface RNCSafeOperationCombined<In1, Out1, Out2> : RNCBaseSafeOperation<In1, Out2>
+
++ (RNCBaseSafeOperation<In1, Out2>* )combine:(RNCBaseSafeOperation<In1, Out1> *)op1
+                                    with:(RNCBaseSafeOperation<Out1, Out2> *)op2;
+
+- (RNCSafeOperationCombined<In1, Out1, Out2> *)init:(RNCBaseSafeOperation<In1, Out1> *)op1
+                                                and:(RNCBaseSafeOperation<Out1, Out2> *)op2;
 
 @end
 
