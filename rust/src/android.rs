@@ -56,7 +56,7 @@ fn return_result<'a>(env: &'a JNIEnv, res: Result<JObject<'a>, String>) -> jobje
 
 #[allow(non_snake_case)]
 #[no_mangle]
-pub extern fn Java_io_crossroad_rncardano_Native_initLibrary(env: JNIEnv, _: JObject) {
+pub extern fn Java_io_crossroad_rncardano_Native_initLibrary(_env: JNIEnv, _: JObject) {
   hide_exceptions();
 }
 
