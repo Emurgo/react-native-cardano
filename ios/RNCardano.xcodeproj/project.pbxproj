@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		92AD5E64217E679F0081DB38 /* RNCRandomAddressChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 92AD5E63217E679F0081DB38 /* RNCRandomAddressChecker.m */; };
 		92AD5E67217E6CE90081DB38 /* RNCPasswordProtect.m in Sources */ = {isa = PBXBuildFile; fileRef = 92AD5E66217E6CE90081DB38 /* RNCPasswordProtect.m */; };
+		92AD5E6D217E92500081DB38 /* RNCBaseReactModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 92AD5E6C217E92500081DB38 /* RNCBaseReactModule.m */; };
 		92C85A18217CC1F9007703DA /* RNCWallet.m in Sources */ = {isa = PBXBuildFile; fileRef = 92C85A17217CC1F9007703DA /* RNCWallet.m */; };
 		92C85A1B217CC34B007703DA /* RNCHdWallet.m in Sources */ = {isa = PBXBuildFile; fileRef = 92C85A1A217CC34B007703DA /* RNCHdWallet.m */; };
 		92C85A64217CD247007703DA /* RNCConvert.m in Sources */ = {isa = PBXBuildFile; fileRef = 92C85A63217CD247007703DA /* RNCConvert.m */; };
@@ -34,6 +35,8 @@
 		92AD5E63217E679F0081DB38 /* RNCRandomAddressChecker.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNCRandomAddressChecker.m; sourceTree = "<group>"; };
 		92AD5E65217E6CE90081DB38 /* RNCPasswordProtect.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNCPasswordProtect.h; sourceTree = "<group>"; };
 		92AD5E66217E6CE90081DB38 /* RNCPasswordProtect.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNCPasswordProtect.m; sourceTree = "<group>"; };
+		92AD5E6B217E92500081DB38 /* RNCBaseReactModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNCBaseReactModule.h; sourceTree = "<group>"; };
+		92AD5E6C217E92500081DB38 /* RNCBaseReactModule.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNCBaseReactModule.m; sourceTree = "<group>"; };
 		92C85974217CB381007703DA /* RNCardano.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = RNCardano.podspec; sourceTree = "<group>"; };
 		92C85A16217CC1F9007703DA /* RNCWallet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNCWallet.h; sourceTree = "<group>"; };
 		92C85A17217CC1F9007703DA /* RNCWallet.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNCWallet.m; sourceTree = "<group>"; };
@@ -92,6 +95,8 @@
 				92C85A63217CD247007703DA /* RNCConvert.m */,
 				92C85A90217D3A29007703DA /* RNCSafeOperation.h */,
 				92C85A91217D3A29007703DA /* RNCSafeOperation.m */,
+				92AD5E6B217E92500081DB38 /* RNCBaseReactModule.h */,
+				92AD5E6C217E92500081DB38 /* RNCBaseReactModule.m */,
 				92C85A8E217D0111007703DA /* NSData+FastHex.h */,
 				92C85A8D217D0111007703DA /* NSData+FastHex.m */,
 			);
@@ -179,6 +184,7 @@
 				92AD5E67217E6CE90081DB38 /* RNCPasswordProtect.m in Sources */,
 				92C85A8F217D0111007703DA /* NSData+FastHex.m in Sources */,
 				92C85A1B217CC34B007703DA /* RNCHdWallet.m in Sources */,
+				92AD5E6D217E92500081DB38 /* RNCBaseReactModule.m in Sources */,
 				92C85A92217D3A29007703DA /* RNCSafeOperation.m in Sources */,
 				92AD5E64217E679F0081DB38 /* RNCRandomAddressChecker.m in Sources */,
 				92C85A64217CD247007703DA /* RNCConvert.m in Sources */,

@@ -7,11 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <React/RCTBridgeModule.h>
+#import "RNCBaseReactModule.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface RNCHdWallet : NSObject <RCTBridgeModule>
+@interface RNCHdWallet : RNCBaseReactModule
 @end
 
 NS_ASSUME_NONNULL_END

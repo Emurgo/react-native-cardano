@@ -6,3 +6,7 @@ pub fn handle_exception<F: FnOnce() -> R + panic::UnwindSafe, R>(func: F) -> Res
     Err(err) => Err(format!("{:?}", err))
   }
 }
+
+pub fn hide_exceptions() {
+  panic::set_hook(Box::new(|_| {}));
+}

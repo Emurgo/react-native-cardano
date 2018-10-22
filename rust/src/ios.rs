@@ -35,6 +35,11 @@ pub extern "C" fn dealloc_string(ptr: *mut c_char) {
 }
 
 #[no_mangle]
+pub extern "C" fn init_cardano() {
+  hide_exceptions();
+}
+
+#[no_mangle]
 pub extern "C" fn wallet_from_enhanced_entropy_safe(
   entropy_ptr: *const c_uchar, entropy_size: usize,
   password_ptr: *const c_uchar, password_size: usize,

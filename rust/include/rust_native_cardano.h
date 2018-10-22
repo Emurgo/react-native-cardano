@@ -38,6 +38,8 @@ int32_t encrypt_with_password_safe(const unsigned char *password_ptr,
                                    unsigned char *output_ptr,
                                    char **error);
 
+void init_cardano(void);
+
 int32_t random_address_check_safe(const unsigned char *input_ptr,
                                   uintptr_t input_sz,
                                   unsigned char *output_ptr,

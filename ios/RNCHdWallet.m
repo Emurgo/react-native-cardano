@@ -15,11 +15,6 @@
 
 RCT_EXPORT_MODULE(CardanoHdWallet)
 
-- (dispatch_queue_t)methodQueue
-{
-    return dispatch_get_main_queue();
-}
-
 RCT_EXPORT_METHOD(fromEnhancedEntropy:(NSString *)entropy
                   withPassword:(NSString *)password
                   resolver:(RCTPromiseResolveBlock)resolve

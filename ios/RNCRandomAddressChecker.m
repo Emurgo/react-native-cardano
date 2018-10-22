@@ -16,11 +16,6 @@
 
 RCT_EXPORT_MODULE(CardanoRandomAddressChecker)
 
-- (dispatch_queue_t)methodQueue
-{
-    return dispatch_get_main_queue();
-}
-
 RCT_EXPORT_METHOD(newChecker:(NSString *)pkey
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {
@@ -39,7 +34,7 @@ RCT_EXPORT_METHOD(newChecker:(NSString *)pkey
         if (rsz > 0) {
             return [RNCConvert dictionaryFromJsonData:[params[@"output"] subdataWithRange:NSMakeRange(0, rsz)] error:error];
         } else if (*error == nil) {
-            *error = [NSError rustError:[NSString stringWithFormat: @"Wrong response size: %i", rsz]];
+            *error = [NSError rustError:[NSString stringWithFormat: @"Wrong response size: %li", (long)rsz]];
         }
         return nil;
     }];
@@ -70,7 +65,7 @@ RCT_EXPORT_METHOD(checkAddresses:(NSDictionary *)checker
         if (rsz > 0) {
             return [RNCConvert dictionaryFromJsonData:[params[@"output"] subdataWithRange:NSMakeRange(0, rsz)] error:error];
         } else if (*error == nil) {
-            *error = [NSError rustError:[NSString stringWithFormat: @"Wrong response size: %i", rsz]];
+            *error = [NSError rustError:[NSString stringWithFormat: @"Wrong response size: %li", (long)rsz]];
         }
         return nil;
     }];

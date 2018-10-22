@@ -6,7 +6,10 @@ import org.json.JSONObject
 object Native {
     init {
         System.loadLibrary("rust_native_cardano")
+        this.initLibrary()
     }
+
+    private external fun initLibrary()
 
     // HDWallet
     external fun hdWalletFromEnhancedEntropy(entropy: ByteArray, password: String): Result<ByteArray>
