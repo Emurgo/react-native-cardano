@@ -51,7 +51,7 @@ RCT_EXPORT_METHOD(encryptWithPassword:(NSString *)password
                                                  error);
         
         if (rsz == result_size) {
-            return [RNCConvert hexStringFromData:output];
+            return [RNCConvert encodedStringFromData:output];
         } else {
             *error = copy_string([[NSString stringWithFormat:@"Wrong converted data len %d should be %lu", rsz, (unsigned long)result_size] UTF8String]);
             return nil;
@@ -60,9 +60,9 @@ RCT_EXPORT_METHOD(encryptWithPassword:(NSString *)password
     
     NSMutableDictionary* params = [NSMutableDictionary new];
     [params setObject:password forKey:@"password"];
-    [params setObject:[RNCConvert dataFromHexString:salt] forKey:@"salt"];
-    [params setObject:[RNCConvert dataFromHexString:nonce] forKey:@"nonce"];
-    [params setObject:[RNCConvert dataFromHexString:data] forKey:@"data"];
+    [params setObject:[RNCConvert dataFromEncodedString:salt] forKey:@"salt"];
+    [params setObject:[RNCConvert dataFromEncodedString:nonce] forKey:@"nonce"];
+    [params setObject:[RNCConvert dataFromEncodedString:data] forKey:@"data"];
     
     [op exec:params andResolve:resolve orReject:reject];
 }
@@ -92,7 +92,7 @@ RCT_EXPORT_METHOD(decryptWithPassword:(NSString *)password
                                                  error);
         
         if (rsz == result_size) {
-            return [RNCConvert hexStringFromData:output];
+            return [RNCConvert encodedStringFromData:output];
         } else {
             *error = copy_string([[NSString stringWithFormat:@"Wrong converted data len %d should be %lu", rsz, (unsigned long)result_size] UTF8String]);
             return nil;
@@ -101,7 +101,7 @@ RCT_EXPORT_METHOD(decryptWithPassword:(NSString *)password
     
     NSMutableDictionary* params = [NSMutableDictionary new];
     [params setObject:password forKey:@"password"];
-    [params setObject:[RNCConvert dataFromHexString:data] forKey:@"data"];
+    [params setObject:[RNCConvert dataFromEncodedString:data] forKey:@"data"];
     
     [op exec:params andResolve:resolve orReject:reject];
 }

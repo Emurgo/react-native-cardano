@@ -35,7 +35,7 @@ RCT_EXPORT_METHOD(fromMasterKey:(NSString *)pkey
         return nil;
     }];
     
-    [[RNCSafeOperationCombined combine:op1 with:op2] exec:[RNCConvert dataFromHexString:pkey] andResolve:resolve orReject:reject];
+    [[RNCSafeOperationCombined combine:op1 with:op2] exec:[RNCConvert dataFromEncodedString:pkey] andResolve:resolve orReject:reject];
 }
 
 RCT_EXPORT_METHOD(newAccount:(NSDictionary *)wallet

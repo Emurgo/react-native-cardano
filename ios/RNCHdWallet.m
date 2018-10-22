@@ -31,11 +31,11 @@ RCT_EXPORT_METHOD(fromEnhancedEntropy:(NSString *)entropy
             *error = copy_string([[NSString stringWithFormat:@"Wrong response %lu should be 0", res] UTF8String]);
             return nil;
         }
-        return [RNCConvert hexStringFromData:output];
+        return [RNCConvert encodedStringFromData:output];
     }];
     
     NSMutableDictionary* params = [NSMutableDictionary new];
-    [params setObject:[RNCConvert dataFromHexString:entropy] forKey:@"entropy"];
+    [params setObject:[RNCConvert dataFromEncodedString:entropy] forKey:@"entropy"];
     [params setObject:password forKey:@"password"];
     
     [op exec:params andResolve:resolve orReject:reject];
@@ -54,10 +54,10 @@ RCT_EXPORT_METHOD(fromSeed:(NSString *)seed
         
         wallet_from_seed_safe([seed bytes], [output mutableBytes], error);
         
-        return [RNCConvert hexStringFromData:output];
+        return [RNCConvert encodedStringFromData:output];
     }];
     
-    [op exec:[RNCConvert dataFromHexString:seed] andResolve:resolve orReject:reject];
+    [op exec:[RNCConvert dataFromEncodedString:seed] andResolve:resolve orReject:reject];
 }
 
 RCT_EXPORT_METHOD(toPublic:(NSString *)xprv
@@ -73,10 +73,10 @@ RCT_EXPORT_METHOD(toPublic:(NSString *)xprv
         
         wallet_to_public_safe([xprv bytes], [output mutableBytes], error);
         
-        return [RNCConvert hexStringFromData:output];
+        return [RNCConvert encodedStringFromData:output];
     }];
     
-    [op exec:[RNCConvert dataFromHexString:xprv] andResolve:resolve orReject:reject];
+    [op exec:[RNCConvert dataFromEncodedString:xprv] andResolve:resolve orReject:reject];
 }
 
 RCT_EXPORT_METHOD(derivePrivate:(NSString *)xprv
@@ -95,11 +95,11 @@ RCT_EXPORT_METHOD(derivePrivate:(NSString *)xprv
         
         wallet_derive_private_safe([xprv bytes], index, [output mutableBytes], error);
         
-        return [RNCConvert hexStringFromData:output];
+        return [RNCConvert encodedStringFromData:output];
     }];
     
     NSMutableDictionary* params = [NSMutableDictionary new];
-    [params setObject:[RNCConvert dataFromHexString:xprv] forKey:@"xprv"];
+    [params setObject:[RNCConvert dataFromEncodedString:xprv] forKey:@"xprv"];
     [params setObject:index forKey:@"index"];
     
     [op exec:params andResolve:resolve orReject:reject];
@@ -132,11 +132,11 @@ RCT_EXPORT_METHOD(derivePublic:(NSString *)xpub
             *error = copy_string("Can't derive public key");
         }
         
-        return [RNCConvert hexStringFromData:output];
+        return [RNCConvert encodedStringFromData:output];
     }];
     
     NSMutableDictionary* params = [NSMutableDictionary new];
-    [params setObject:[RNCConvert dataFromHexString:xpub] forKey:@"xpub"];
+    [params setObject:[RNCConvert dataFromEncodedString:xpub] forKey:@"xpub"];
     [params setObject:index forKey:@"index"];
     
     [op exec:params andResolve:resolve orReject:reject];
@@ -160,12 +160,12 @@ RCT_EXPORT_METHOD(sign:(NSString *)xprv
         
         wallet_sign_safe([xprv bytes], [data bytes], [data length], [output mutableBytes], error);
         
-        return [RNCConvert hexStringFromData:output];
+        return [RNCConvert encodedStringFromData:output];
     }];
     
     NSMutableDictionary* params = [NSMutableDictionary new];
-    [params setObject:[RNCConvert dataFromHexString:xprv] forKey:@"xprv"];
-    [params setObject:[RNCConvert dataFromHexString:data] forKey:@"data"];
+    [params setObject:[RNCConvert dataFromEncodedString:xprv] forKey:@"xprv"];
+    [params setObject:[RNCConvert dataFromEncodedString:data] forKey:@"data"];
     
     [op exec:params andResolve:resolve orReject:reject];
 }

@@ -9,14 +9,25 @@
 #import "RNCConvert.h"
 #import "NSData+FastHex.h"
 
+// Uncomment this if you want to use base16 for data
+//#define USE_BASE16 YES
+
 @implementation RNCConvert
 
-+ (NSData *)dataFromHexString:(NSString *)string {
-    return [NSData dataWithHexString:string];
++ (NSData *)dataFromEncodedString:(NSString *)string {
+    #ifdef USE_BASE16
+        return [NSData dataWithHexString:string];
+    #else
+        return [[NSData alloc] initWithBase64EncodedString:string options:NSDataBase64DecodingIgnoreUnknownCharacters];
+    #endif
 }
 
-+ (NSString *)hexStringFromData:(NSData *)data {
-    return [data hexStringRepresentationUppercase:YES];
++ (NSString *)encodedStringFromData:(NSData *)data {
+    #ifdef USE_BASE16
+        return [data hexStringRepresentationUppercase:YES];
+    #else
+        return [data base64EncodedStringWithOptions:kNilOptions];
+    #endif
 }
 
 + (NSDictionary *)dictionaryFromJsonData:(NSData *)data error:(NSError **)error {
