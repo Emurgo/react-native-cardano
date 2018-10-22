@@ -17,7 +17,7 @@ class PasswordProtect(reactContext: ReactApplicationContext) : ReactContextBaseJ
                 Convert.bytes(data)
         )
                 .map { Convert.string(it) }
-                .finish(promise)
+                .pour(promise)
     }
 
     @ReactMethod
@@ -26,6 +26,6 @@ class PasswordProtect(reactContext: ReactApplicationContext) : ReactContextBaseJ
                 password, Convert.bytes(data)
         )
                 .map { Convert.string(it) }
-                .finish(promise)
+                .pour(promise)
     }
 }

@@ -54,24 +54,12 @@ fn return_result<'a>(env: &'a JNIEnv, res: Result<JObject<'a>, String>) -> jobje
   }
 }
 
-fn return_data_result(env: &JNIEnv, res: Result<jbyteArray, String>) -> jobject {
-  let class = env.find_class("io/crossroad/rncardano/ByteArrayResult").unwrap();
-  static METHOD: &str = "([BLjava/lang/String;)V";
-  match res {
-    Ok(res) => env.new_object(class, METHOD, &[JObject::from(res).into(), JObject::null().into()]).unwrap().into_inner(),
-    Err(error) => { 
-      let jstr = *env.new_string(error).expect("Couldn't create java string!");
-      env.new_object(class, METHOD, &[JObject::null().into(), jstr.into()]).unwrap().into_inner()
-    }
-  }
-}
-
 #[allow(non_snake_case)]
 #[no_mangle]
 pub extern fn Java_io_crossroad_rncardano_Native_hdWalletFromEnhancedEntropy(
   env: JNIEnv, _: JObject, bytes: jbyteArray, password: JString
 ) -> jobject {
-  return_data_result(&env, handle_exception(|| {
+  return_result(&env, handle_exception(|| {
       let input = env.convert_byte_array(bytes).unwrap();
       let pwd_str: String = env.get_string(password).expect("Couldn't get java string!").into();
       let pwd: &[u8] = pwd_str.as_bytes();
@@ -81,7 +69,7 @@ pub extern fn Java_io_crossroad_rncardano_Native_hdWalletFromEnhancedEntropy(
 
       if res != 0 { panic!("Rust method error. Check entropy size.") }
 
-      env.byte_array_from_slice(&output).unwrap()
+      JObject::from(env.byte_array_from_slice(&output).unwrap())
     })
   )
 }
@@ -224,7 +212,7 @@ pub extern fn Java_io_crossroad_rncardano_Native_randomAddressCheckerCheckAddres
 pub extern fn Java_io_crossroad_rncardano_Native_passwordProtectEncryptWithPassword(
   env: JNIEnv, _: JObject, password: JString, salt: jbyteArray, nonce: jbyteArray, data: jbyteArray
 ) -> jbyteArray {
-  return_data_result(&env, handle_exception(|| {
+  return_result(&env, handle_exception(|| {
     let nsalt = env.convert_byte_array(salt).unwrap();
     let nnonce = env.convert_byte_array(nonce).unwrap();
 
@@ -247,7 +235,7 @@ pub extern fn Java_io_crossroad_rncardano_Native_passwordProtectEncryptWithPassw
 
     if rsz != result_size { panic!("Size mismatch {} should be {}", rsz, result_size) }
 
-    env.byte_array_from_slice(&output).unwrap()
+    JObject::from(env.byte_array_from_slice(&output).unwrap())
   }))
 }
 
@@ -256,7 +244,7 @@ pub extern fn Java_io_crossroad_rncardano_Native_passwordProtectEncryptWithPassw
 pub extern fn Java_io_crossroad_rncardano_Native_passwordProtectDecryptWithPassword(
   env: JNIEnv, _: JObject, password: JString, data: jbyteArray
 ) -> jbyteArray {
-  return_data_result(&env, handle_exception(|| {
+  return_result(&env, handle_exception(|| {
     let ndata = env.convert_byte_array(data).unwrap();
 
     if ndata.len() <= TAG_SIZE + NONCE_SIZE + SALT_SIZE { 
@@ -277,6 +265,6 @@ pub extern fn Java_io_crossroad_rncardano_Native_passwordProtectDecryptWithPassw
 
     if rsz != result_size { panic!("Size mismatch {} should be {}", rsz, result_size) }
 
-    env.byte_array_from_slice(&output).unwrap()
+    JObject::from(env.byte_array_from_slice(&output).unwrap())
   }))
 }

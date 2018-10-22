@@ -1,7 +1,6 @@
 package io.crossroad.rncardano
 
 import com.facebook.react.bridge.*
-import org.json.JSONArray
 import org.json.JSONObject
 
 class RandomAddressChecker(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
@@ -10,8 +9,8 @@ class RandomAddressChecker(reactContext: ReactApplicationContext) : ReactContext
     @ReactMethod
     fun newChecker(pkey: String, promise: Promise) {
         Native.randomAddressCheckerNewChecker('"'+pkey + '"')
-                .map { Convert.map(it as JSONObject) }
-                .finish(promise)
+                .map { Convert.map(it) }
+                .pour(promise)
     }
 
     @ReactMethod
@@ -20,7 +19,7 @@ class RandomAddressChecker(reactContext: ReactApplicationContext) : ReactContext
         params.put("checker", Convert.json(checker))
         params.put("addresses", Convert.json(addresses))
         Native.randomAddressCheckerCheckAddresses(params)
-                .map { Convert.array(it as JSONArray) }
-                .finish(promise)
+                .map { Convert.array(it) }
+                .pour(promise)
     }
 }

@@ -1,7 +1,6 @@
 package io.crossroad.rncardano
 
 import com.facebook.react.bridge.*
-import org.json.JSONArray
 import org.json.JSONObject
 
 class Wallet(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
@@ -10,8 +9,8 @@ class Wallet(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule
     @ReactMethod
     fun fromMasterKey(pkey: String, promise: Promise) {
         Native.walletFromMasterKey(Convert.bytes(pkey))
-                .map { Convert.map(it as JSONObject) }
-                .finish(promise)
+                .map { Convert.map(it) }
+                .pour(promise)
     }
 
     @ReactMethod
@@ -20,8 +19,8 @@ class Wallet(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule
         params.put("wallet", Convert.json(wallet))
         params.put("account", accountIndex)
         Native.walletNewAccount(params)
-                .map { Convert.map(it as JSONObject) }
-                .finish(promise)
+                .map { Convert.map(it) }
+                .pour(promise)
     }
 
     @ReactMethod
@@ -33,14 +32,14 @@ class Wallet(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule
         params.put("address_type", type)
         params.put("indices", Convert.json(indicies))
         Native.walletGenerateAddresses(params)
-                .map { Convert.array(it as JSONArray) }
-                .finish(promise)
+                .map { Convert.array(it) }
+                .pour(promise)
     }
 
     @ReactMethod
     fun checkAddress(address: String, promise: Promise) {
         Native.walletCheckAddress('"' + address + '"')
-                .finish(promise)
+                .pour(promise)
     }
 
     @ReactMethod
@@ -54,8 +53,8 @@ class Wallet(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule
         params.put("outputs", Convert.json(outputs))
         params.put("change_addr", changeAddress)
         Native.walletSpend(params, inputs.size(), outputs.size())
-                .map { Convert.map(it as JSONObject) }
-                .finish(promise)
+                .map { Convert.map(it) }
+                .pour(promise)
     }
 
     @ReactMethod
@@ -68,7 +67,7 @@ class Wallet(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule
         params.put("inputs", Convert.json(inputs))
         params.put("output", output)
         Native.walletMove(params, inputs.size())
-                .map { Convert.map(it as JSONObject) }
-                .finish(promise)
+                .map { Convert.map(it) }
+                .pour(promise)
     }
 }
