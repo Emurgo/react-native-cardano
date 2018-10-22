@@ -8,14 +8,14 @@ class Result<T>(val value: T?, val error: String?) {
             return Result(value, null)
         }
 
-        fun <T>error(err: String): Result<T> {
+        fun <T>err(err: String): Result<T> {
             return Result(null, err)
         }
     }
 
     fun <T2>map(mapper: (value: T) -> T2): Result<T2> {
         return if (this.value != null) {
-            Result(mapper(this.value),null)
+            Result.ok(mapper(this.value))
         } else {
             Result(null, this.error)
         }
@@ -25,7 +25,7 @@ class Result<T>(val value: T?, val error: String?) {
         return if (this.error == null) {
             Result(mapper(this.value), null)
         } else {
-            Result(null, this.error)
+            Result.err(this.error)
         }
     }
 
@@ -39,7 +39,7 @@ class Result<T>(val value: T?, val error: String?) {
 
     fun mapErr(mapper: (err: String) -> String): Result<T> {
         return if (this.error != null) {
-            Result(null, mapper(this.error))
+            Result.err(mapper(this.error))
         } else {
             this
         }
