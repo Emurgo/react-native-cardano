@@ -23,11 +23,13 @@ Pod::Spec.new do |s|
     :execution_position => :before_compile
   }
 
-  s.xcconfig = {
+  s.pod_target_xcconfig = {
     'USER_HEADER_SEARCH_PATHS' => '"${PODS_TARGET_SRCROOT}/rust"',
     'LIBRARY_SEARCH_PATHS' => '"${PODS_TARGET_SRCROOT}/rust"',
     'OTHER_LIBTOOLFLAGS' => '"-lrust_native_cardano"'
   }
+
+  s.libraries = 'resolv'
 
   s.dependency "React"
 end

@@ -24,10 +24,10 @@ RCT_EXPORT_METHOD(fromEnhancedEntropy:(NSString *)entropy withPassword:(NSString
     
     RNCBaseSafeOperation<NSDictionary*, NSDictionary*> *op1 = [RNCCSafeOperation new:^NSDictionary*(NSDictionary* params, char ** error) {
         NSData* entropy = params[@"entropy"];
-        const char* cstr = [params[@"password"] cStringUsingEncoding:NSUTF8StringEncoding];
+        const char* cstr = [params[@"password"] UTF8String];
         NSMutableData* output = [NSMutableData dataWithLength:XPRV_SIZE];
         uintptr_t res = wallet_from_enhanced_entropy_safe([entropy bytes], [entropy length],
-                                                          (const unsigned char* )cstr, strlen(cstr),
+                                                          (const unsigned char*)cstr, strlen(cstr),
                                                           [output mutableBytes], error);
         return @{@"res": [NSNumber numberWithUnsignedLong:res], @"output": output};
     }];
