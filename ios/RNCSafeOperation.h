@@ -11,6 +11,16 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+#define CHECK_NON_NULL_OR_CERROR(var, error, name) if (var == NULL) {\
+    error = copy_string([[NSString stringWithFormat:@"Empty parameter: \"%s\"", name] UTF8String]);\
+    return nil;\
+}
+
+#define CHECK_HAS_LENGTH_OR_CERROR(var, error, name) if (var == NULL || [var length] > 0) {\
+    error = copy_string([[NSString stringWithFormat:@"Empty parameter: \"%s\"", name] UTF8String]);\
+    return nil;\
+}
+
 @interface NSError (Rust)
 
 + (NSError *)rustError:(NSString *)description;

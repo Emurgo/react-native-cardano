@@ -26,6 +26,10 @@ RCT_EXPORT_METHOD(encryptWithPassword:(NSString *)password
         NSData* nonce = params[@"nonce"];
         NSData* salt = params[@"params"];
         NSData* data = params[@"data"];
+        
+        CHECK_HAS_LENGTH_OR_CERROR(params[@"password"], *error, "password");
+        CHECK_HAS_LENGTH_OR_CERROR(data, *error, "data");
+        
         const char* cstr = [params[@"password"] UTF8String];
         
         if ([salt length] != SALT_SIZE) {
@@ -74,6 +78,9 @@ RCT_EXPORT_METHOD(decryptWithPassword:(NSString *)password
     
     RNCBaseSafeOperation<NSDictionary*, NSString*>* op = [RNCCSafeOperation new:^NSString*(NSDictionary* params, char **error) {
         NSData* data = params[@"data"];
+        
+        CHECK_HAS_LENGTH_OR_CERROR(params[@"password"], *error, "password");
+        
         const char* cstr = [params[@"password"] UTF8String];
         
         if ([data length] <= TAG_SIZE + NONCE_SIZE + SALT_SIZE) {

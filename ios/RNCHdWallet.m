@@ -22,6 +22,8 @@ RCT_EXPORT_METHOD(fromEnhancedEntropy:(NSString *)entropy
     
     RNCBaseSafeOperation<NSDictionary*, NSString*> *op = [RNCCSafeOperation new:^NSString*(NSDictionary* params, char ** error) {
         NSData* entropy = params[@"entropy"];
+        CHECK_HAS_LENGTH_OR_CERROR(entropy, *error, "entropy");
+        CHECK_NON_NULL_OR_CERROR(params[@"password"], *error, "password");
         const char* cstr = [params[@"password"] UTF8String];
         NSMutableData* output = [NSMutableData dataWithLength:XPRV_SIZE];
         uintptr_t res = wallet_from_enhanced_entropy_safe([entropy bytes], [entropy length],
@@ -86,6 +88,7 @@ RCT_EXPORT_METHOD(derivePrivate:(NSString *)xprv
     
     RNCBaseSafeOperation<NSDictionary*, NSString*> *op = [RNCCSafeOperation new:^NSString*(NSDictionary* params, char ** error) {
         NSData* xprv = params[@"xprv"];
+        CHECK_NON_NULL_OR_CERROR(params[@"index"], *error, "index");
         uint32_t index = [params[@"index"] unsignedIntValue];
         if ([xprv length] != XPRV_SIZE) {
             *error = copy_string([[NSString stringWithFormat:@"Wrong XPrv len %lu should be %d", (unsigned long)[xprv length], XPRV_SIZE] UTF8String]);
@@ -112,6 +115,7 @@ RCT_EXPORT_METHOD(derivePublic:(NSString *)xpub
     
     RNCBaseSafeOperation<NSDictionary*, NSString*> *op = [RNCCSafeOperation new:^NSString*(NSDictionary* params, char ** error) {
         NSData* xpub = params[@"xpub"];
+        CHECK_NON_NULL_OR_CERROR(params[@"index"], *error, "index");
         uint32_t index = [params[@"index"] unsignedIntValue];
         
         if ([xpub length] != XPUB_SIZE) {
@@ -150,6 +154,7 @@ RCT_EXPORT_METHOD(sign:(NSString *)xprv
     RNCBaseSafeOperation<NSDictionary*, NSString*> *op = [RNCCSafeOperation new:^NSString*(NSDictionary* params, char ** error) {
         NSData* xprv = params[@"xprv"];
         NSData* data = params[@"data"];
+        CHECK_HAS_LENGTH_OR_CERROR(data, *error, "data");
         
         if ([xprv length] != XPRV_SIZE) {
             *error = copy_string([[NSString stringWithFormat:@"Wrong XPrv len %lu should be %d", (unsigned long)[xprv length], XPRV_SIZE] UTF8String]);

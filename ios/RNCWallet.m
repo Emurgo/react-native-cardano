@@ -20,6 +20,7 @@ RCT_EXPORT_METHOD(fromMasterKey:(NSString *)pkey
                   rejecter:(RCTPromiseRejectBlock)reject) {
     
     RNCBaseSafeOperation<NSData*, NSDictionary*> *op1 = [RNCCSafeOperation new:^NSDictionary*(NSData* pkey, char **error) {
+        CHECK_HAS_LENGTH_OR_CERROR(pkey, *error, "pkey");
         NSMutableData* output = [NSMutableData dataWithLength:MAX_OUTPUT_SIZE];
         int32_t rsz = xwallet_from_master_key_safe([pkey bytes],
                                                    [output mutableBytes],
@@ -31,6 +32,8 @@ RCT_EXPORT_METHOD(fromMasterKey:(NSString *)pkey
         NSInteger rsz = [params[@"size"] integerValue];
         if (rsz > 0) {
             return [RNCConvert dictionaryFromJsonData:[params[@"output"] subdataWithRange:NSMakeRange(0, rsz)] error:error];
+        } else if (*error == nil) {
+            *error = [NSError rustError:[NSString stringWithFormat: @"Wrong response size: %li", (long)rsz]];
         }
         return nil;
     }];
@@ -116,6 +119,7 @@ RCT_EXPORT_METHOD(checkAddress:(NSString *)address
                   rejecter:(RCTPromiseRejectBlock)reject) {
     
     RNCBaseSafeOperation<NSString*, NSNumber*>* op = [RNCCSafeOperation new:^NSNumber*(NSString* address, char **error) {
+        CHECK_HAS_LENGTH_OR_CERROR(address, *error, "address");
         NSData* input = [[NSString stringWithFormat:@"\"%@\"", address] dataUsingEncoding:NSUTF8StringEncoding];
         NSMutableData* output = [NSMutableData dataWithLength:MAX_OUTPUT_SIZE];
         int32_t rsz = xwallet_checkaddress_safe([input bytes],
@@ -150,6 +154,8 @@ RCT_EXPORT_METHOD(spend:(NSString *)wallet
     
     RNCBaseSafeOperation<NSData*, NSDictionary*>* op2 = [RNCCSafeOperation new:^NSDictionary*(NSDictionary* params, char **error) {
         NSData* input = params[@"data"];
+        CHECK_NON_NULL_OR_CERROR(params[@"ilen"], *error, "inputs");
+        CHECK_NON_NULL_OR_CERROR(params[@"olen"], *error, "outputs");
         NSUInteger ilen = [params[@"ilen"] unsignedIntegerValue];
         NSUInteger olen = [params[@"olen"] unsignedIntegerValue];
         NSUInteger OUTPUT_SIZE = (ilen + olen + 1) * 4096;
@@ -193,6 +199,7 @@ RCT_EXPORT_METHOD(move:(NSString *)wallet
     
     RNCBaseSafeOperation<NSData*, NSDictionary*>* op2 = [RNCCSafeOperation new:^NSDictionary*(NSDictionary* params, char **error) {
         NSData* input = params[@"data"];
+        CHECK_NON_NULL_OR_CERROR(params[@"ilen"], *error, "inputs");
         NSUInteger ilen = [params[@"ilen"] unsignedIntegerValue];
         NSUInteger OUTPUT_SIZE = (ilen + 1) * 4096;
         NSMutableData* output = [NSMutableData dataWithLength:OUTPUT_SIZE];
