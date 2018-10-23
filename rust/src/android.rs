@@ -30,11 +30,6 @@ fn json_object_to_string(env: &JNIEnv, obj: JObject) -> String {
   env.get_string(jstr.into()).expect("Couldn't get java string!").into()
 }
 
-fn bool_object<'a>(env: &'a JNIEnv, bval: bool) -> JObject<'a> {
-  let class = env.find_class("java/lang/Boolean").unwrap();
-  env.new_object(class, "(Z)V", &[bval.into()]).unwrap()
-}
-
 fn return_result<'a>(env: &'a JNIEnv, res: Result<JObject<'a>, String>) -> jobject {
   let class = env.find_class("io/crossroad/rncardano/Result").unwrap();
   static METHOD: &str = "(Ljava/lang/Object;Ljava/lang/String;)V";
@@ -247,9 +242,8 @@ pub extern fn Java_io_crossroad_rncardano_Native_walletCheckAddress(
     let mut output = [0 as u8; MAX_OUTPUT_SIZE];
 
     let rsz = xwallet_checkaddress(addr.as_ptr(), addr.len(), output.as_mut_ptr()) as usize;
-    let response = str::from_utf8(&output[0..rsz]).unwrap();
 
-    bool_object(&env, if response == "true" { true } else { false })
+    json_string_to_object(&env, &output[0..rsz])
   }))
 }
 

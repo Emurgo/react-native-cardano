@@ -86,23 +86,29 @@ object Convert {
         return json
     }
 
-    fun result(json: JSONObject): WritableMap {
+
+    @Throws
+    private fun checkError(json: JSONObject) {
         if(json.getBoolean("failed")) {
             throw Throwable(
                     "Error in: " + json.getString("loc") +
                             ", message: " + json.getString("message")
             )
         }
+    }
+
+    fun result(json: JSONObject): WritableMap {
+        this.checkError(json)
         return this.map(json.getJSONObject("result"))
     }
 
     fun arrayResult(json: JSONObject): WritableArray {
-        if(json.getBoolean("failed")) {
-            throw Throwable(
-                    "Error in: " + json.getString("loc") +
-                            ", message: " + json.getString("message")
-            )
-        }
+        this.checkError(json)
         return this.array(json.getJSONArray("result"))
+    }
+
+    fun boolResult(json: JSONObject): Boolean {
+        this.checkError(json)
+        return json.getBoolean("result")
     }
 }

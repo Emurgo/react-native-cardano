@@ -118,7 +118,7 @@ RCT_EXPORT_METHOD(checkAddress:(NSString *)address
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {
     
-    RNCBaseSafeOperation<NSString*, NSNumber*>* op = [RNCCSafeOperation new:^NSNumber*(NSString* address, char **error) {
+    RNCBaseSafeOperation<NSString*, NSDictionary*>* op1 = [RNCCSafeOperation new:^NSDictionary*(NSString* address, char **error) {
         CHECK_HAS_LENGTH_OR_CERROR(address, *error, "address");
         NSData* input = [[NSString stringWithFormat:@"\"%@\"", address] dataUsingEncoding:NSUTF8StringEncoding];
         NSMutableData* output = [NSMutableData dataWithLength:MAX_OUTPUT_SIZE];
@@ -126,20 +126,20 @@ RCT_EXPORT_METHOD(checkAddress:(NSString *)address
                                                 [input length],
                                                 [output mutableBytes],
                                                 error);
-        if (*error != NULL) {
-            return nil;
-        }
+        return @{@"size": [NSNumber numberWithInteger:rsz], @"output": output};
+    }];
+    
+    RNCBaseSafeOperation<NSDictionary*, NSNumber*> *op2 = [RNCSafeOperation new:^NSNumber*(NSDictionary* params, NSError **error) {
+        NSInteger rsz = [params[@"size"] integerValue];
         if (rsz > 0) {
-            NSString* response = [RNCConvert stringFromBytes:[output bytes] length:rsz];
-            return [response isEqualToString:@"true"]
-                ? [NSNumber numberWithBool:YES]
-                : [NSNumber numberWithBool:NO];
+            return [RNCConvert numberResponseFromJsonData:[params[@"output"] subdataWithRange:NSMakeRange(0, rsz)] error:error];
+        } else {
+            *error = [NSError rustError:[NSString stringWithFormat: @"Wrong response size: %li", (long)rsz]];
         }
-        *error = copy_string([[NSString stringWithFormat:@"Response length %d <= 0", rsz] UTF8String]);
         return nil;
     }];
     
-    [op exec:address andResolve:resolve orReject:reject];
+    [[RNCSafeOperationCombined combine:op1 with:op2] exec:address andResolve:resolve orReject:reject];
 }
 
 RCT_EXPORT_METHOD(spend:(NSString *)wallet

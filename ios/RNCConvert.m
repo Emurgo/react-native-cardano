@@ -10,6 +10,12 @@
 #import "NSData+FastHex.h"
 #import "RNCSafeOperation.h"
 
+@interface RNCConvert (/* Private */)
+
++ (id)responseFromJsonData:(NSData *)data error:(NSError **)error;
+
+@end
+
 @implementation RNCConvert
 
 + (NSData *)dataFromEncodedString:(NSString *)string {
@@ -25,7 +31,7 @@
 }
 
 + (NSString *)stringFromBytes:(const char*)bytes length:(NSUInteger)len {
-    NSData* data = [[NSData alloc] initWithBytesNoCopy:(void*)bytes length:len];
+    NSData* data = [[NSData alloc] initWithBytes:(void*)bytes length:len];
     return [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 }
 
@@ -34,21 +40,18 @@
 }
 
 + (NSDictionary *)dictionaryResponseFromJsonData:(NSData *)data error:(NSError **)error {
-    NSDictionary* dict = [self dictionaryFromJsonData:data error:error];
-    if (*error != nil) {
-        return nil;
-    }
-    if ([[dict objectForKey:@"failed"] boolValue]) {
-        *error = [NSError rustError:
-                  [NSString stringWithFormat:@"Error in: %@, message: %@",
-                   [dict objectForKey:@"loc"], [dict objectForKey: @"message"]
-                   ]];
-        return nil;
-    }
-    return [dict objectForKey:@"result"];
+    return [self responseFromJsonData:data error:error];
 }
 
 + (NSArray *)arrayResponseFromJsonData:(NSData *)data error:(NSError **)error {
+    return [self responseFromJsonData:data error:error];
+}
+
++ (NSNumber *)numberResponseFromJsonData:(NSData *)data error:(NSError **)error {
+    return [self responseFromJsonData:data error:error];
+}
+
++ (id)responseFromJsonData:(NSData *)data error:(NSError **)error {
     NSDictionary* dict = [self dictionaryFromJsonData:data error:error];
     if (*error != nil) {
         return nil;

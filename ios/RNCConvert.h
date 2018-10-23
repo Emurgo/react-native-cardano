@@ -20,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSDictionary *)dictionaryResponseFromJsonData:(NSData *)data error:(NSError **)error;
 + (NSArray *)arrayResponseFromJsonData:(NSData *)data error:(NSError **)error;
++ (NSNumber *)numberResponseFromJsonData:(NSData *)data error:(NSError **)error;
 
 + (NSString *)stringFromBytes:(const char*)bytes length:(NSUInteger)len;
 

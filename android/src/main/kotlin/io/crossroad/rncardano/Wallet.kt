@@ -52,6 +52,7 @@ class Wallet(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule
     fun checkAddress(address: String, promise: Promise) {
         try {
             Native.walletCheckAddress('"' + address + '"')
+                    .map { Convert.boolResult(it) }
                     .pour(promise)
         } catch (err: Throwable) {
             promise.reject(err)
