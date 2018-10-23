@@ -16,10 +16,10 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString *)encodedStringFromData:(NSData *)data;
 
 + (NSDictionary *)dictionaryFromJsonData:(NSData *)data error:(NSError **)error;
-+ (NSArray *)arrayFromJsonData:(NSData *)data error:(NSError **)error;
-
 + (NSData *)jsonDataFromDictionary:(NSDictionary *)dictionary error:(NSError **)error;
-+ (NSData *)jsonDataFromArray:(NSArray *)array error:(NSError **)error;
+
++ (NSDictionary *)dictionaryResponseFromJsonData:(NSData *)data error:(NSError **)error;
++ (NSArray *)arrayResponseFromJsonData:(NSData *)data error:(NSError **)error;
 
 + (NSString *)stringFromBytes:(const char*)bytes length:(NSUInteger)len;
 

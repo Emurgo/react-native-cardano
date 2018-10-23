@@ -33,7 +33,7 @@ RCT_EXPORT_METHOD(newChecker:(NSString *)pkey
     RNCBaseSafeOperation<NSDictionary*, NSDictionary*> *op2 = [RNCSafeOperation new:^NSDictionary*(NSDictionary* params, NSError ** error) {
         NSInteger rsz = [params[@"size"] integerValue];
         if (rsz > 0) {
-            return [RNCConvert dictionaryFromJsonData:[params[@"output"] subdataWithRange:NSMakeRange(0, rsz)] error:error];
+            return [RNCConvert dictionaryResponseFromJsonData:[params[@"output"] subdataWithRange:NSMakeRange(0, rsz)] error:error];
         } else if (*error == nil) {
             *error = [NSError rustError:[NSString stringWithFormat: @"Wrong response size: %li", (long)rsz]];
         }
@@ -61,10 +61,10 @@ RCT_EXPORT_METHOD(checkAddresses:(NSDictionary *)checker
         return @{@"size": [NSNumber numberWithInteger:rsz], @"output": output};
     }];
     
-    RNCBaseSafeOperation<NSDictionary*, NSDictionary*> *op3 = [RNCSafeOperation new:^NSDictionary*(NSDictionary* params, NSError **error) {
+    RNCBaseSafeOperation<NSDictionary*, NSArray*> *op3 = [RNCSafeOperation new:^NSArray*(NSDictionary* params, NSError **error) {
         NSInteger rsz = [params[@"size"] integerValue];
         if (rsz > 0) {
-            return [RNCConvert dictionaryFromJsonData:[params[@"output"] subdataWithRange:NSMakeRange(0, rsz)] error:error];
+            return [RNCConvert arrayResponseFromJsonData:[params[@"output"] subdataWithRange:NSMakeRange(0, rsz)] error:error];
         } else if (*error == nil) {
             *error = [NSError rustError:[NSString stringWithFormat: @"Wrong response size: %li", (long)rsz]];
         }
