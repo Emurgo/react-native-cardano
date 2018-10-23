@@ -332,7 +332,7 @@ pub extern fn Java_io_crossroad_rncardano_Native_randomAddressCheckerCheckAddres
 #[no_mangle]
 pub extern fn Java_io_crossroad_rncardano_Native_passwordProtectEncryptWithPassword(
   env: JNIEnv, _: JObject, password: JString, salt: jbyteArray, nonce: jbyteArray, data: jbyteArray
-) -> jbyteArray {
+) -> jobject {
   return_result(&env, handle_exception(|| {
     let nsalt = env.convert_byte_array(salt).unwrap();
     let nnonce = env.convert_byte_array(nonce).unwrap();
@@ -364,7 +364,7 @@ pub extern fn Java_io_crossroad_rncardano_Native_passwordProtectEncryptWithPassw
 #[no_mangle]
 pub extern fn Java_io_crossroad_rncardano_Native_passwordProtectDecryptWithPassword(
   env: JNIEnv, _: JObject, password: JString, data: jbyteArray
-) -> jbyteArray {
+) -> jobject {
   return_result(&env, handle_exception(|| {
     let ndata = env.convert_byte_array(data).unwrap();
 
