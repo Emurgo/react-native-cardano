@@ -5,25 +5,39 @@
 
 `$ npm install react-native-cardano --save`
 
+### Installing Rust
+
+`$ curl https://sh.rustup.rs -sSf | sh`
+
+Follow instructions. Restart Terminal application after installation (PATH should be updated)
+
+#### Install Rust targets and tools for iOS
+
+1. Install build targets: `$ rustup target add aarch64-apple-ios armv7-apple-ios armv7s-apple-ios x86_64-apple-ios i386-apple-ios`
+2. Install `cargo-lipo` for building: `$ cargo install cargo-lipo`
+
+#### Install Rust targets for Android
+
+`$ rustup target add aarch64-linux-android armv7-linux-androideabi i686-linux-android x86_64-linux-android`
+
 ### Mostly automatic installation
 
 `$ react-native link react-native-cardano`
 
 ### Manual installation
 
-
 #### iOS
 
 1. In XCode, in the project navigator, right click `Libraries` ➜ `Add Files to [your project's name]`
 2. Go to `node_modules` ➜ `react-native-cardano` and add `RNCardano.xcodeproj`
 3. In XCode, in the project navigator, select your project. Add `libRNCardano.a` to your project's `Build Phases` ➜ `Link Binary With Libraries`
-4. Run your project (`Cmd+R`)<
+4. Run your project (`Cmd+R`)
 
 #### Android
 
 1. Open up `android/app/src/main/java/[...]/MainActivity.java`
-  - Add `import io.crossroad.react-native-cardano.RNCardanoPackage;` to the imports at the top of the file
-  - Add `new RNCardanoPackage()` to the list returned by the `getPackages()` method
+  - Add `import io.crossroad.rnardano.CardanoPackage;` to the imports at the top of the file
+  - Add `new CardanoPackage()` to the list returned by the `getPackages()` method
 2. Append the following lines to `android/settings.gradle`:
   	```
   	include ':react-native-cardano'
@@ -37,7 +51,7 @@
 
 ## Usage
 ```javascript
-import RNCardano from 'react-native-cardano';
+import { Wallet, HdWallet, RandomAddressChecker, PasswordProtect } from 'react-native-cardano';
 
 // TODO: What to do with the module?
 RNCardano;
