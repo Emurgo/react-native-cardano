@@ -32,7 +32,7 @@ RCT_EXPORT_METHOD(fromMasterKey:(NSString *)pkey
         NSInteger rsz = [params[@"size"] integerValue];
         if (rsz > 0) {
             return [RNCConvert dictionaryResponseFromJsonData:[params[@"output"] subdataWithRange:NSMakeRange(0, rsz)] error:error];
-        } else if (*error == nil) {
+        } else {
             *error = [NSError rustError:[NSString stringWithFormat: @"Wrong response size: %li", (long)rsz]];
         }
         return nil;
@@ -63,7 +63,7 @@ RCT_EXPORT_METHOD(newAccount:(NSDictionary *)wallet
         NSInteger rsz = [params[@"size"] integerValue];
         if (rsz > 0) {
             return [RNCConvert dictionaryResponseFromJsonData:[params[@"output"] subdataWithRange:NSMakeRange(0, rsz)] error:error];
-        } else if (*error == nil) {
+        } else {
             *error = [NSError rustError:[NSString stringWithFormat: @"Wrong response size: %li", (long)rsz]];
         }
         return nil;
@@ -99,7 +99,7 @@ RCT_EXPORT_METHOD(generateAddresses:(NSDictionary *)account
         NSInteger rsz = [param[@"size"] integerValue];
         if (rsz > 0) {
             return [RNCConvert arrayResponseFromJsonData:[param[@"output"] subdataWithRange:NSMakeRange(0, rsz)] error:error];
-        } else if (*error == nil) {
+        } else {
             *error = [NSError rustError:[NSString stringWithFormat: @"Wrong response size: %li", (long)rsz]];
         }
         return nil;
@@ -126,6 +126,9 @@ RCT_EXPORT_METHOD(checkAddress:(NSString *)address
                                                 [input length],
                                                 [output mutableBytes],
                                                 error);
+        if (*error != NULL) {
+            return nil;
+        }
         if (rsz > 0) {
             NSString* response = [RNCConvert stringFromBytes:[output bytes] length:rsz];
             return [response isEqualToString:@"true"]
@@ -171,7 +174,7 @@ RCT_EXPORT_METHOD(spend:(NSString *)wallet
         NSInteger rsz = [params[@"size"] integerValue];
         if (rsz > 0) {
             return [RNCConvert dictionaryResponseFromJsonData:[params[@"output"] subdataWithRange:NSMakeRange(0, rsz)] error:error];
-        } else if (*error == nil) {
+        } else {
             *error = [NSError rustError:[NSString stringWithFormat: @"Wrong response size: %li", (long)rsz]];
         }
         return nil;
@@ -214,7 +217,7 @@ RCT_EXPORT_METHOD(move:(NSString *)wallet
         NSInteger rsz = [params[@"size"] integerValue];
         if (rsz > 0) {
             return [RNCConvert dictionaryResponseFromJsonData:[params[@"output"] subdataWithRange:NSMakeRange(0, rsz)] error:error];
-        } else if (*error == nil) {
+        } else {
             *error = [NSError rustError:[NSString stringWithFormat: @"Wrong response size: %li", (long)rsz]];
         }
         return nil;

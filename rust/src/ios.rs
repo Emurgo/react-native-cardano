@@ -5,7 +5,6 @@ use std::os::raw::{c_uchar, c_char};
 use std::ffi::{ CString, CStr };
 use std::panic;
 use std::usize;
-use std::mem;
 
 pub use constants::*;
 
@@ -23,10 +22,8 @@ fn handle_error<F: FnOnce() -> R + panic::UnwindSafe, R>(error: *mut*mut c_char,
 
 #[no_mangle]
 pub unsafe extern "C" fn copy_string(cstr: *const c_char) -> *mut c_char {
-  let string = CStr::from_ptr(cstr);
-  let newstr = string.clone();
-  mem::forget(newstr);
-  newstr.as_ptr() as *mut c_char
+  let vec = CStr::from_ptr(cstr).to_bytes_with_nul().to_vec();
+  CString::from_vec_unchecked(vec).into_raw()
 }
 
 #[no_mangle]

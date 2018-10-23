@@ -29,7 +29,10 @@ RCT_EXPORT_METHOD(fromEnhancedEntropy:(NSString *)entropy
         uintptr_t res = wallet_from_enhanced_entropy_safe([entropy bytes], [entropy length],
                                                           (const unsigned char*)cstr, strlen(cstr),
                                                           [output mutableBytes], error);
-        if (res != 0 && *error == NULL) {
+        if (*error != NULL) {
+            return nil;
+        }
+        if (res != 0) {
             *error = copy_string([[NSString stringWithFormat:@"Wrong response %lu should be 0", res] UTF8String]);
             return nil;
         }
@@ -131,6 +134,10 @@ RCT_EXPORT_METHOD(derivePublic:(NSString *)xpub
         NSMutableData* output = [NSMutableData dataWithLength:XPUB_SIZE];
         
         bool res = wallet_derive_public_safe([xpub bytes], index, [output mutableBytes], error);
+        
+        if (*error != NULL) {
+            return nil;
+        }
         
         if (!res) {
             *error = copy_string("Can't derive public key");

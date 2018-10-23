@@ -34,7 +34,7 @@ RCT_EXPORT_METHOD(newChecker:(NSString *)pkey
         NSInteger rsz = [params[@"size"] integerValue];
         if (rsz > 0) {
             return [RNCConvert dictionaryResponseFromJsonData:[params[@"output"] subdataWithRange:NSMakeRange(0, rsz)] error:error];
-        } else if (*error == nil) {
+        } else {
             *error = [NSError rustError:[NSString stringWithFormat: @"Wrong response size: %li", (long)rsz]];
         }
         return nil;
@@ -65,7 +65,7 @@ RCT_EXPORT_METHOD(checkAddresses:(NSDictionary *)checker
         NSInteger rsz = [params[@"size"] integerValue];
         if (rsz > 0) {
             return [RNCConvert arrayResponseFromJsonData:[params[@"output"] subdataWithRange:NSMakeRange(0, rsz)] error:error];
-        } else if (*error == nil) {
+        } else {
             *error = [NSError rustError:[NSString stringWithFormat: @"Wrong response size: %li", (long)rsz]];
         }
         return nil;

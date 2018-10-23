@@ -53,7 +53,9 @@ RCT_EXPORT_METHOD(encryptWithPassword:(NSString *)password
                                                  [data length],
                                                  [output mutableBytes],
                                                  error);
-        
+        if (*error != NULL) {
+            return nil;
+        }
         if (rsz == result_size) {
             return [RNCConvert encodedStringFromData:output];
         } else {
@@ -97,7 +99,9 @@ RCT_EXPORT_METHOD(decryptWithPassword:(NSString *)password
                                                  [data length],
                                                  [output mutableBytes],
                                                  error);
-        
+        if (*error != NULL) {
+            return nil;
+        }
         if (rsz == result_size) {
             return [RNCConvert encodedStringFromData:output];
         } else {
