@@ -5,9 +5,9 @@ buildscript {
     }
 
     repositories {
-        jcenter()
         google()
         maven { url 'https://plugins.gradle.org/m2/' }
+        jcenter()
     }
 
     dependencies {
@@ -53,12 +53,12 @@ cargo {
 }
 
 repositories {
-    jcenter()
     google()
     maven {
         // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
         url "$rootDir/../node_modules/react-native/android"
     }
+    jcenter()
 }
 
 dependencies {
