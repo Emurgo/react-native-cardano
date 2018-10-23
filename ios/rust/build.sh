@@ -7,7 +7,12 @@
 #  Copyright © 2018 Crossroad Labs s.r.o. All rights reserved.
 
 set -e
-source ~/.bashrc
+
+HAS_CARGO_IN_PATH=`which cargo; echo $?`
+
+if [ "$HAS_CARGO_IN_PATH" -ne "0" ]; then
+    PATH="${HOME}/.cargo/bin:${PATH}"
+fi
 
 cd "${SRCROOT}"/../rust
 

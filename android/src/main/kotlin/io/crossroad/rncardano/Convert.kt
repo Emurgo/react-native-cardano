@@ -1,28 +1,18 @@
 package io.crossroad.rncardano
 
-import android.util.Base64
 import com.facebook.common.util.Hex
 import com.facebook.react.bridge.*
 import org.json.JSONArray
 import org.json.JSONObject
 
 object Convert {
-    const val USE_BASE16 = false
-
     fun bytes(encodedString: String): ByteArray {
-        return if (this.USE_BASE16) {
-            Hex.decodeHex(encodedString)
-        } else {
-            Base64.decode(encodedString, Base64.DEFAULT)
-        }
+        return Hex.decodeHex(encodedString)
+
     }
 
     fun string(bytes: ByteArray): String {
-        return if (this.USE_BASE16) {
-            Hex.encodeHex(bytes, false)
-        } else {
-            Base64.encodeToString(bytes, Base64.NO_WRAP)
-        }
+        return Hex.encodeHex(bytes, false)
     }
 
     fun array(json: JSONArray): WritableArray {
