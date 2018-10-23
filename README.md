@@ -20,6 +20,8 @@ Follow instructions. Restart Terminal application after installation (PATH shoul
 
 `$ rustup target add aarch64-linux-android armv7-linux-androideabi i686-linux-android x86_64-linux-android`
 
+Android NDK should be installed for Android. Check that `local.properties` file in `android` folder has `ndk.dir` property and it's path is correct.
+
 ### Mostly automatic installation
 
 `$ react-native link react-native-cardano`
@@ -53,7 +55,6 @@ Follow instructions. Restart Terminal application after installation (PATH shoul
 ```javascript
 import { Wallet, HdWallet, RandomAddressChecker, PasswordProtect } from 'react-native-cardano';
 
-// TODO: What to do with the module?
-RNCardano;
+Wallet.checkAddress("af01ba").then(isValid => console.log(isValid)); // Should print "false"
 ```
   
