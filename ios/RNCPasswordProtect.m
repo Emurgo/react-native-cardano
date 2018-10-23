@@ -26,11 +26,10 @@ RCT_EXPORT_METHOD(encryptWithPassword:(NSString *)password
         NSData* nonce = params[@"nonce"];
         NSData* salt = params[@"params"];
         NSData* data = params[@"data"];
+        NSData* password = [RNCConvert UTF8BytesFromString:params[@"password"]];
         
-        CHECK_HAS_LENGTH_OR_CERROR(params[@"password"], *error, "password");
+        CHECK_HAS_LENGTH_OR_CERROR(password, *error, "password");
         CHECK_HAS_LENGTH_OR_CERROR(data, *error, "data");
-        
-        const char* cstr = [params[@"password"] UTF8String];
         
         if ([salt length] != SALT_SIZE) {
             *error = copy_string([[NSString stringWithFormat:@"Wrong salt len %lu should be %d", (unsigned long)[salt length], SALT_SIZE] UTF8String]);
@@ -45,8 +44,8 @@ RCT_EXPORT_METHOD(encryptWithPassword:(NSString *)password
         
         NSMutableData* output = [NSMutableData dataWithLength:result_size];
         
-        int32_t rsz = encrypt_with_password_safe((const unsigned char*)cstr,
-                                                 strlen(cstr),
+        int32_t rsz = encrypt_with_password_safe([password bytes],
+                                                 [password length],
                                                  [salt bytes],
                                                  [nonce bytes],
                                                  [data bytes],
@@ -80,10 +79,9 @@ RCT_EXPORT_METHOD(decryptWithPassword:(NSString *)password
     
     RNCBaseSafeOperation<NSDictionary*, NSString*>* op = [RNCCSafeOperation new:^NSString*(NSDictionary* params, char **error) {
         NSData* data = params[@"data"];
+        NSData* password = [RNCConvert UTF8BytesFromString:params[@"password"]];
         
-        CHECK_HAS_LENGTH_OR_CERROR(params[@"password"], *error, "password");
-        
-        const char* cstr = [params[@"password"] UTF8String];
+        CHECK_HAS_LENGTH_OR_CERROR(password, *error, "password");
         
         if ([data length] <= TAG_SIZE + NONCE_SIZE + SALT_SIZE) {
             *error = copy_string([[NSString stringWithFormat:@"Wrong data len %lu should be at least %d", (unsigned long)[data length], TAG_SIZE + NONCE_SIZE + SALT_SIZE + 1] UTF8String]);
@@ -93,8 +91,8 @@ RCT_EXPORT_METHOD(decryptWithPassword:(NSString *)password
         
         NSMutableData* output = [NSMutableData dataWithLength:result_size];
         
-        int32_t rsz = decrypt_with_password_safe((const unsigned char*)cstr,
-                                                 strlen(cstr),
+        int32_t rsz = decrypt_with_password_safe([password bytes],
+                                                 [password length],
                                                  [data bytes],
                                                  [data length],
                                                  [output mutableBytes],

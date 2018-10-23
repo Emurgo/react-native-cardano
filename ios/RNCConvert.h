@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSArray *)arrayResponseFromJsonData:(NSData *)data error:(NSError **)error;
 + (NSNumber *)numberResponseFromJsonData:(NSData *)data error:(NSError **)error;
 
-+ (NSString *)stringFromBytes:(const char*)bytes length:(NSUInteger)len;
++ (NSData *)UTF8BytesFromString:(NSString *)string;
 
 @end
 

@@ -30,9 +30,8 @@
     return [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:error];
 }
 
-+ (NSString *)stringFromBytes:(const char*)bytes length:(NSUInteger)len {
-    NSData* data = [[NSData alloc] initWithBytes:(void*)bytes length:len];
-    return [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
++ (NSData *)UTF8BytesFromString:(NSString *)string {
+    return [string dataUsingEncoding:NSUTF8StringEncoding];
 }
 
 + (NSData *)jsonDataFromDictionary:(NSDictionary *)dictionary error:(NSError **)error {

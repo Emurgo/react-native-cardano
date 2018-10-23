@@ -21,7 +21,7 @@ RCT_EXPORT_METHOD(newChecker:(NSString *)pkey
                   rejecter:(RCTPromiseRejectBlock)reject) {
     RNCBaseSafeOperation<NSString*, NSDictionary*> *op1 = [RNCCSafeOperation new:^NSDictionary*(NSString* pkey, char **error) {
         CHECK_HAS_LENGTH_OR_CERROR(pkey, *error, "pkey");
-        NSData* input = [[NSString stringWithFormat:@"\"%@\"", pkey] dataUsingEncoding:NSUTF8StringEncoding];
+        NSData* input = [RNCConvert UTF8BytesFromString:[NSString stringWithFormat:@"\"%@\"", pkey]];
         NSMutableData* output = [NSMutableData dataWithLength:MAX_OUTPUT_SIZE];
         int32_t rsz = random_address_checker_new_safe([input bytes],
                                                       [input length],
