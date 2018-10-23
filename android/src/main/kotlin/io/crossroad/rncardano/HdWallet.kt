@@ -10,43 +10,68 @@ class HdWallet(reactContext: ReactApplicationContext) : ReactContextBaseJavaModu
 
     @ReactMethod
     fun fromEnhancedEntropy(entropy: String, password: String, promise: Promise) {
-        Native.hdWalletFromEnhancedEntropy(Convert.bytes(entropy), password)
-                .map { Convert.string(it) }
-                .pour(promise)
+        try {
+            Native.hdWalletFromEnhancedEntropy(Convert.bytes(entropy), password)
+                    .map { Convert.string(it) }
+                    .pour(promise)
+        } catch (err: Throwable) {
+            promise.reject(err)
+        }
+
     }
 
     @ReactMethod
     fun fromSeed(seed: String, promise: Promise) {
-        Native.hdWalletFromSeed(Convert.bytes(seed))
-                .map { Convert.string(it) }
-                .pour(promise)
+        try {
+            Native.hdWalletFromSeed(Convert.bytes(seed))
+                    .map { Convert.string(it) }
+                    .pour(promise)
+        } catch (err: Throwable) {
+            promise.reject(err)
+        }
     }
 
     @ReactMethod
     fun toPublic(xprv: String, promise: Promise) {
-        Native.hdWalletToPublic(Convert.bytes(xprv))
-                .map { Convert.string(it) }
-                .pour(promise)
+        try {
+            Native.hdWalletToPublic(Convert.bytes(xprv))
+                    .map { Convert.string(it) }
+                    .pour(promise)
+        } catch (err: Throwable) {
+            promise.reject(err)
+        }
     }
 
     @ReactMethod
     fun derivePrivate(xprv: String, index: Int, promise: Promise) {
-        Native.hdWalletDerivePrivate(Convert.bytes(xprv), index)
-                .map { Convert.string(it) }
-                .pour(promise)
+        try {
+            Native.hdWalletDerivePrivate(Convert.bytes(xprv), index)
+                    .map { Convert.string(it) }
+                    .pour(promise)
+        } catch (err: Throwable) {
+            promise.reject(err)
+        }
     }
 
     @ReactMethod
     fun derivePublic(xpub: String, index: Int, promise: Promise) {
-        Native.hdWalletDerivePublic(Convert.bytes(xpub), index)
-                .map { Convert.string(it) }
-                .pour(promise)
+        try {
+            Native.hdWalletDerivePublic(Convert.bytes(xpub), index)
+                    .map { Convert.string(it) }
+                    .pour(promise)
+        } catch (err: Throwable) {
+            promise.reject(err)
+        }
     }
 
     @ReactMethod
     fun sign(xprv: String, data: String, promise: Promise) {
-        Native.hdWalletSign(Convert.bytes(xprv), Convert.bytes(data))
-                .map { Convert.string(it) }
-                .pour(promise)
+        try {
+            Native.hdWalletSign(Convert.bytes(xprv), Convert.bytes(data))
+                    .map { Convert.string(it) }
+                    .pour(promise)
+        } catch (err: Throwable) {
+            promise.reject(err)
+        }
     }
 }

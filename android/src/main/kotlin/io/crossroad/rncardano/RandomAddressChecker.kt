@@ -8,18 +8,26 @@ class RandomAddressChecker(reactContext: ReactApplicationContext) : ReactContext
 
     @ReactMethod
     fun newChecker(pkey: String, promise: Promise) {
-        Native.randomAddressCheckerNewChecker('"'+pkey + '"')
-                .map { Convert.map(it) }
-                .pour(promise)
+        try {
+            Native.randomAddressCheckerNewChecker('"' + pkey + '"')
+                    .map { Convert.map(it) }
+                    .pour(promise)
+        } catch (err: Throwable) {
+            promise.reject(err)
+        }
     }
 
     @ReactMethod
     fun checkAddresses(checker: ReadableMap, addresses: ReadableArray, promise: Promise) {
-        val params = JSONObject()
-        params.put("checker", Convert.json(checker))
-        params.put("addresses", Convert.json(addresses))
-        Native.randomAddressCheckerCheckAddresses(params)
-                .map { Convert.array(it) }
-                .pour(promise)
+        try {
+            val params = JSONObject()
+            params.put("checker", Convert.json(checker))
+            params.put("addresses", Convert.json(addresses))
+            Native.randomAddressCheckerCheckAddresses(params)
+                    .map { Convert.array(it) }
+                    .pour(promise)
+        } catch (err: Throwable) {
+            promise.reject(err)
+        }
     }
 }
