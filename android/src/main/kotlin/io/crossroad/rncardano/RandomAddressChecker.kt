@@ -10,7 +10,7 @@ class RandomAddressChecker(reactContext: ReactApplicationContext) : ReactContext
     fun newChecker(pkey: String, promise: Promise) {
         try {
             Native.randomAddressCheckerNewChecker('"' + pkey + '"')
-                    .map { Convert.map(it) }
+                    .map { Convert.result(it) }
                     .pour(promise)
         } catch (err: Throwable) {
             promise.reject(err)
@@ -24,7 +24,7 @@ class RandomAddressChecker(reactContext: ReactApplicationContext) : ReactContext
             params.put("checker", Convert.json(checker))
             params.put("addresses", Convert.json(addresses))
             Native.randomAddressCheckerCheckAddresses(params)
-                    .map { Convert.array(it) }
+                    .map { Convert.arrayResult(it) }
                     .pour(promise)
         } catch (err: Throwable) {
             promise.reject(err)

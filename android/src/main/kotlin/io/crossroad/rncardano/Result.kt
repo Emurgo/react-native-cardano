@@ -15,7 +15,8 @@ class Result<T>(val value: T?, val error: String?) {
 
     fun <T2>map(mapper: (value: T) -> T2): Result<T2> {
         return if (this.value != null) {
-            Result.ok(mapper(this.value))
+            try { Result.ok(mapper(this.value)) }
+            catch (err: Throwable) { Result.err<T2>(err.toString()) }
         } else {
             Result(null, this.error)
         }
@@ -23,7 +24,8 @@ class Result<T>(val value: T?, val error: String?) {
 
     fun <T2>mapNull(mapper: (value: T?) -> T2?): Result<T2> {
         return if (this.error == null) {
-            Result(mapper(this.value), null)
+            try { Result(mapper(this.value), null) }
+            catch (err: Throwable) { Result.err<T2>(err.toString()) }
         } else {
             Result.err(this.error)
         }

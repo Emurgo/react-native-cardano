@@ -25,13 +25,6 @@ fn json_string_to_object<'a>(env: &'a JNIEnv, data: &[u8]) -> JObject<'a> {
   env.new_object(class, "(Ljava/lang/String;)V", &[json.into()]).unwrap()
 }
 
-fn json_string_to_array<'a>(env: &'a JNIEnv, data: &[u8]) -> JObject<'a> {
-  let class = env.find_class("org/json/JSONArray").unwrap();
-  let string = str::from_utf8(data).unwrap();
-  let json = *env.new_string(string).expect("Couldn't create java string!");
-  env.new_object(class, "(Ljava/lang/String;)V", &[json.into()]).unwrap()
-}
-
 fn json_object_to_string(env: &JNIEnv, obj: JObject) -> String {
   let jstr = env.call_method(obj, "toString", "()Ljava/lang/String;", &[]).unwrap().l().unwrap();
   env.get_string(jstr.into()).expect("Couldn't get java string!").into()
@@ -238,7 +231,7 @@ pub extern fn Java_io_crossroad_rncardano_Native_walletGenerateAddresses(
 
     let rsz = xwallet_addresses(input.as_ptr(), input.len(), output.as_mut_ptr()) as usize;
 
-    json_string_to_array(&env, &output[0..rsz])
+    json_string_to_object(&env, &output[0..rsz])
   }))
 }
 
@@ -324,7 +317,7 @@ pub extern fn Java_io_crossroad_rncardano_Native_randomAddressCheckerCheckAddres
 
     let rsz = random_address_check(input.as_ptr(), input.len(), output.as_mut_ptr()) as usize;
 
-    json_string_to_array(&env, &output[0..rsz])
+    json_string_to_object(&env, &output[0..rsz])
   }))
 }
 

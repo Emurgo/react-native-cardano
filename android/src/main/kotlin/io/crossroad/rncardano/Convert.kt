@@ -95,4 +95,24 @@ object Convert {
         }
         return json
     }
+
+    fun result(json: JSONObject): WritableMap {
+        if(json.getBoolean("failed")) {
+            throw Throwable(
+                    "Error in: " + json.getString("loc") +
+                            ", message: " + json.getString("message")
+            )
+        }
+        return this.map(json.getJSONObject("result"))
+    }
+
+    fun arrayResult(json: JSONObject): WritableArray {
+        if(json.getBoolean("failed")) {
+            throw Throwable(
+                    "Error in: " + json.getString("loc") +
+                            ", message: " + json.getString("message")
+            )
+        }
+        return this.array(json.getJSONArray("result"))
+    }
 }
