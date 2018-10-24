@@ -321,7 +321,7 @@ pub extern fn Java_io_crossroad_rncardano_Native_randomAddressCheckerNewCheckerF
   env: JNIEnv, _: JObject, mnemonics: JString
 ) -> jobject {
   return_result(&env, handle_exception(|| {
-    let string: String = env.get_string(pkey).expect("Couldn't get java string!").into();
+    let string: String = env.get_string(mnemonics).expect("Couldn't get java string!").into();
     let input: &[u8] = string.as_bytes();
     let mut output = [0 as u8; MAX_OUTPUT_SIZE];
 
