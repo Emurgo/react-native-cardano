@@ -42,7 +42,7 @@ RCT_EXPORT_METHOD(fromMasterKey:(NSString *)pkey
 }
 
 RCT_EXPORT_METHOD(newAccount:(NSDictionary *)wallet
-                  withIndex:(NSNumber *)index
+                  withIndex:(nonnull NSNumber *)index
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {
     

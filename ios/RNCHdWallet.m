@@ -86,7 +86,7 @@ RCT_EXPORT_METHOD(toPublic:(NSString *)xprv
 }
 
 RCT_EXPORT_METHOD(derivePrivate:(NSString *)xprv
-                  withIndex:(NSNumber *)index
+                  withIndex:(nonnull NSNumber *)index
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {
     
@@ -113,7 +113,7 @@ RCT_EXPORT_METHOD(derivePrivate:(NSString *)xprv
 }
 
 RCT_EXPORT_METHOD(derivePublic:(NSString *)xpub
-                  withIndex:(NSNumber *)index
+                  withIndex:(nonnull NSNumber *)index
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {
     
