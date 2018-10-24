@@ -147,7 +147,7 @@ RCT_EXPORT_METHOD(checkAddress:(nonnull NSString *)address
     [[RNCSafeOperationCombined combine:op1 with:op2] exec:address andResolve:resolve orReject:reject];
 }
 
-RCT_EXPORT_METHOD(spend:(nonnull NSString *)wallet
+RCT_EXPORT_METHOD(spend:(nonnull NSDictionary *)wallet
                   withInputs:(nonnull NSArray*)inputs
                   andOutputs:(nonnull NSArray*)outputs
                   andChangeAddress:(nonnull NSString*)change
@@ -194,7 +194,7 @@ RCT_EXPORT_METHOD(spend:(nonnull NSString *)wallet
     [[RNCSafeOperationCombined combine:[RNCSafeOperationCombined combine:op1 with:op2] with:op3] exec:params andResolve:resolve orReject:reject];
 }
 
-RCT_EXPORT_METHOD(move:(nonnull NSString *)wallet
+RCT_EXPORT_METHOD(move:(nonnull NSDictionary *)wallet
                   withInputs:(nonnull NSArray*)inputs
                   andOutput:(nonnull NSString*)output
                   resolver:(RCTPromiseResolveBlock)resolve
