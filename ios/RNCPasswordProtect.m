@@ -24,7 +24,7 @@ RCT_EXPORT_METHOD(encryptWithPassword:(nonnull NSString *)password
     
     RNCBaseSafeOperation<NSDictionary*, NSString*>* op = [RNCCSafeOperation new:^NSString*(NSDictionary* params, char **error) {
         NSData* nonce = params[@"nonce"];
-        NSData* salt = params[@"params"];
+        NSData* salt = params[@"salt"];
         NSData* data = params[@"data"];
         NSData* password = [RNCConvert UTF8BytesFromString:params[@"password"]];
         

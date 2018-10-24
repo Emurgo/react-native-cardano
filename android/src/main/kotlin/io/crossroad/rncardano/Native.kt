@@ -30,7 +30,7 @@ object Native {
     // RandomAddressChecker
     external fun randomAddressCheckerNewChecker(pkey: String): Result<JSONObject>
     external fun randomAddressCheckerNewCheckerFromMnemonics(mnemonics: String): Result<JSONObject>
-    external fun randomAddressCheckerCheckAddresses(params: JSONObject): Result<JSONObject>
+    external fun randomAddressCheckerCheckAddresses(params: JSONObject, alen: Int): Result<JSONObject>
 
     // PasswordProtect
     external fun passwordProtectEncryptWithPassword(

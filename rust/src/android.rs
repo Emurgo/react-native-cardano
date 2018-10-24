@@ -334,12 +334,14 @@ pub extern fn Java_io_crossroad_rncardano_Native_randomAddressCheckerNewCheckerF
 #[allow(non_snake_case)]
 #[no_mangle]
 pub extern fn Java_io_crossroad_rncardano_Native_randomAddressCheckerCheckAddresses(
-  env: JNIEnv, _: JObject, params: JObject
+  env: JNIEnv, _: JObject, params: JObject, alen: jint
 ) -> jobject {
   return_result(&env, handle_exception(|| {
     let string = json_object_to_string(&env, params);
     let input = string.as_bytes();
-    let mut output = [0 as u8; MAX_OUTPUT_SIZE];
+    
+    let OUTPUT_SIZE = (alen as usize) * 4096;
+    let mut output = Vec::with_capacity(OUTPUT_SIZE);
 
     let rsz = random_address_check(input.as_ptr(), input.len(), output.as_mut_ptr()) as usize;
 
