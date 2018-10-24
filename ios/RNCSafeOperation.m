@@ -15,8 +15,8 @@
     NSError* error = nil;
     id result = [self exec:param error:&error];
     if (error != nil) {
-        reject(@"-1",
-               @"Error occured",
+        reject(@"0",
+               [error description],
                error);
     } else {
         resolve(result);
@@ -109,7 +109,7 @@
 @implementation NSError (Rust)
 
 + (NSError *)rustError:(NSString *)description {
-    return [NSError errorWithDomain:@"RustError"
+    return [NSError errorWithDomain:@"Rust Code Error"
                               code: 1
                           userInfo: @{@"message": description}];
 }
