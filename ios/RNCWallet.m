@@ -132,7 +132,12 @@ RCT_EXPORT_METHOD(checkAddress:(NSString *)address
     RNCBaseSafeOperation<NSDictionary*, NSNumber*> *op2 = [RNCSafeOperation new:^NSNumber*(NSDictionary* params, NSError **error) {
         NSInteger rsz = [params[@"size"] integerValue];
         if (rsz > 0) {
-            return [RNCConvert numberResponseFromJsonData:[params[@"output"] subdataWithRange:NSMakeRange(0, rsz)] error:error];
+            NSNumber* res = [RNCConvert numberResponseFromJsonData:[params[@"output"] subdataWithRange:NSMakeRange(0, rsz)] error:error];
+            if (*error != nil) {
+                *error = nil;
+                return [NSNumber numberWithBool:NO];
+            }
+            return res;
         } else {
             *error = [NSError rustError:[NSString stringWithFormat: @"Wrong response size: %li", (long)rsz]];
         }
