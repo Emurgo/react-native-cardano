@@ -270,7 +270,7 @@ RCT_EXPORT_METHOD(move:(nonnull NSDictionary *)wallet
     NSMutableDictionary* params = [NSMutableDictionary new];
     [params setObject:wallet forKey:@"wallet"];
     [params setObject:inputs forKey:@"inputs"];
-    [params setObject:output forKey:@"outputs"];
+    [params setObject:output forKey:@"output"];
     
     [[RNCSafeOperationCombined combine:[RNCSafeOperationCombined combine:op1 with:op2] with:op3] exec:params andResolve:resolve orReject:reject];
 }
