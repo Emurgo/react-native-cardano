@@ -245,7 +245,7 @@ pub extern fn Java_io_crossroad_rncardano_Native_walletGenerateAddresses(
     let string = json_object_to_string(&env, params);
     let input = string.as_bytes();
 
-    let output_max = 131 * (jint as usize) + 2; // (128 + 3 for meta) per addr + 2
+    let output_max = 131 * (alen as usize) + 2; // (128 + 3 for meta) per addr + 2
     let mut output: Vec<u8> = Vec::new();
     output.resize(output_max, 0);
 
