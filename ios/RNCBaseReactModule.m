@@ -16,11 +16,6 @@
     init_cardano();
 }
 
-- (dispatch_queue_t)methodQueue
-{
-    return dispatch_get_main_queue();
-}
-
 // Can't be called
 + (NSString *)moduleName {
     return @"RNCBaseReactModule";
