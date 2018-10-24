@@ -50,6 +50,15 @@
     return [self responseFromJsonData:data error:error];
 }
 
++ (NSData *)dataFromByteArray:(NSArray *)array {
+    NSMutableData* data = [NSMutableData dataWithLength:[array count]];
+    unsigned char* bytes = [data mutableBytes];
+    for (NSUInteger index = 0; index < [array count]; index++) {
+        bytes[index] = [[array objectAtIndex:index] unsignedCharValue];
+    }
+    return data;
+}
+
 + (id)responseFromJsonData:(NSData *)data error:(NSError **)error {
     NSDictionary* dict = [self dictionaryFromJsonData:data error:error];
     if (*error != nil) {

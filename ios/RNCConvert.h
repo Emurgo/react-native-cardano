@@ -24,6 +24,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSData *)UTF8BytesFromString:(NSString *)string;
 
++ (NSData *)dataFromByteArray:(NSArray *)array;
+
 @end
 
 NS_ASSUME_NONNULL_END

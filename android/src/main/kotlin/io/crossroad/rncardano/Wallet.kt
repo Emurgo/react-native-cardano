@@ -75,6 +75,12 @@ class Wallet(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule
             params.put("change_addr", changeAddress)
             Native.walletSpend(params, inputs.size(), outputs.size())
                     .map { Convert.result(it) }
+                    .map { obj ->
+                        obj.putString(
+                                "cbor_encoded_tx",
+                                Convert.string(Convert.bytes(obj.getArray("cbor_encoded_tx")))
+                        )
+                    }
                     .pour(promise)
         } catch (err: Throwable) {
             promise.reject(err)
@@ -93,6 +99,12 @@ class Wallet(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule
             params.put("output", output)
             Native.walletMove(params, inputs.size())
                     .map { Convert.result(it) }
+                    .map { obj ->
+                        obj.putString(
+                                "cbor_encoded_tx",
+                                Convert.string(Convert.bytes(obj.getArray("cbor_encoded_tx")))
+                        )
+                    }
                     .pour(promise)
         } catch (err: Throwable) {
             promise.reject(err)

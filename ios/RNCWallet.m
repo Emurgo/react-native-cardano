@@ -178,7 +178,13 @@ RCT_EXPORT_METHOD(spend:(nonnull NSDictionary *)wallet
     RNCBaseSafeOperation<NSDictionary*, NSDictionary*> *op3 = [RNCSafeOperation new:^NSDictionary*(NSDictionary* params, NSError **error) {
         NSInteger rsz = [params[@"size"] integerValue];
         if (rsz > 0) {
-            return [RNCConvert dictionaryResponseFromJsonData:[params[@"output"] subdataWithRange:NSMakeRange(0, rsz)] error:error];
+            NSDictionary* res = [RNCConvert dictionaryResponseFromJsonData:[params[@"output"] subdataWithRange:NSMakeRange(0, rsz)] error:error];
+            if (*error == nil) {
+                NSMutableDictionary* fixed = [res mutableCopy];
+                fixed[@"cbor_encoded_tx"] = [RNCConvert encodedStringFromData:[RNCConvert dataFromByteArray:res[@"cbor_encoded_tx"]]];
+                return fixed;
+            }
+            return res;
         } else {
             *error = [NSError rustError:[NSString stringWithFormat: @"Wrong response size: %li", (long)rsz]];
         }
@@ -221,7 +227,13 @@ RCT_EXPORT_METHOD(move:(nonnull NSDictionary *)wallet
     RNCBaseSafeOperation<NSDictionary*, NSDictionary*> *op3 = [RNCSafeOperation new:^NSDictionary*(NSDictionary* params, NSError **error) {
         NSInteger rsz = [params[@"size"] integerValue];
         if (rsz > 0) {
-            return [RNCConvert dictionaryResponseFromJsonData:[params[@"output"] subdataWithRange:NSMakeRange(0, rsz)] error:error];
+            NSDictionary* res = [RNCConvert dictionaryResponseFromJsonData:[params[@"output"] subdataWithRange:NSMakeRange(0, rsz)] error:error];
+            if (*error == nil) {
+                NSMutableDictionary* fixed = [res mutableCopy];
+                fixed[@"cbor_encoded_tx"] = [RNCConvert encodedStringFromData:[RNCConvert dataFromByteArray:res[@"cbor_encoded_tx"]]];
+                return fixed;
+            }
+            return res;
         } else {
             *error = [NSError rustError:[NSString stringWithFormat: @"Wrong response size: %li", (long)rsz]];
         }

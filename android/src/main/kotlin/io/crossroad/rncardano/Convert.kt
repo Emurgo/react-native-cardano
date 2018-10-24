@@ -8,7 +8,6 @@ import org.json.JSONObject
 object Convert {
     fun bytes(encodedString: String): ByteArray {
         return Hex.decodeHex(encodedString)
-
     }
 
     fun string(bytes: ByteArray): String {
@@ -84,6 +83,10 @@ object Convert {
             key = if (iterator.hasNextKey()) { iterator.nextKey() } else { null }
         }
         return json
+    }
+
+    fun bytes(array: ReadableArray): ByteArray {
+        return ByteArray(array.size()) { array.getInt(it).toByte() }
     }
 
 
