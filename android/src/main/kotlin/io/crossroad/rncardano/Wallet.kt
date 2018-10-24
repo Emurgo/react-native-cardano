@@ -51,7 +51,7 @@ class Wallet(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule
             params.put("account", Convert.json(account))
             params.put("address_type", type)
             params.put("indices", Convert.json(indicies))
-            Native.walletGenerateAddresses(params)
+            Native.walletGenerateAddresses(params, indicies.size())
                     .map { Convert.arrayResult(it) }
                     .pour(promise)
         } catch (err: Throwable) {

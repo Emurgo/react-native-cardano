@@ -95,7 +95,7 @@ object Convert {
         if(json.getBoolean("failed")) {
             throw Throwable(
                     "Error in: " + json.getString("loc") +
-                            ", message: " + json.getString("message")
+                            ", message: " + json.getString("msg")
             )
         }
     }

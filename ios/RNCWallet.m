@@ -109,12 +109,17 @@ RCT_EXPORT_METHOD(generateAddresses:(nonnull NSDictionary *)account
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {
     
-    RNCBaseSafeOperation<NSDictionary*, NSData*>* op1 = [RNCSafeOperation new:^NSData*(NSDictionary* params, NSError ** error) {
-        return [RNCConvert jsonDataFromDictionary:params error:error];
+    RNCBaseSafeOperation<NSDictionary*, NSDictionary*>* op1 = [RNCSafeOperation new:^NSDictionary*(NSDictionary* params, NSError ** error) {
+        return @{@"data": [RNCConvert jsonDataFromDictionary:params error:error],
+                 @"alen": [NSNumber numberWithUnsignedInteger:[params[@"indices"] count]]};
     }];
     
-    RNCBaseSafeOperation<NSData*, NSDictionary*>* op2 = [RNCCSafeOperation new:^NSDictionary*(NSData* input, char **error) {
-        NSMutableData* output = [NSMutableData dataWithLength:MAX_OUTPUT_SIZE];
+    RNCBaseSafeOperation<NSDictionary*, NSDictionary*>* op2 = [RNCCSafeOperation new:^NSDictionary*(NSDictionary* params, char **error) {
+        NSData* input = params[@"data"];
+        CHECK_NON_NULL_OR_CERROR(params[@"alen"], *error, "indicies");
+        NSUInteger alen = [params[@"alen"] unsignedIntegerValue];
+        NSUInteger maxSize = alen * 131 + 2; // (128 + 3 for meta) per addr + 2 for meta
+        NSMutableData* output = [NSMutableData dataWithLength:maxSize];
         int32_t rsz = xwallet_addresses_safe([input bytes],
                                              [input length],
                                              [output mutableBytes],

@@ -192,9 +192,11 @@ pub extern fn Java_io_crossroad_rncardano_Native_walletFromMasterKey(
     let input = env.convert_byte_array(bytes).unwrap();
     let mut output = [0 as u8; MAX_OUTPUT_SIZE];
 
-    let rsz = xwallet_from_master_key(input.as_ptr(), output.as_mut_ptr()) as usize;
+    let rsz = xwallet_from_master_key(input.as_ptr(), output.as_mut_ptr());
 
-    json_string_to_object(&env, &output[0..rsz])
+    if rsz <= 0 { panic!("Response {} <= 0", rsz); }
+
+    json_string_to_object(&env, &output[0..(rsz as usize)])
   }))
 }
 
@@ -208,9 +210,11 @@ pub extern fn Java_io_crossroad_rncardano_Native_walletFromDaedalusMnemonic(
     let input: &[u8] = mstr.as_bytes();
     let mut output = [0 as u8; MAX_OUTPUT_SIZE];
 
-    let rsz = xwallet_create_daedalus_mnemonic(input.as_ptr(), input.len(), output.as_mut_ptr()) as usize;
+    let rsz = xwallet_create_daedalus_mnemonic(input.as_ptr(), input.len(), output.as_mut_ptr());
 
-    json_string_to_object(&env, &output[0..rsz])
+    if rsz <= 0 { panic!("Response {} <= 0", rsz); }
+
+    json_string_to_object(&env, &output[0..(rsz as usize)])
   }))
 }
 
@@ -224,25 +228,32 @@ pub extern fn Java_io_crossroad_rncardano_Native_walletNewAccount(
     let input = string.as_bytes();
     let mut output = [0 as u8; MAX_OUTPUT_SIZE];
 
-    let rsz = xwallet_account(input.as_ptr(), input.len(), output.as_mut_ptr()) as usize;
+    let rsz = xwallet_account(input.as_ptr(), input.len(), output.as_mut_ptr());
 
-    json_string_to_object(&env, &output[0..rsz])
+    if rsz <= 0 { panic!("Response {} <= 0", rsz); }
+
+    json_string_to_object(&env, &output[0..(rsz as usize)])
   }))
 }
 
 #[allow(non_snake_case)]
 #[no_mangle]
 pub extern fn Java_io_crossroad_rncardano_Native_walletGenerateAddresses(
-  env: JNIEnv, _: JObject, params: JObject
+  env: JNIEnv, _: JObject, params: JObject, alen: jint
 ) -> jobject {
   return_result(&env, handle_exception(|| {
     let string = json_object_to_string(&env, params);
     let input = string.as_bytes();
-    let mut output = [0 as u8; MAX_OUTPUT_SIZE];
 
-    let rsz = xwallet_addresses(input.as_ptr(), input.len(), output.as_mut_ptr()) as usize;
+    let output_max = 131 * (jint as usize) + 2; // (128 + 3 for meta) per addr + 2
+    let mut output: Vec<u8> = Vec::new();
+    output.resize(output_max, 0);
 
-    json_string_to_object(&env, &output[0..rsz])
+    let rsz = xwallet_addresses(input.as_ptr(), input.len(), output.as_mut_ptr());
+
+    if rsz <= 0 { panic!("Response {} <= 0", rsz); }
+
+    json_string_to_object(&env, &output[0..(rsz as usize)])
   }))
 }
 
@@ -257,9 +268,11 @@ pub extern fn Java_io_crossroad_rncardano_Native_walletCheckAddress(
 
     let mut output = [0 as u8; MAX_OUTPUT_SIZE];
 
-    let rsz = xwallet_checkaddress(addr.as_ptr(), addr.len(), output.as_mut_ptr()) as usize;
+    let rsz = xwallet_checkaddress(addr.as_ptr(), addr.len(), output.as_mut_ptr());
 
-    json_string_to_object(&env, &output[0..rsz])
+    if rsz <= 0 { panic!("Response {} <= 0", rsz); }
+
+    json_string_to_object(&env, &output[0..(rsz as usize)])
   }))
 }
 
@@ -273,11 +286,14 @@ pub extern fn Java_io_crossroad_rncardano_Native_walletSpend(
     let input = string.as_bytes();
 
     let OUTPUT_SIZE = ((ilen as usize) + (olen as usize) + 1) * 4096;
-    let mut output = Vec::with_capacity(OUTPUT_SIZE);
+    let mut output: Vec<u8> = Vec::new();
+    output.resize(OUTPUT_SIZE, 0);
 
-    let rsz = xwallet_spend(input.as_ptr(), input.len(), output.as_mut_ptr()) as usize;
+    let rsz = xwallet_spend(input.as_ptr(), input.len(), output.as_mut_ptr());
 
-    json_string_to_object(&env, &output[0..rsz])
+    if rsz <= 0 { panic!("Response {} <= 0", rsz); }
+
+    json_string_to_object(&env, &output[0..(rsz as usize)])
   }))
 }
 
@@ -291,11 +307,14 @@ pub extern fn Java_io_crossroad_rncardano_Native_walletMove(
     let input = string.as_bytes();
 
     let OUTPUT_SIZE = ((ilen as usize) + 1) * 4096;
-    let mut output = Vec::with_capacity(OUTPUT_SIZE);
+    let mut output: Vec<u8> = Vec::new();
+    output.resize(OUTPUT_SIZE, 0);
 
-    let rsz = xwallet_spend(input.as_ptr(), input.len(), output.as_mut_ptr()) as usize;
+    let rsz = xwallet_spend(input.as_ptr(), input.len(), output.as_mut_ptr());
 
-    json_string_to_object(&env, &output[0..rsz])
+    if rsz <= 0 { panic!("Response {} <= 0", rsz); }
+
+    json_string_to_object(&env, &output[0..(rsz as usize)])
   }))
 }
 
@@ -309,9 +328,11 @@ pub extern fn Java_io_crossroad_rncardano_Native_randomAddressCheckerNewChecker(
     let input: &[u8] = string.as_bytes();
     let mut output = [0 as u8; MAX_OUTPUT_SIZE];
 
-    let rsz = random_address_checker_new(input.as_ptr(), input.len(), output.as_mut_ptr()) as usize;
+    let rsz = random_address_checker_new(input.as_ptr(), input.len(), output.as_mut_ptr());
 
-    json_string_to_object(&env, &output[0..rsz])
+    if rsz <= 0 { panic!("Response {} <= 0", rsz); }
+
+    json_string_to_object(&env, &output[0..(rsz as usize)])
   }))
 }
 
@@ -325,9 +346,11 @@ pub extern fn Java_io_crossroad_rncardano_Native_randomAddressCheckerNewCheckerF
     let input: &[u8] = string.as_bytes();
     let mut output = [0 as u8; MAX_OUTPUT_SIZE];
 
-    let rsz = random_address_checker_from_mnemonics(input.as_ptr(), input.len(), output.as_mut_ptr()) as usize;
+    let rsz = random_address_checker_from_mnemonics(input.as_ptr(), input.len(), output.as_mut_ptr());
 
-    json_string_to_object(&env, &output[0..rsz])
+    if rsz <= 0 { panic!("Response {} <= 0", rsz); }
+
+    json_string_to_object(&env, &output[0..(rsz as usize)])
   }))
 }
 
@@ -341,11 +364,14 @@ pub extern fn Java_io_crossroad_rncardano_Native_randomAddressCheckerCheckAddres
     let input = string.as_bytes();
     
     let OUTPUT_SIZE = (alen as usize) * 4096;
-    let mut output = Vec::with_capacity(OUTPUT_SIZE);
+    let mut output: Vec<u8> = Vec::new();
+    output.resize(OUTPUT_SIZE, 0);
 
-    let rsz = random_address_check(input.as_ptr(), input.len(), output.as_mut_ptr()) as usize;
+    let rsz = random_address_check(input.as_ptr(), input.len(), output.as_mut_ptr());
 
-    json_string_to_object(&env, &output[0..rsz])
+    if rsz <= 0 { panic!("Response {} <= 0", rsz); }
+
+    json_string_to_object(&env, &output[0..(rsz as usize)])
   }))
 }
 
@@ -368,7 +394,8 @@ pub extern fn Java_io_crossroad_rncardano_Native_passwordProtectEncryptWithPassw
 
     let result_size = ndata.len() + TAG_SIZE + NONCE_SIZE + SALT_SIZE;
 
-    let mut output = Vec::with_capacity(result_size);
+    let mut output: Vec<u8> = Vec::new();
+    output.resize(result_size, 0);
 
     let rsz = encrypt_with_password(
       pwd.as_ptr(), pwd.len(), nsalt.as_ptr(), nnonce.as_ptr(), ndata.as_ptr(), ndata.len(),
@@ -377,7 +404,7 @@ pub extern fn Java_io_crossroad_rncardano_Native_passwordProtectEncryptWithPassw
 
     if rsz != result_size { panic!("Size mismatch {} should be {}", rsz, result_size) }
 
-    JObject::from(env.byte_array_from_slice(&output).unwrap())
+    JObject::from(env.byte_array_from_slice(output.as_slice()).unwrap())
   }))
 }
 
@@ -398,7 +425,8 @@ pub extern fn Java_io_crossroad_rncardano_Native_passwordProtectDecryptWithPassw
 
     let result_size = ndata.len() - TAG_SIZE - NONCE_SIZE - SALT_SIZE;
 
-    let mut output = Vec::with_capacity(result_size);
+    let mut output: Vec<u8> = Vec::new();
+    output.resize(result_size, 0);
 
     let rsz = decrypt_with_password(
       pwd.as_ptr(), pwd.len(), ndata.as_ptr(), ndata.len(),
@@ -407,6 +435,6 @@ pub extern fn Java_io_crossroad_rncardano_Native_passwordProtectDecryptWithPassw
 
     if rsz != result_size { panic!("Size mismatch {} should be {}", rsz, result_size) }
 
-    JObject::from(env.byte_array_from_slice(&output).unwrap())
+    JObject::from(env.byte_array_from_slice(output.as_slice()).unwrap())
   }))
 }

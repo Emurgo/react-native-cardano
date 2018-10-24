@@ -67,7 +67,7 @@
     if ([[dict objectForKey:@"failed"] boolValue]) {
         *error = [NSError rustError:
                   [NSString stringWithFormat:@"Error in: %@, message: %@",
-                   [dict objectForKey:@"loc"], [dict objectForKey: @"message"]
+                   [dict objectForKey:@"loc"], [dict objectForKey: @"msg"]
                    ]];
         return nil;
     }
