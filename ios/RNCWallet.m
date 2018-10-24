@@ -15,7 +15,7 @@
 
 RCT_EXPORT_MODULE(CardanoWallet)
 
-RCT_EXPORT_METHOD(fromMasterKey:(NSString *)pkey
+RCT_EXPORT_METHOD(fromMasterKey:(nonnull NSString *)pkey
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {
     
@@ -41,7 +41,7 @@ RCT_EXPORT_METHOD(fromMasterKey:(NSString *)pkey
     [[RNCSafeOperationCombined combine:op1 with:op2] exec:[RNCConvert dataFromEncodedString:pkey] andResolve:resolve orReject:reject];
 }
 
-RCT_EXPORT_METHOD(newAccount:(NSDictionary *)wallet
+RCT_EXPORT_METHOD(newAccount:(nonnull NSDictionary *)wallet
                   withIndex:(nonnull NSNumber *)index
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {
@@ -76,9 +76,9 @@ RCT_EXPORT_METHOD(newAccount:(NSDictionary *)wallet
     [[RNCSafeOperationCombined combine:[RNCSafeOperationCombined combine:op1 with:op2] with:op3] exec:params andResolve:resolve orReject:reject];
 }
 
-RCT_EXPORT_METHOD(generateAddresses:(NSDictionary *)account
-                  withType:(NSString*) type
-                  forIndices:(NSArray<NSNumber *> *)indices
+RCT_EXPORT_METHOD(generateAddresses:(nonnull NSDictionary *)account
+                  withType:(nonnull NSString*) type
+                  forIndices:(nonnull NSArray<NSNumber *> *)indices
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {
     
@@ -114,7 +114,7 @@ RCT_EXPORT_METHOD(generateAddresses:(NSDictionary *)account
 }
 
 
-RCT_EXPORT_METHOD(checkAddress:(NSString *)address
+RCT_EXPORT_METHOD(checkAddress:(nonnull NSString *)address
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {
     
@@ -147,10 +147,10 @@ RCT_EXPORT_METHOD(checkAddress:(NSString *)address
     [[RNCSafeOperationCombined combine:op1 with:op2] exec:address andResolve:resolve orReject:reject];
 }
 
-RCT_EXPORT_METHOD(spend:(NSString *)wallet
-                  withInputs:(NSArray*)inputs
-                  andOutputs:(NSArray*)outputs
-                  andChangeAddress:(NSString*)change
+RCT_EXPORT_METHOD(spend:(nonnull NSString *)wallet
+                  withInputs:(nonnull NSArray*)inputs
+                  andOutputs:(nonnull NSArray*)outputs
+                  andChangeAddress:(nonnull NSString*)change
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {
     
@@ -194,9 +194,9 @@ RCT_EXPORT_METHOD(spend:(NSString *)wallet
     [[RNCSafeOperationCombined combine:[RNCSafeOperationCombined combine:op1 with:op2] with:op3] exec:params andResolve:resolve orReject:reject];
 }
 
-RCT_EXPORT_METHOD(move:(NSString *)wallet
-                  withInputs:(NSArray*)inputs
-                  andOutput:(NSString*)output
+RCT_EXPORT_METHOD(move:(nonnull NSString *)wallet
+                  withInputs:(nonnull NSArray*)inputs
+                  andOutput:(nonnull NSString*)output
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {
     

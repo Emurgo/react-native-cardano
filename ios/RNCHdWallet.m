@@ -15,8 +15,8 @@
 
 RCT_EXPORT_MODULE(CardanoHdWallet)
 
-RCT_EXPORT_METHOD(fromEnhancedEntropy:(NSString *)entropy
-                  withPassword:(NSString *)password
+RCT_EXPORT_METHOD(fromEnhancedEntropy:(nonnull NSString *)entropy
+                  withPassword:(nonnull NSString *)password
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {
     
@@ -47,7 +47,7 @@ RCT_EXPORT_METHOD(fromEnhancedEntropy:(NSString *)entropy
     [op exec:params andResolve:resolve orReject:reject];
 }
 
-RCT_EXPORT_METHOD(fromSeed:(NSString *)seed
+RCT_EXPORT_METHOD(fromSeed:(nonnull NSString *)seed
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {
     
@@ -66,7 +66,7 @@ RCT_EXPORT_METHOD(fromSeed:(NSString *)seed
     [op exec:[RNCConvert dataFromEncodedString:seed] andResolve:resolve orReject:reject];
 }
 
-RCT_EXPORT_METHOD(toPublic:(NSString *)xprv
+RCT_EXPORT_METHOD(toPublic:(nonnull NSString *)xprv
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {
     
@@ -85,7 +85,7 @@ RCT_EXPORT_METHOD(toPublic:(NSString *)xprv
     [op exec:[RNCConvert dataFromEncodedString:xprv] andResolve:resolve orReject:reject];
 }
 
-RCT_EXPORT_METHOD(derivePrivate:(NSString *)xprv
+RCT_EXPORT_METHOD(derivePrivate:(nonnull NSString *)xprv
                   withIndex:(nonnull NSNumber *)index
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {
@@ -112,7 +112,7 @@ RCT_EXPORT_METHOD(derivePrivate:(NSString *)xprv
     [op exec:params andResolve:resolve orReject:reject];
 }
 
-RCT_EXPORT_METHOD(derivePublic:(NSString *)xpub
+RCT_EXPORT_METHOD(derivePublic:(nonnull NSString *)xpub
                   withIndex:(nonnull NSNumber *)index
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {
@@ -154,8 +154,8 @@ RCT_EXPORT_METHOD(derivePublic:(NSString *)xpub
     [op exec:params andResolve:resolve orReject:reject];
 }
 
-RCT_EXPORT_METHOD(sign:(NSString *)xprv
-                  data:(NSString *)data
+RCT_EXPORT_METHOD(sign:(nonnull NSString *)xprv
+                  data:(nonnull NSString *)data
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {
     

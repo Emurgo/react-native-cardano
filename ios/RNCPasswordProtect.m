@@ -15,10 +15,10 @@
 
 RCT_EXPORT_MODULE(CardanoPasswordProtect)
 
-RCT_EXPORT_METHOD(encryptWithPassword:(NSString *)password
-                  andSalt:(NSString *)salt
-                  andNonce:(NSString *)nonce
-                  andData:(NSString *)data
+RCT_EXPORT_METHOD(encryptWithPassword:(nonnull NSString *)password
+                  andSalt:(nonnull NSString *)salt
+                  andNonce:(nonnull NSString *)nonce
+                  andData:(nonnull NSString *)data
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {
     
@@ -72,8 +72,8 @@ RCT_EXPORT_METHOD(encryptWithPassword:(NSString *)password
     [op exec:params andResolve:resolve orReject:reject];
 }
 
-RCT_EXPORT_METHOD(decryptWithPassword:(NSString *)password
-                  data:(NSString *)data
+RCT_EXPORT_METHOD(decryptWithPassword:(nonnull NSString *)password
+                  data:(nonnull NSString *)data
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {
     

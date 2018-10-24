@@ -16,7 +16,7 @@
 
 RCT_EXPORT_MODULE(CardanoRandomAddressChecker)
 
-RCT_EXPORT_METHOD(newChecker:(NSString *)pkey
+RCT_EXPORT_METHOD(newChecker:(nonnull NSString *)pkey
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {
     RNCBaseSafeOperation<NSString*, NSDictionary*> *op1 = [RNCCSafeOperation new:^NSDictionary*(NSString* pkey, char **error) {
@@ -43,8 +43,8 @@ RCT_EXPORT_METHOD(newChecker:(NSString *)pkey
     [[RNCSafeOperationCombined combine:op1 with:op2] exec:pkey andResolve:resolve orReject:reject];
 }
 
-RCT_EXPORT_METHOD(checkAddresses:(NSDictionary *)checker
-                  addresses:(NSArray *)addresses
+RCT_EXPORT_METHOD(checkAddresses:(nonnull NSDictionary *)checker
+                  addresses:(nonnull NSArray *)addresses
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {
     
