@@ -29,6 +29,7 @@ object Native {
 
     // RandomAddressChecker
     external fun randomAddressCheckerNewChecker(pkey: String): Result<JSONObject>
+    external fun randomAddressCheckerNewCheckerFromMnemonics(mnemonics: String): Result<JSONObject>
     external fun randomAddressCheckerCheckAddresses(params: JSONObject): Result<JSONObject>
 
     // PasswordProtect

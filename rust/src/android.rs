@@ -317,6 +317,22 @@ pub extern fn Java_io_crossroad_rncardano_Native_randomAddressCheckerNewChecker(
 
 #[allow(non_snake_case)]
 #[no_mangle]
+pub extern fn Java_io_crossroad_rncardano_Native_randomAddressCheckerNewCheckerFromMnemonics(
+  env: JNIEnv, _: JObject, mnemonics: JString
+) -> jobject {
+  return_result(&env, handle_exception(|| {
+    let string: String = env.get_string(pkey).expect("Couldn't get java string!").into();
+    let input: &[u8] = string.as_bytes();
+    let mut output = [0 as u8; MAX_OUTPUT_SIZE];
+
+    let rsz = random_address_checker_from_mnemonics(input.as_ptr(), input.len(), output.as_mut_ptr()) as usize;
+
+    json_string_to_object(&env, &output[0..rsz])
+  }))
+}
+
+#[allow(non_snake_case)]
+#[no_mangle]
 pub extern fn Java_io_crossroad_rncardano_Native_randomAddressCheckerCheckAddresses(
   env: JNIEnv, _: JObject, params: JObject
 ) -> jobject {

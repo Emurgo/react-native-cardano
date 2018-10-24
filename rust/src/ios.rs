@@ -169,6 +169,16 @@ pub extern "C" fn random_address_checker_new_safe(
 }
 
 #[no_mangle]
+pub extern "C" fn random_address_checker_from_mnemonics_safe(
+  input_ptr: *const c_uchar, input_sz: usize,
+  output_ptr: *mut c_uchar, error: *mut*mut c_char
+) -> i32 {
+  handle_error(error, -1, || {
+    random_address_checker_from_mnemonics(input_ptr, input_sz, output_ptr)
+  })
+}
+
+#[no_mangle]
 pub extern "C" fn random_address_check_safe(
   input_ptr: *const c_uchar, input_sz: usize,
   output_ptr: *mut c_uchar, error: *mut*mut c_char

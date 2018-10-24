@@ -18,6 +18,17 @@ class RandomAddressChecker(reactContext: ReactApplicationContext) : ReactContext
     }
 
     @ReactMethod
+    fun newCheckerFromMnemonics(mnemonics: String, promise: Promise) {
+        try {
+            Native.randomAddressCheckerNewCheckerFromMnemonics("\"$mnemonics\"")
+                    .map { Convert.result(it) }
+                    .pour(promise)
+        } catch (err: Throwable) {
+            promise.reject(err)
+        }
+    }
+
+    @ReactMethod
     fun checkAddresses(checker: ReadableMap, addresses: ReadableArray, promise: Promise) {
         try {
             val params = JSONObject()

@@ -45,6 +45,11 @@ int32_t random_address_check_safe(const unsigned char *input_ptr,
                                   unsigned char *output_ptr,
                                   char **error);
 
+int32_t random_address_checker_from_mnemonics_safe(const unsigned char *input_ptr,
+                                                   uintptr_t input_sz,
+                                                   unsigned char *output_ptr,
+                                                   char **error);
+
 int32_t random_address_checker_new_safe(const unsigned char *input_ptr,
                                         uintptr_t input_sz,
                                         unsigned char *output_ptr,
