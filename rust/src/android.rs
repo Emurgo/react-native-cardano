@@ -200,6 +200,22 @@ pub extern fn Java_io_crossroad_rncardano_Native_walletFromMasterKey(
 
 #[allow(non_snake_case)]
 #[no_mangle]
+pub extern fn Java_io_crossroad_rncardano_Native_walletFromDaedalusMnemonic(
+  env: JNIEnv, _: JObject, mnemonics: JString
+) -> jobject {
+  return_result(&env, handle_exception(|| {
+    let mstr: String = env.get_string(mnemonics).expect("Couldn't get java string!").into();
+    let input: &[u8] = mstr.as_bytes();
+    let mut output = [0 as u8; MAX_OUTPUT_SIZE];
+
+    let rsz = xwallet_create_daedalus_mnemonic(input.as_ptr(), input.len(), output.as_mut_ptr()) as usize;
+
+    json_string_to_object(&env, &output[0..rsz])
+  }))
+}
+
+#[allow(non_snake_case)]
+#[no_mangle]
 pub extern fn Java_io_crossroad_rncardano_Native_walletNewAccount(
   env: JNIEnv, _: JObject, params: JObject
 ) -> jobject {

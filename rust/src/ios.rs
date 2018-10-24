@@ -100,6 +100,16 @@ pub extern "C" fn xwallet_from_master_key_safe(
 }
 
 #[no_mangle]
+pub extern "C" fn xwallet_create_daedalus_mnemonic_safe(
+  input_ptr: *const c_uchar, input_sz: usize,
+  output_ptr: *mut c_uchar, error: *mut*mut c_char
+) -> i32 {
+  handle_error(error, -1, || {
+    xwallet_create_daedalus_mnemonic(input_ptr, input_sz, output_ptr)
+  })
+}
+
+#[no_mangle]
 pub extern "C" fn xwallet_account_safe(
   input_ptr: *const c_uchar, input_sz: usize,
   output_ptr: *mut c_uchar, error: *mut*mut c_char

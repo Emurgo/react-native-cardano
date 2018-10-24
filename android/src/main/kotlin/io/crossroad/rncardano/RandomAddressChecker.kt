@@ -9,7 +9,7 @@ class RandomAddressChecker(reactContext: ReactApplicationContext) : ReactContext
     @ReactMethod
     fun newChecker(pkey: String, promise: Promise) {
         try {
-            Native.randomAddressCheckerNewChecker('"' + pkey + '"')
+            Native.randomAddressCheckerNewChecker("\"$pkey\"")
                     .map { Convert.result(it) }
                     .pour(promise)
         } catch (err: Throwable) {

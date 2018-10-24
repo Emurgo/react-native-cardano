@@ -18,6 +18,17 @@ class Wallet(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule
     }
 
     @ReactMethod
+    fun fromDaedalusMnemonic(mnemonics: String, promise: Promise) {
+        try {
+            Native.walletFromDaedalusMnemonic("\"$mnemonics\"")
+                    .map { Convert.result(it) }
+                    .pour(promise)
+        } catch (err: Throwable) {
+            promise.reject(err)
+        }
+    }
+
+    @ReactMethod
     fun newAccount(wallet: ReadableMap, accountIndex: Int, promise: Promise) {
         try {
             val params = JSONObject()
@@ -51,7 +62,7 @@ class Wallet(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule
     @ReactMethod
     fun checkAddress(address: String, promise: Promise) {
         try {
-            Native.walletCheckAddress('"' + address + '"')
+            Native.walletCheckAddress("\"$address\"")
                     .map {
                         try { Convert.boolResult(it) }
                         catch (_: Throwable) { false }

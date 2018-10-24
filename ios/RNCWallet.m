@@ -41,6 +41,33 @@ RCT_EXPORT_METHOD(fromMasterKey:(nonnull NSString *)pkey
     [[RNCSafeOperationCombined combine:op1 with:op2] exec:[RNCConvert dataFromEncodedString:pkey] andResolve:resolve orReject:reject];
 }
 
+RCT_EXPORT_METHOD(fromDaedalusMnemonic:(nonnull NSString *)mnemonics
+                  resolver:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject) {
+    RNCBaseSafeOperation<NSString*, NSDictionary*>* op1 = [RNCCSafeOperation new:^NSDictionary*(NSString* mnemonics, char **error) {
+        CHECK_HAS_LENGTH_OR_CERROR(mnemonics, *error, "mnemonics");
+        NSData* input = [RNCConvert UTF8BytesFromString:[NSString stringWithFormat:@"\"%@\"", mnemonics]];
+        NSMutableData* output = [NSMutableData dataWithLength:MAX_OUTPUT_SIZE];
+        int32_t rsz = xwallet_create_daedalus_mnemonic_safe([input bytes],
+                                                            [input length],
+                                                            [output mutableBytes],
+                                                            error);
+        return @{@"size": [NSNumber numberWithInteger:rsz], @"output": output};
+    }];
+    
+    RNCBaseSafeOperation<NSDictionary*, NSDictionary*> *op2 = [RNCSafeOperation new:^NSDictionary*(NSDictionary* params, NSError **error) {
+        NSInteger rsz = [params[@"size"] integerValue];
+        if (rsz > 0) {
+            return [RNCConvert dictionaryResponseFromJsonData:[params[@"output"] subdataWithRange:NSMakeRange(0, rsz)] error:error];
+        } else {
+            *error = [NSError rustError:[NSString stringWithFormat: @"Wrong response size: %li", (long)rsz]];
+        }
+        return nil;
+    }];
+    
+    [[RNCSafeOperationCombined combine:op1 with:op2] exec:mnemonics andResolve:resolve orReject:reject];
+}
+
 RCT_EXPORT_METHOD(newAccount:(nonnull NSDictionary *)wallet
                   withIndex:(nonnull NSNumber *)index
                   resolver:(RCTPromiseResolveBlock)resolve

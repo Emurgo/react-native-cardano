@@ -20,6 +20,7 @@ object Native {
 
     // Wallet
     external fun walletFromMasterKey(pkey: ByteArray): Result<JSONObject>
+    external fun walletFromDaedalusMnemonic(mnemonics: String): Result<JSONObject>
     external fun walletNewAccount(params: JSONObject): Result<JSONObject>
     external fun walletGenerateAddresses(params: JSONObject): Result<JSONObject>
     external fun walletCheckAddress(address: String): Result<JSONObject>

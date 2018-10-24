@@ -92,6 +92,11 @@ int32_t xwallet_checkaddress_safe(const unsigned char *input_ptr,
                                   unsigned char *output_ptr,
                                   char **error);
 
+int32_t xwallet_create_daedalus_mnemonic_safe(const unsigned char *input_ptr,
+                                              uintptr_t input_sz,
+                                              unsigned char *output_ptr,
+                                              char **error);
+
 int32_t xwallet_from_master_key_safe(const unsigned char *input_ptr,
                                      unsigned char *output_ptr,
                                      char **error);
