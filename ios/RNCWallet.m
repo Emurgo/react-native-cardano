@@ -156,8 +156,8 @@ RCT_EXPORT_METHOD(spend:(nonnull NSDictionary *)wallet
     
     RNCBaseSafeOperation<NSDictionary*, NSDictionary*>* op1 = [RNCSafeOperation new:^NSDictionary*(NSDictionary* params, NSError ** error) {
         return @{@"data": [RNCConvert jsonDataFromDictionary:params error:error],
-                 @"ilen": [NSNumber numberWithUnsignedInteger:[params[@"inputs"] length]],
-                 @"olen": [NSNumber numberWithUnsignedInteger:[params[@"outputs"] length]]};
+                 @"ilen": [NSNumber numberWithUnsignedInteger:[params[@"inputs"] count]],
+                 @"olen": [NSNumber numberWithUnsignedInteger:[params[@"outputs"] count]]};
     }];
     
     RNCBaseSafeOperation<NSData*, NSDictionary*>* op2 = [RNCCSafeOperation new:^NSDictionary*(NSDictionary* params, char **error) {
@@ -202,7 +202,7 @@ RCT_EXPORT_METHOD(move:(nonnull NSDictionary *)wallet
     
     RNCBaseSafeOperation<NSDictionary*, NSDictionary*>* op1 = [RNCSafeOperation new:^NSDictionary*(NSDictionary* params, NSError ** error) {
         return @{@"data": [RNCConvert jsonDataFromDictionary:params error:error],
-                 @"ilen": [NSNumber numberWithUnsignedInteger:[params[@"inputs"] length]]};
+                 @"ilen": [NSNumber numberWithUnsignedInteger:[params[@"inputs"] count]]};
     }];
     
     RNCBaseSafeOperation<NSData*, NSDictionary*>* op2 = [RNCCSafeOperation new:^NSDictionary*(NSDictionary* params, char **error) {
