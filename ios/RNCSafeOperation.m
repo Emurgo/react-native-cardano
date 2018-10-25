@@ -15,8 +15,8 @@
     NSError* error = nil;
     id result = [self exec:param error:&error];
     if (error != nil) {
-        reject(@"0",
-               [error description],
+        reject([NSString stringWithFormat:@"%li", (long)[error code]],
+               [error localizedDescription],
                error);
     } else {
         resolve(result);
@@ -109,9 +109,9 @@
 @implementation NSError (Rust)
 
 + (NSError *)rustError:(NSString *)description {
-    return [NSError errorWithDomain:@"Rust Code Error"
-                              code: 1
-                          userInfo: @{@"message": description}];
+    return [NSError errorWithDomain:@"RNCardano.Rust"
+                              code: 0
+                          userInfo: @{NSLocalizedDescriptionKey: description}];
 }
 
 @end
