@@ -310,7 +310,7 @@ pub extern fn Java_io_crossroad_rncardano_Native_walletMove(
     let mut output: Vec<u8> = Vec::new();
     output.resize(OUTPUT_SIZE, 0);
 
-    let rsz = xwallet_spend(input.as_ptr(), input.len(), output.as_mut_ptr());
+    let rsz = xwallet_move(input.as_ptr(), input.len(), output.as_mut_ptr());
 
     if rsz <= 0 { panic!("Response {} <= 0", rsz); }
 

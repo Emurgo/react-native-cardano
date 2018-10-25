@@ -91,6 +91,7 @@ class Wallet(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule
                                 "cbor_encoded_tx",
                                 Convert.string(Convert.bytes(obj.getArray("cbor_encoded_tx")))
                         )
+                        obj
                     }
                     .pour(promise)
         } catch (err: Throwable) {
@@ -115,6 +116,7 @@ class Wallet(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule
                                 "cbor_encoded_tx",
                                 Convert.string(Convert.bytes(obj.getArray("cbor_encoded_tx")))
                         )
+                        obj
                     }
                     .pour(promise)
         } catch (err: Throwable) {
