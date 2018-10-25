@@ -57,4 +57,5 @@ import { Wallet, HdWallet, RandomAddressChecker, PasswordProtect } from 'react-n
 
 Wallet.checkAddress("af01ba").then(isValid => console.log(isValid)); // Should print "false"
 ```
-  
+
+You can check all exported functions [there](index.d.ts).
