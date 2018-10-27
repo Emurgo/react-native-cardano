@@ -22,7 +22,7 @@ RCT_EXPORT_METHOD(fromEnhancedEntropy:(nonnull NSString *)entropy
     
     RNCBaseSafeOperation<NSDictionary*, NSString*> *op = [RNCCSafeOperation new:^NSString*(NSDictionary* params, char ** error) {
         NSData* entropy = params[@"entropy"];
-        NSData* password = [RNCConvert UTF8BytesFromString:params[@"password"]];
+        NSData* password = params[@"password"];
         CHECK_HAS_LENGTH_OR_CERROR(entropy, *error, "entropy");
         CHECK_NON_NULL_OR_CERROR(password, *error, "password");
      
@@ -42,7 +42,7 @@ RCT_EXPORT_METHOD(fromEnhancedEntropy:(nonnull NSString *)entropy
     
     NSMutableDictionary* params = [NSMutableDictionary new];
     [params setObject:[RNCConvert dataFromEncodedString:entropy] forKey:@"entropy"];
-    [params setObject:password forKey:@"password"];
+    [params setObject:[RNCConvert dataFromEncodedString:password] forKey:@"password"];
     
     [op exec:params andResolve:resolve orReject:reject];
 }

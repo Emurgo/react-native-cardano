@@ -26,7 +26,7 @@ RCT_EXPORT_METHOD(encryptWithPassword:(nonnull NSString *)password
         NSData* nonce = params[@"nonce"];
         NSData* salt = params[@"salt"];
         NSData* data = params[@"data"];
-        NSData* password = [RNCConvert UTF8BytesFromString:params[@"password"]];
+        NSData* password = params[@"password"];
         
         CHECK_HAS_LENGTH_OR_CERROR(password, *error, "password");
         CHECK_HAS_LENGTH_OR_CERROR(data, *error, "data");
@@ -64,7 +64,7 @@ RCT_EXPORT_METHOD(encryptWithPassword:(nonnull NSString *)password
     }];
     
     NSMutableDictionary* params = [NSMutableDictionary new];
-    [params setObject:password forKey:@"password"];
+    [params setObject:[RNCConvert dataFromEncodedString:password] forKey:@"password"];
     [params setObject:[RNCConvert dataFromEncodedString:salt] forKey:@"salt"];
     [params setObject:[RNCConvert dataFromEncodedString:nonce] forKey:@"nonce"];
     [params setObject:[RNCConvert dataFromEncodedString:data] forKey:@"data"];
@@ -79,7 +79,7 @@ RCT_EXPORT_METHOD(decryptWithPassword:(nonnull NSString *)password
     
     RNCBaseSafeOperation<NSDictionary*, NSString*>* op = [RNCCSafeOperation new:^NSString*(NSDictionary* params, char **error) {
         NSData* data = params[@"data"];
-        NSData* password = [RNCConvert UTF8BytesFromString:params[@"password"]];
+        NSData* password = params[@"password"];
         
         CHECK_HAS_LENGTH_OR_CERROR(password, *error, "password");
         
@@ -109,7 +109,7 @@ RCT_EXPORT_METHOD(decryptWithPassword:(nonnull NSString *)password
     }];
     
     NSMutableDictionary* params = [NSMutableDictionary new];
-    [params setObject:password forKey:@"password"];
+    [params setObject:[RNCConvert dataFromEncodedString:password] forKey:@"password"];
     [params setObject:[RNCConvert dataFromEncodedString:data] forKey:@"data"];
     
     [op exec:params andResolve:resolve orReject:reject];

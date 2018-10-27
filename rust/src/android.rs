@@ -51,12 +51,11 @@ pub extern fn Java_io_crossroad_rncardano_Native_initLibrary(_env: JNIEnv, _: JO
 #[allow(non_snake_case)]
 #[no_mangle]
 pub extern fn Java_io_crossroad_rncardano_Native_hdWalletFromEnhancedEntropy(
-  env: JNIEnv, _: JObject, entropy: jbyteArray, password: JString
+  env: JNIEnv, _: JObject, entropy: jbyteArray, password: jbyteArray
 ) -> jobject {
   return_result(&env, handle_exception(|| {
       let input = env.convert_byte_array(entropy).unwrap();
-      let pwd_str: String = env.get_string(password).expect("Couldn't get java string!").into();
-      let pwd: &[u8] = pwd_str.as_bytes();
+      let pwd = env.convert_byte_array(password).unwrap();
       let mut output = [0 as u8; XPRV_SIZE];
 
       let res = wallet_from_enhanced_entropy(input.as_ptr(), input.len(), pwd.as_ptr(), pwd.len(), output.as_mut_ptr());
@@ -264,7 +263,8 @@ pub extern fn Java_io_crossroad_rncardano_Native_walletCheckAddress(
 ) -> jobject {
   return_result(&env, handle_exception(|| {
     let addr_str: String = env.get_string(address).expect("Couldn't get java string!").into();
-    let addr: &[u8] = addr_str.as_bytes();
+    let fixed_addr = convert_address_base58(&addr_str);
+    let addr: &[u8] = fixed_addr.as_bytes();
 
     let mut output = [0 as u8; MAX_OUTPUT_SIZE];
 
@@ -378,7 +378,7 @@ pub extern fn Java_io_crossroad_rncardano_Native_randomAddressCheckerCheckAddres
 #[allow(non_snake_case)]
 #[no_mangle]
 pub extern fn Java_io_crossroad_rncardano_Native_passwordProtectEncryptWithPassword(
-  env: JNIEnv, _: JObject, password: JString, salt: jbyteArray, nonce: jbyteArray, data: jbyteArray
+  env: JNIEnv, _: JObject, password: jbyteArray, salt: jbyteArray, nonce: jbyteArray, data: jbyteArray
 ) -> jobject {
   return_result(&env, handle_exception(|| {
     let nsalt = env.convert_byte_array(salt).unwrap();
@@ -388,9 +388,7 @@ pub extern fn Java_io_crossroad_rncardano_Native_passwordProtectEncryptWithPassw
     if nnonce.len() != NONCE_SIZE { panic!("Wrong nonce len {} should be {}", nnonce.len(), NONCE_SIZE) }
     
     let ndata = env.convert_byte_array(data).unwrap();
-
-    let pwd_str: String = env.get_string(password).expect("Couldn't get java string!").into();
-    let pwd: &[u8] = pwd_str.as_bytes();
+    let pwd = env.convert_byte_array(password).unwrap();
 
     let result_size = ndata.len() + TAG_SIZE + NONCE_SIZE + SALT_SIZE;
 
@@ -411,7 +409,7 @@ pub extern fn Java_io_crossroad_rncardano_Native_passwordProtectEncryptWithPassw
 #[allow(non_snake_case)]
 #[no_mangle]
 pub extern fn Java_io_crossroad_rncardano_Native_passwordProtectDecryptWithPassword(
-  env: JNIEnv, _: JObject, password: JString, data: jbyteArray
+  env: JNIEnv, _: JObject, password: jbyteArray, data: jbyteArray
 ) -> jobject {
   return_result(&env, handle_exception(|| {
     let ndata = env.convert_byte_array(data).unwrap();
@@ -420,8 +418,7 @@ pub extern fn Java_io_crossroad_rncardano_Native_passwordProtectDecryptWithPassw
       panic!("Wrong data len {} should be at least {}", ndata.len(), TAG_SIZE + NONCE_SIZE + SALT_SIZE + 1);
     }
 
-    let pwd_str: String = env.get_string(password).expect("Couldn't get java string!").into();
-    let pwd: &[u8] = pwd_str.as_bytes();
+    let pwd = env.convert_byte_array(password).unwrap();
 
     let result_size = ndata.len() - TAG_SIZE - NONCE_SIZE - SALT_SIZE;
 

@@ -6,7 +6,7 @@ declare namespace RNCardano {
     export type XPub = HexString;
     
     // Generate an eXtended private key from the given entropy and the given password.
-    export function fromEnhancedEntropy(entropy: HexString, password: string): Promise<XPrv>;
+    export function fromEnhancedEntropy(entropy: HexString, password: HexString): Promise<XPrv>;
     
     // Create a private key from the given seed.
     export function fromSeed(seed: HexString): Promise<XPrv>;
@@ -36,7 +36,7 @@ declare namespace RNCardano {
       root_cached_key: HdWallet.XPrv;
       derivation_scheme: string;
     };
-    export type Address = string;
+    export type Address = string; //base58
     export type AddressType = "Internal" | "External";
     export type SpendInputObj = {
       ptr: { id: string; index: number };
@@ -69,8 +69,8 @@ declare namespace RNCardano {
       account: AccountObj, type: AddressType, indices: Array<number>
     ): Promise<Array<Address>>;
 
-    // Check if the given hexadecimal string is a valid Cardano Extended Address.
-    export function checkAddress(address: HexString): Promise<boolean>;
+    // Check if the given base58 string is a valid Cardano Extended Address.
+    export function checkAddress(address: Address): Promise<boolean>;
     
     // Generate a ready to send, signed, transaction.
     export function spend(
@@ -101,11 +101,11 @@ declare namespace RNCardano {
   export namespace PasswordProtect {
     // Encrypt the given data with the password, salt and nonce.
     export function encryptWithPassword(
-      password: string, salt: HexString, nonce: HexString, data: HexString
+      password: HexString, salt: HexString, nonce: HexString, data: HexString
     ): Promise<HexString>;
     
     // Decrypt the given data with the password.
-    export function decryptWithPassword(password: string, data: HexString): Promise<HexString>;
+    export function decryptWithPassword(password: HexString, data: HexString): Promise<HexString>;
   }
 }
 export = RNCardano;

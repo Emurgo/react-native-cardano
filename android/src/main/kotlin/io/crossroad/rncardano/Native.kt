@@ -11,7 +11,9 @@ object Native {
     private external fun initLibrary()
 
     // HDWallet
-    external fun hdWalletFromEnhancedEntropy(entropy: ByteArray, password: String): Result<ByteArray>
+    external fun hdWalletFromEnhancedEntropy(
+            entropy: ByteArray, password: ByteArray
+    ): Result<ByteArray>
     external fun hdWalletFromSeed(seed: ByteArray): Result<ByteArray>
     external fun hdWalletToPublic(pkey: ByteArray): Result<ByteArray>
     external fun hdWalletDerivePrivate(pkey: ByteArray, index: Int): Result<ByteArray>
@@ -34,9 +36,9 @@ object Native {
 
     // PasswordProtect
     external fun passwordProtectEncryptWithPassword(
-            password: String, salt: ByteArray, nonce: ByteArray, data: ByteArray
+            password: ByteArray, salt: ByteArray, nonce: ByteArray, data: ByteArray
     ): Result<ByteArray>
     external fun passwordProtectDecryptWithPassword(
-            password: String, data: ByteArray
+            password: ByteArray, data: ByteArray
     ): Result<ByteArray>
 }

@@ -12,7 +12,7 @@ class PasswordProtect(reactContext: ReactApplicationContext) : ReactContextBaseJ
     ) {
         try {
             Native.passwordProtectEncryptWithPassword(
-                    password,
+                    Convert.bytes(password),
                     Convert.bytes(salt),
                     Convert.bytes(nonce),
                     Convert.bytes(data)
@@ -28,7 +28,7 @@ class PasswordProtect(reactContext: ReactApplicationContext) : ReactContextBaseJ
     fun decryptWithPassword(password: String, data: String, promise: Promise) {
         try {
             Native.passwordProtectDecryptWithPassword(
-                    password, Convert.bytes(data)
+                    Convert.bytes(password), Convert.bytes(data)
             )
                     .map { Convert.string(it) }
                     .pour(promise)

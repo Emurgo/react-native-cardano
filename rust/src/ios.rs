@@ -5,6 +5,8 @@ use std::os::raw::{c_uchar, c_char};
 use std::ffi::{ CString, CStr };
 use std::panic;
 use std::usize;
+use std::str;
+use std::slice;
 
 pub use constants::*;
 
@@ -134,7 +136,13 @@ pub extern "C" fn xwallet_checkaddress_safe(
   output_ptr: *mut c_uchar, error: *mut*mut c_char
 ) -> i32 {
   handle_error(error, -1, || {
-    xwallet_checkaddress(input_ptr, input_sz, output_ptr)
+    let addr_str = unsafe {
+      str::from_utf8_unchecked(slice::from_raw_parts(input_ptr, input_sz))
+    };
+    let fixed_addr = convert_address_base58(addr_str);
+    let addr: &[u8] = fixed_addr.as_bytes();
+
+    xwallet_checkaddress(addr.as_ptr(), addr.len(), output_ptr)
   })
 }
 

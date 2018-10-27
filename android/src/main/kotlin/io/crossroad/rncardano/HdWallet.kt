@@ -11,7 +11,7 @@ class HdWallet(reactContext: ReactApplicationContext) : ReactContextBaseJavaModu
     @ReactMethod
     fun fromEnhancedEntropy(entropy: String, password: String, promise: Promise) {
         try {
-            Native.hdWalletFromEnhancedEntropy(Convert.bytes(entropy), password)
+            Native.hdWalletFromEnhancedEntropy(Convert.bytes(entropy), Convert.bytes(password))
                     .map { Convert.string(it) }
                     .pour(promise)
         } catch (err: Throwable) {

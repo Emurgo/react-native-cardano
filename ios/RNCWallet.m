@@ -152,7 +152,7 @@ RCT_EXPORT_METHOD(checkAddress:(nonnull NSString *)address
     
     RNCBaseSafeOperation<NSString*, NSDictionary*>* op1 = [RNCCSafeOperation new:^NSDictionary*(NSString* address, char **error) {
         CHECK_HAS_LENGTH_OR_CERROR(address, *error, "address");
-        NSData* input = [RNCConvert UTF8BytesFromString:[NSString stringWithFormat:@"\"%@\"", address]];
+        NSData* input = [RNCConvert UTF8BytesFromString:address];
         NSMutableData* output = [NSMutableData dataWithLength:MAX_OUTPUT_SIZE];
         int32_t rsz = xwallet_checkaddress_safe([input bytes],
                                                 [input length],

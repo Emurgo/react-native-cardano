@@ -62,7 +62,7 @@ class Wallet(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule
     @ReactMethod
     fun checkAddress(address: String, promise: Promise) {
         try {
-            Native.walletCheckAddress("\"$address\"")
+            Native.walletCheckAddress(address)
                     .map {
                         try { Convert.boolResult(it) }
                         catch (_: Throwable) { false }
