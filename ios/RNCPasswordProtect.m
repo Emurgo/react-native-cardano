@@ -100,7 +100,10 @@ RCT_EXPORT_METHOD(decryptWithPassword:(nonnull NSString *)password
         if (*error != NULL) {
             return nil;
         }
-        if (rsz == result_size) {
+        if (rsz <= 0) {
+            *error = copy_string("Decryption failed. Check your password.");
+            return nil;
+        } else if (rsz == result_size) {
             return [RNCConvert encodedStringFromData:output];
         } else {
             *error = copy_string([[NSString stringWithFormat:@"Wrong converted data len %d should be %lu", rsz, (unsigned long)result_size] UTF8String]);

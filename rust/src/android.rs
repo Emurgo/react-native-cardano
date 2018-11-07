@@ -390,6 +390,8 @@ pub extern fn Java_io_crossroad_rncardano_Native_passwordProtectEncryptWithPassw
     let ndata = env.convert_byte_array(data).unwrap();
     let pwd = env.convert_byte_array(password).unwrap();
 
+    if pwd.len() == 0 { panic!("Password can't be empty"); }
+
     let result_size = ndata.len() + TAG_SIZE + NONCE_SIZE + SALT_SIZE;
 
     let mut output: Vec<u8> = Vec::new();
@@ -420,6 +422,8 @@ pub extern fn Java_io_crossroad_rncardano_Native_passwordProtectDecryptWithPassw
 
     let pwd = env.convert_byte_array(password).unwrap();
 
+    if pwd.len() == 0 { panic!("Password can't be empty"); }
+
     let result_size = ndata.len() - TAG_SIZE - NONCE_SIZE - SALT_SIZE;
 
     let mut output: Vec<u8> = Vec::new();
@@ -428,9 +432,10 @@ pub extern fn Java_io_crossroad_rncardano_Native_passwordProtectDecryptWithPassw
     let rsz = decrypt_with_password(
       pwd.as_ptr(), pwd.len(), ndata.as_ptr(), ndata.len(),
       output.as_mut_ptr()
-    ) as usize;
+    );
 
-    if rsz != result_size { panic!("Size mismatch {} should be {}", rsz, result_size) }
+    if rsz <= 0 { panic!("Decryption failed. Check your password.") }
+    if rsz as usize != result_size { panic!("Size mismatch {} should be {}", rsz, result_size) }
 
     JObject::from(env.byte_array_from_slice(output.as_slice()).unwrap())
   }))
