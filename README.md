@@ -55,7 +55,7 @@ Android NDK should be installed for Android. Check that `local.properties` file 
 ```javascript
 import { Wallet, HdWallet, RandomAddressChecker, PasswordProtect } from 'react-native-cardano';
 
-Wallet.checkAddress("af01ba").then(isValid => console.log(isValid)); // Should print "false"
+Wallet.checkAddress("DdzFFzCqrhtCUjHyzgvgigwA5soBgDxpc8WfnG1RGhrsRrWMV8uKdpgVfCXGgNuXhdN4qxPMvRUtbUnWhPzxSdxJrWzPqACZeh6scCH5").then(isValid => console.log(isValid)); // Should print "true"
 ```
 
 You can check all exported functions [there](index.d.ts).
