@@ -34,7 +34,7 @@ class RandomAddressChecker(reactContext: ReactApplicationContext) : ReactContext
             val params = JSONObject()
             params.put("checker", Convert.json(checker))
             params.put("addresses", Convert.json(addresses))
-            Native.randomAddressCheckerCheckAddresses(params, addresses.size())
+            Native.randomAddressCheckerCheckAddresses(params)
                     .map { Convert.arrayResult(it) }
                     .pour(promise)
         } catch (err: Throwable) {

@@ -75,16 +75,13 @@ RCT_EXPORT_METHOD(checkAddresses:(nonnull NSDictionary *)checker
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {
     
-    RNCBaseSafeOperation<NSDictionary*, NSDictionary*>* op1 = [RNCSafeOperation new:^NSDictionary*(NSDictionary* params, NSError ** error) {
-        return @{@"data": [RNCConvert jsonDataFromDictionary:params error:error],
-                 @"alen": [NSNumber numberWithUnsignedInteger:[params[@"addresses"] count]]};
+    RNCBaseSafeOperation<NSDictionary*, NSData*>* op1 = [RNCSafeOperation new:^NSData*(NSDictionary* params, NSError ** error) {
+        return [RNCConvert jsonDataFromDictionary:params error:error];
     }];
     
-    RNCBaseSafeOperation<NSDictionary*, NSDictionary*>* op2 = [RNCCSafeOperation new:^NSDictionary*(NSDictionary* params, char **error) {
-        NSData* input = params[@"data"];
-        CHECK_NON_NULL_OR_CERROR(params[@"alen"], *error, "addresses");
-        NSUInteger alen = [params[@"alen"] unsignedIntegerValue];
-        NSUInteger OUTPUT_SIZE = alen * 4096;
+    RNCBaseSafeOperation<NSData*, NSDictionary*>* op2 = [RNCCSafeOperation new:^NSDictionary*(NSData* input, char **error) {
+        CHECK_HAS_LENGTH_OR_CERROR(input, *error, "addresses");
+        NSUInteger OUTPUT_SIZE = MAX([input length], MAX_OUTPUT_SIZE);
         NSMutableData* output = [NSMutableData dataWithLength:OUTPUT_SIZE];
         int32_t rsz = random_address_check_safe([input bytes],
                                                 [input length],

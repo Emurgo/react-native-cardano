@@ -3,6 +3,7 @@ use common::*;
 use constants::*;
 
 use std::str;
+use std::cmp;
 
 // This is the interface to the JVM that we'll
 // call the majority of our methods on.
@@ -285,7 +286,7 @@ pub extern fn Java_io_crossroad_rncardano_Native_walletSpend(
     let string = json_object_to_string(&env, params);
     let input = string.as_bytes();
 
-    let OUTPUT_SIZE = ((ilen as usize) + (olen as usize) + 1) * 4096;
+    let OUTPUT_SIZE = ((ilen as usize) + (olen as usize) + 1) * 65536 + 1024;
     let mut output: Vec<u8> = Vec::new();
     output.resize(OUTPUT_SIZE, 0);
 
@@ -306,7 +307,7 @@ pub extern fn Java_io_crossroad_rncardano_Native_walletMove(
     let string = json_object_to_string(&env, params);
     let input = string.as_bytes();
 
-    let OUTPUT_SIZE = ((ilen as usize) + 1) * 4096;
+    let OUTPUT_SIZE = ((ilen as usize) + 1) * 65536 + 1024;
     let mut output: Vec<u8> = Vec::new();
     output.resize(OUTPUT_SIZE, 0);
 
@@ -357,13 +358,13 @@ pub extern fn Java_io_crossroad_rncardano_Native_randomAddressCheckerNewCheckerF
 #[allow(non_snake_case)]
 #[no_mangle]
 pub extern fn Java_io_crossroad_rncardano_Native_randomAddressCheckerCheckAddresses(
-  env: JNIEnv, _: JObject, params: JObject, alen: jint
+  env: JNIEnv, _: JObject, params: JObject
 ) -> jobject {
   return_result(&env, handle_exception(|| {
     let string = json_object_to_string(&env, params);
     let input = string.as_bytes();
     
-    let OUTPUT_SIZE = (alen as usize) * 4096;
+    let OUTPUT_SIZE = cmp::max(input.len(), MAX_OUTPUT_SIZE);
     let mut output: Vec<u8> = Vec::new();
     output.resize(OUTPUT_SIZE, 0);
 

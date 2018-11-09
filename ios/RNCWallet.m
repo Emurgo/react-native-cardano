@@ -198,7 +198,7 @@ RCT_EXPORT_METHOD(spend:(nonnull NSDictionary *)wallet
         CHECK_NON_NULL_OR_CERROR(params[@"olen"], *error, "outputs");
         NSUInteger ilen = [params[@"ilen"] unsignedIntegerValue];
         NSUInteger olen = [params[@"olen"] unsignedIntegerValue];
-        NSUInteger OUTPUT_SIZE = (ilen + olen + 1) * 4096;
+        NSUInteger OUTPUT_SIZE = (ilen + olen + 1) * 65536 + 1024; // 64kb per address + metadata
         NSMutableData* output = [NSMutableData dataWithLength:OUTPUT_SIZE];
         int32_t rsz = xwallet_spend_safe([input bytes],
                                          [input length],
@@ -247,7 +247,7 @@ RCT_EXPORT_METHOD(move:(nonnull NSDictionary *)wallet
         NSData* input = params[@"data"];
         CHECK_NON_NULL_OR_CERROR(params[@"ilen"], *error, "inputs");
         NSUInteger ilen = [params[@"ilen"] unsignedIntegerValue];
-        NSUInteger OUTPUT_SIZE = (ilen + 1) * 4096;
+        NSUInteger OUTPUT_SIZE = (ilen + 1) * 65536 + 1024;
         NSMutableData* output = [NSMutableData dataWithLength:OUTPUT_SIZE];
         int32_t rsz = xwallet_move_safe([input bytes],
                                         [input length],
