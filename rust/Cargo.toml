@@ -1,5 +1,5 @@
 [package]
-name = "rust-native-cardano"
+name = "rust_native_cardano"
 version = "0.1.0"
 authors = ["vincent.hanquez@iohk.io"]
 license = "MIT"

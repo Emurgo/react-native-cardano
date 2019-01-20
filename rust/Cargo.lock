@@ -153,7 +153,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "rust-native-cardano"
+name = "rust_native_cardano"
 version = "0.1.0"
 dependencies = [
  "cardano 0.1.0 (git+https://github.com/ypopovych/js-cardano-wasm.git)",
