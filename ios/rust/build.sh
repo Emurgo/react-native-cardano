@@ -16,7 +16,15 @@ fi
 
 cd "${SRCROOT}"/../rust
 
-cargo lipo --xcode-integ
+if [ "${CONFIGURATION}" = "Release" ]; then
+    cargo lipo --xcode-integ
+else
+    env -i HOME="$HOME" LC_CTYPE="${LC_ALL:-${LC_CTYPE:-$LANG}}" \
+        PATH="$PATH" USER="$USER" \
+        cargo lipo --release
+fi
+
+
 
 cp -f "${SRCROOT}"/../rust/target/universal/release/*.a "${SRCROOT}"/rust/
 cp -f "${SRCROOT}"/../rust/include/*.h "${SRCROOT}"/rust/
