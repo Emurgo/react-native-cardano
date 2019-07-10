@@ -62,7 +62,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.facebook.react:react-native:0.57.+'
+    implementation 'com.facebook.react:react-native:0.59.+'
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }
 
