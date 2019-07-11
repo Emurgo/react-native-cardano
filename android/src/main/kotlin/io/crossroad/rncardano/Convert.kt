@@ -56,8 +56,8 @@ object Convert {
         val json = JSONArray()
         for (i in 0 until array.size()) {
             when (array.getType(i)) {
-                ReadableType.Array -> json.put(this.json(array.getArray(i)))
-                ReadableType.Map -> json.put(this.json(array.getMap(i)))
+                ReadableType.Array -> json.put(this.json(array.getArray(i)!!))
+                ReadableType.Map -> json.put(this.json(array.getMap(i)!!))
                 ReadableType.Boolean -> json.put(array.getBoolean(i))
                 ReadableType.Null, null -> json.put(JSONObject.NULL)
                 ReadableType.Number -> json.put(array.getDouble(i))
@@ -73,8 +73,8 @@ object Convert {
         var key: String? = if (iterator.hasNextKey()) { iterator.nextKey() } else { null }
         while (key != null) {
             when (map.getType(key)) {
-                ReadableType.Array -> json.put(key, this.json(map.getArray(key)))
-                ReadableType.Map -> json.put(key, this.json(map.getMap(key)))
+                ReadableType.Array -> json.put(key, this.json(map.getArray(key)!!))
+                ReadableType.Map -> json.put(key, this.json(map.getMap(key)!!))
                 ReadableType.Boolean -> json.put(key, map.getBoolean(key))
                 ReadableType.Null, null -> json.put(key, JSONObject.NULL)
                 ReadableType.Number -> json.put(key, map.getDouble(key))
