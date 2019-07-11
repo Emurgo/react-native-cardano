@@ -89,7 +89,7 @@ class Wallet(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule
                     .map { obj ->
                         obj.putString(
                                 "cbor_encoded_tx",
-                                Convert.string(Convert.bytes(obj.getArray("cbor_encoded_tx")))
+                                Convert.string(Convert.bytes(obj.getArray("cbor_encoded_tx")!!))
                         )
                         obj
                     }
@@ -114,7 +114,7 @@ class Wallet(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule
                     .map { obj ->
                         obj.putString(
                                 "cbor_encoded_tx",
-                                Convert.string(Convert.bytes(obj.getArray("cbor_encoded_tx")))
+                                Convert.string(Convert.bytes(obj.getArray("cbor_encoded_tx")!!))
                         )
                         obj
                     }
