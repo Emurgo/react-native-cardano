@@ -44,13 +44,14 @@ class Wallet(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule
 
     @ReactMethod
     fun generateAddresses(
-            account: ReadableMap, type: String, indicies: ReadableArray, promise: Promise
+            account: ReadableMap, type: String, indicies: ReadableArray, protocolMagic: Int, promise: Promise
     ) {
         try {
             val params = JSONObject()
             params.put("account", Convert.json(account))
             params.put("address_type", type)
             params.put("indices", Convert.json(indicies))
+            params.put("protocol_magic", protocolMagic)
             Native.walletGenerateAddresses(params, indicies.size())
                     .map { Convert.arrayResult(it) }
                     .pour(promise)
