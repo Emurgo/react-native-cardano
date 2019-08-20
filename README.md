@@ -3,7 +3,14 @@
 
 ## Getting started
 
-`$ npm install react-native-cardano --save`
+You must include this module manually in your `package.json`, e.g.:
+
+```
+"dependencies": {
+  ...
+  "react-native-cardano": "https://github.com/Emurgo/react-native-cardano.git"
+}
+```
 
 ### Installing Rust
 
