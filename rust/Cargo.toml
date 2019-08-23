@@ -9,8 +9,8 @@ keywords = [ "Cardano", "Wallet", "React Native" ]
 [build-dependencies]
 
 [dependencies]
-wallet-wasm = { git = "https://github.com/rooooooooob/js-cardano-wasm.git", branch = "testnet-address-gen" }
-cardano = { git = "https://github.com/rooooooooob/js-cardano-wasm.git", branch = "testnet-address-gen" }
+wallet-wasm = { git = "https://github.com/input-output-hk/js-cardano-wasm.git" }
+cardano = { git = "https://github.com/input-output-hk/js-cardano-wasm.git" }
 
 [target.'cfg(target_os="android")'.dependencies]
 jni = "0.10.2"
