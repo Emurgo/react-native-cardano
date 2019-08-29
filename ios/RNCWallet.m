@@ -106,6 +106,7 @@ RCT_EXPORT_METHOD(newAccount:(nonnull NSDictionary *)wallet
 RCT_EXPORT_METHOD(generateAddresses:(nonnull NSDictionary *)account
                   withType:(nonnull NSString*) type
                   forIndices:(nonnull NSArray<NSNumber *> *)indices
+                  withMagic:(nonnull NSNumber*)magic
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {
     
@@ -141,6 +142,7 @@ RCT_EXPORT_METHOD(generateAddresses:(nonnull NSDictionary *)account
     [params setObject:account forKey:@"account"];
     [params setObject:type forKey:@"address_type"];
     [params setObject:indices forKey:@"indices"];
+    [params setObject:magic forKey:@"protocol_magic"];
     
     [[RNCSafeOperationCombined combine:[RNCSafeOperationCombined combine:op1 with:op2] with:op3] exec:params andResolve:resolve orReject:reject];
 }

@@ -66,7 +66,7 @@ declare namespace RNCardano {
     
     // Generate addresses for the given wallet.
     export function generateAddresses(
-      account: AccountObj, type: AddressType, indices: Array<number>
+      account: AccountObj, type: AddressType, indices: Array<number>, protocolMagic: number
     ): Promise<Array<Address>>;
 
     // Check if the given base58 string is a valid Cardano Extended Address.
