@@ -20,5 +20,7 @@ crate-type = ["staticlib", "cdylib"]
 
 [profile.release]
 debug = false
-lto = true
 opt-level = 's'
+
+[target.'cfg(target_os="ios")']
+lto = false
