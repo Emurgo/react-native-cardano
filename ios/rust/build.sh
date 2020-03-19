@@ -14,7 +14,12 @@ if [ "$HAS_CARGO_IN_PATH" -ne "0" ]; then
     PATH="${HOME}/.cargo/bin:${PATH}"
 fi
 
-cd "${SRCROOT}"/../rust
+if [ -z "${PODS_TARGET_SRCROOT}" ]; then
+    ROOT_DIR="${SRCROOT}/../rust"
+else
+    ROOT_DIR="${PODS_TARGET_SRCROOT}/rust"
+fi
+cd "${ROOT_DIR}"
 
 if [ "${CONFIGURATION}" = "Release" ]; then
     cargo lipo --xcode-integ
