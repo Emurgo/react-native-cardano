@@ -6,10 +6,10 @@ Pod::Spec.new do |s|
   s.version      = package['version']
   s.summary      = package['description']
 
-  s.homepage     = "https://github.com/crossroadlabs/react-native-cardano"
+  s.homepage     = "https://github.com/Emurgo/react-native-cardano"
   s.license      = package['license']
   s.author       = { "Crossroad Labs" => "info@crossroad.io" }
-  s.source       = { :git => "https://github.com/crossroadlabs/react-native-cardano.git", :tag => "master" }
+  s.source       = { :git => "https://github.com/Emurgo/react-native-cardano.git", :tag => "master" }
 
   s.source_files  = "./*.{h,m}"
   s.requires_arc = true
@@ -24,7 +24,7 @@ Pod::Spec.new do |s|
   }
 
   s.pod_target_xcconfig = {
-    'USER_HEADER_SEARCH_PATHS' => '"${PODS_TARGET_SRCROOT}/rust"',
+    'USER_HEADER_SEARCH_PATHS' => '"${PODS_TARGET_SRCROOT}/rust" "$(CONFIGURATION_BUILD_DIR)"',
     'LIBRARY_SEARCH_PATHS' => '"${PODS_TARGET_SRCROOT}/rust"',
     'OTHER_LIBTOOLFLAGS' => '"-lrust_native_cardano"'
   }
@@ -33,5 +33,3 @@ Pod::Spec.new do |s|
 
   s.dependency "React"
 end
-
-  
