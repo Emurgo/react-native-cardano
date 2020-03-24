@@ -9,9 +9,10 @@ Pod::Spec.new do |s|
   s.homepage     = "https://github.com/Emurgo/react-native-cardano"
   s.license      = package['license']
   s.author       = { "Crossroad Labs" => "info@crossroad.io" }
-  s.source       = { :git => "https://github.com/Emurgo/react-native-cardano.git", :tag => "master" }
+  s.source       = { :git => "https://github.com/Emurgo/react-native-cardano.git", :tag => "bump-react-native-to-0.60" }
 
-  s.source_files  = "./*.{h,m}"
+  s.source_files  = "./../**/**.*"
+  s.exclude_files = './../android/', '../node_modules/'
   s.requires_arc = true
 
   s.ios.deployment_target  = '10.0'
@@ -19,7 +20,7 @@ Pod::Spec.new do |s|
 
   s.script_phase = {
     :name => 'Build Rust Binary',
-    :script => 'bash ${PODS_TARGET_SRCROOT}/rust/build.sh',
+    :script => 'bash ${PODS_TARGET_SRCROOT}/ios/rust/build.sh',
     :execution_position => :before_compile
   }
 
