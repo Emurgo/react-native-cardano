@@ -1,6 +1,6 @@
 {
   "name": "react-native-cardano",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "React Native bingings to the rust-cardano",
   "main": "index.js",
   "types": "index.d.ts",
@@ -15,10 +15,10 @@
   "author": "Crossroad Labs <info@crossroad.io>",
   "license": "Apache-2.0",
   "peerDependencies": {
-    "react-native": "0.59.10"
+    "react-native": "^0.60.0"
   },
   "devDependencies": {
-    "react-native": "0.59.10"
+    "react-native": "^0.60.0"
   },
   "rnpm": {
     "ios": {
