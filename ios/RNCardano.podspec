@@ -9,7 +9,7 @@ Pod::Spec.new do |s|
   s.homepage     = "https://github.com/Emurgo/react-native-cardano"
   s.license      = package['license']
   s.author       = { "Crossroad Labs" => "info@crossroad.io" }
-  s.source       = { :git => "https://github.com/Emurgo/react-native-cardano.git", :branch => "bump-react-native-to-0.60" }
+  s.source       = { :git => "https://github.com/Emurgo/react-native-cardano.git", :tag => "#{s.version}" }
 
   s.source_files  = "./**/*"
   s.exclude_files = './../android/', '../node_modules/'
