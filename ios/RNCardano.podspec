@@ -20,7 +20,7 @@ Pod::Spec.new do |s|
 
   s.script_phase = {
     :name => 'Build Rust Binary',
-    :script => 'bash ${PODS_TARGET_SRCROOT}/ios/rust/build.sh',
+    :script => 'bash ${PODS_TARGET_SRCROOT}/rust/build.sh',
     :execution_position => :before_compile
   }
 
