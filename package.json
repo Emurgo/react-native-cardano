@@ -19,10 +19,5 @@
   },
   "devDependencies": {
     "react-native": "^0.60.0"
-  },
-  "rnpm": {
-    "ios": {
-      "sharedLibraries" : [ "libresolv" ]
-    }
   }
 }
