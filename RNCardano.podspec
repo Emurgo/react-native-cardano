@@ -1,6 +1,6 @@
 
 Pod::Spec.new do |s|
-  package = JSON.parse(File.read(File.join(File.dirname(__FILE__), '../package.json')))
+  package = JSON.parse(File.read(File.join(File.dirname(__FILE__), 'package.json')))
 
   s.name         = "RNCardano"
   s.version      = package['version']
