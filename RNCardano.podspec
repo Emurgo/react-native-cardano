@@ -25,7 +25,7 @@ Pod::Spec.new do |s|
   }
 
   s.pod_target_xcconfig = {
-    'USER_HEADER_SEARCH_PATHS' => '$(CONFIGURATION_BUILD_DIR)',
+    'HEADER_SEARCH_PATHS' => '$(CONFIGURATION_BUILD_DIR)',
     'OTHER_LIBTOOLFLAGS' => '"-lrust_native_cardano"',
     "ENABLE_BITCODE" => "NO"
   }
