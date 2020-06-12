@@ -11,8 +11,8 @@ Pod::Spec.new do |s|
   s.author       = { "Crossroad Labs" => "info@crossroad.io" }
   s.source       = { :git => "https://github.com/Emurgo/react-native-cardano.git", :tag => "#{s.version}" }
 
-  s.source_files  = "./**/*"
-  s.exclude_files = './../android/', '../node_modules/'
+  s.source_files = 'ios/**/*.{h,m,swift,sh}'
+  s.exclude_files = 'android/'
   s.requires_arc = true
 
   s.ios.deployment_target  = '10.0'
@@ -20,14 +20,14 @@ Pod::Spec.new do |s|
 
   s.script_phase = {
     :name => 'Build Rust Binary',
-    :script => 'bash ${PODS_TARGET_SRCROOT}/rust/build.sh',
+    :script => 'bash ${PODS_TARGET_SRCROOT}/ios/rust/build.sh',
     :execution_position => :before_compile
   }
 
   s.pod_target_xcconfig = {
-    'USER_HEADER_SEARCH_PATHS' => '"${PODS_TARGET_SRCROOT}/rust" "$(CONFIGURATION_BUILD_DIR)"',
-    'LIBRARY_SEARCH_PATHS' => '"${PODS_TARGET_SRCROOT}/rust"',
-    'OTHER_LIBTOOLFLAGS' => '"-lrust_native_cardano"'
+    'USER_HEADER_SEARCH_PATHS' => '$(CONFIGURATION_BUILD_DIR)',
+    'OTHER_LIBTOOLFLAGS' => '"-lrust_native_cardano"',
+    "ENABLE_BITCODE" => "NO"
   }
 
   s.libraries = 'resolv'

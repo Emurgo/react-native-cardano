@@ -10,6 +10,7 @@ set -e
 
 HAS_CARGO_IN_PATH=`which cargo; echo $?`
 
+# when cocoapods is used PODS_TARGET_SRCROOT=path(podspec)
 if [ "$HAS_CARGO_IN_PATH" -ne "0" ]; then
     PATH="${HOME}/.cargo/bin:${PATH}"
 fi
@@ -17,23 +18,18 @@ fi
 if [ -z "${PODS_TARGET_SRCROOT}" ]; then
     ROOT_DIR="${SRCROOT}/../rust"
 else
-    ROOT_DIR="${PODS_TARGET_SRCROOT}/../rust"
+    ROOT_DIR="${PODS_TARGET_SRCROOT}/rust"
 fi
+
+OUTPUT_DIR=`echo "${CONFIGURATION}" | tr '[:upper:]' '[:lower:]'`
 
 cd "${ROOT_DIR}"
 
-if [ "${CONFIGURATION}" = "Release" ]; then
-    cargo lipo --xcode-integ
-else
-    env -i HOME="$HOME" LC_CTYPE="${LC_ALL:-${LC_CTYPE:-$LANG}}" \
-        PATH="$PATH" USER="$USER" \
-        cargo lipo --release
-fi
+cargo lipo --xcode-integ
 
+mkdir -p "${CONFIGURATION_BUILD_DIR}"
 
-# -cp -f "${SRCROOT}"/../rust/target/universal/release/*.a "${SRCROOT}"/rust/
-# -cp -f "${SRCROOT}"/../rust/include/*.h "${SRCROOT}"/rust/
-cp -f "${ROOT_DIR}"/target/universal/release/*.a "${ROOT_DIR}"/../ios/rust/
-cp -f "${ROOT_DIR}"/include/*.h "${ROOT_DIR}"/../ios/rust/
+cp -f "${ROOT_DIR}"/target/universal/"${OUTPUT_DIR}"/*.a "${CONFIGURATION_BUILD_DIR}"/
+cp -f "${ROOT_DIR}"/include/*.h "${CONFIGURATION_BUILD_DIR}"/
 
 exit 0
