@@ -13,7 +13,6 @@ buildscript {
     dependencies {
         classpath "com.android.tools.build:gradle:$gradle_version"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'gradle.plugin.org.mozilla.rust-android-gradle:plugin:0.2.0'
     }
 }
 
@@ -48,7 +47,7 @@ android {
 cargo {
     profile = 'release'
     module = '../rust'
-    //libname = 'rust-native-cardano'
+    libname = 'rust_native_cardano'
     targets = ['arm', 'arm64', 'x86', 'x86_64']
 }
 
