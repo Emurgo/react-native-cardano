@@ -12,6 +12,17 @@ You must include this module manually in your `package.json`, e.g.:
 }
 ```
 
+If you are using RN > 0.64.0 and failed to instll this library By following error 
+```
+npm ERR! Could not resolve dependency:
+npm ERR! peer react-native@"^0.60.0" from react-native-cardano@0.2.4
+```
+Then install the package using below command.
+
+```
+npm install --legacy-peer-deps react-native-cardano@"https://github.com/Emurgo/react-native-cardano.git"
+```
+
 ### Installing Rust
 
 `$ curl https://sh.rustup.rs -sSf | sh`
